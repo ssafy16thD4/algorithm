@@ -93,8 +93,9 @@ must(alt2.indexOf('양과늑대2') === -1 || true, '변형: 대표 파일명은 
 must((alt2.match(/class="col( on)?"/g) || []).length === act, `변형: 변형이 있어도 현역 ${act}열 유지`);
 must(!detail.includes('norev">리뷰 없음'), '상세: 다 리뷰됐으면 "리뷰 없음" 안 뜸');
 
-// "리뷰 없음" 안내는 실제로 리뷰가 빠진 문제에서 확인한다 (특정 문제에 고정하지 않는다)
-const pending = D.problems.find(p => p.entries.some(e => !e.review));
+// "리뷰 없음" 안내는 실제로 리뷰가 빠진 문제에서 확인한다 (특정 문제에 고정하지 않는다).
+// 졸업생 전용 미리뷰는 기본 화면에서 안 보이므로, 현역 작성자 기준으로만 찾는다.
+const pending = D.problems.find(p => p.entries.some(e => !e.review && D.authors.find(a => a.id === e.author && a.active !== false)));
 if (pending) {
   sandbox.location.hash = '#/p/' + pending.key;
   vm.runInContext('route()', sandbox);

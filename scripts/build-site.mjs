@@ -12,6 +12,31 @@ import { ROOT, authors, walkRepo, resolveSource } from './lib/map.mjs';
 const tagDefs = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/review-tags.json'), 'utf8')).tags;
 const rotation = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/rotation.json'), 'utf8'));
 
+// T4-1. 정석 코드 레퍼런스. references/{platform}/{problemId}/*.java 를 그대로 스캔한다
+// (중앙 manifest 없음 — 파일 맨 위 `// ref-*:` 주석이 메타를 담는다. javac 로도 그대로 컴파일된다).
+function readReferences(platform, problemId) {
+  const dir = path.join(ROOT, 'references', platform, problemId);
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).filter((f) => f.endsWith('.java')).sort().map((f) => {
+    const raw = fs.readFileSync(path.join(dir, f), 'utf8').replace(/\r\n/g, '\n');
+    const lines = raw.split('\n');
+    const meta = {};
+    let i = 0;
+    while (i < lines.length && /^\/\/\s*ref-\w+:/.test(lines[i])) {
+      const m = lines[i].match(/^\/\/\s*ref-(\w+):\s*(.*)$/);
+      if (m) meta[m[1]] = m[2].trim();
+      i++;
+    }
+    return {
+      refId: f.replace(/\.java$/, ''),
+      sourceTitle: meta.title || '',
+      url: meta.url || '',
+      note: meta.note || '',
+      code: lines.slice(i).join('\n').replace(/^\n+/, '').replace(/\s+$/, ''),
+    };
+  });
+}
+
 function readReview(rel) {
   const abs = path.join(ROOT, rel);
   if (!fs.existsSync(abs)) return null;
@@ -112,6 +137,7 @@ for (const p of problems.values()) {
   p.teamFeedback = fs.existsSync(fb)
     ? fs.readFileSync(fb, 'utf8').replace(/\r\n/g, '\n').replace(/^---\n[\s\S]*?\n---\n?/, '').trim()
     : null;
+  p.references = readReferences(p.platform, p.problemId);
 }
 
 const list = [...problems.values()]
@@ -138,5 +164,6 @@ fs.writeFileSync(outPath, `window.STUDY_DATA = ${JSON.stringify(data)};\n`);
 
 const reviewed = list.flatMap((p) => p.entries).filter((e) => e.review).length;
 const total = list.reduce((a, p) => a + p.entries.length, 0);
+const refs = list.reduce((a, p) => a + p.references.length, 0);
 const kb = Math.round(fs.statSync(outPath).size / 1024);
-console.log(`-> site/data/bundle.js  (${list.length}문제 / ${total}풀이 / 리뷰 ${reviewed}건 / ${kb}KB)`);
+console.log(`-> site/data/bundle.js  (${list.length}문제 / ${total}풀이 / 리뷰 ${reviewed}건 / 정석 코드 ${refs}건 / ${kb}KB)`);
