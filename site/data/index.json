@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T06:28:36.122Z",
+  "generatedAt": "2026-08-20T06:40:25.517Z",
   "authors": [
     {
       "id": "junsoo",
@@ -1157,6 +1157,18 @@
           "hasReview": true,
           "lines": 133,
           "bytes": 4785
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": null,
+          "variant": null,
+          "source": "안찬웅/pccp/충돌위험 찾기.java",
+          "target": "solutions/programmers/340211/chanung.java",
+          "review": "reviews/programmers/340211/chanung.md",
+          "hasReview": true,
+          "lines": 13,
+          "bytes": 199
         }
       ]
     },
@@ -1180,6 +1192,18 @@
           "hasReview": true,
           "lines": 62,
           "bytes": 1588
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": null,
+          "variant": null,
+          "source": "안찬웅/pccp/퍼즐 게임 챌린지.java",
+          "target": "solutions/programmers/340212/chanung.java",
+          "review": "reviews/programmers/340212/chanung.md",
+          "hasReview": true,
+          "lines": 48,
+          "bytes": 1926
         }
       ]
     },
@@ -1203,6 +1227,18 @@
           "hasReview": true,
           "lines": 32,
           "bytes": 1076
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": null,
+          "variant": null,
+          "source": "안찬웅/pccp/동영상 재생기.java",
+          "target": "solutions/programmers/340213/chanung.java",
+          "review": "reviews/programmers/340213/chanung.md",
+          "hasReview": true,
+          "lines": 87,
+          "bytes": 3442
         }
       ]
     },
