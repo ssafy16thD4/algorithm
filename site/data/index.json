@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T04:14:57.186Z",
+  "generatedAt": "2026-08-20T06:28:36.122Z",
   "authors": [
     {
       "id": "junsoo",
@@ -1111,6 +1111,98 @@
           "hasReview": true,
           "lines": 44,
           "bytes": 1234
+        }
+      ]
+    },
+    {
+      "key": "programmers/340210",
+      "platform": "programmers",
+      "problemId": "340210",
+      "title": "[PCCP 기출문제] 4번 / 수식 복원하기",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340210",
+      "verified": true,
+      "weeks": [],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": null,
+          "variant": null,
+          "source": "김준수/PCCP/수식 복원하기.java",
+          "target": "solutions/programmers/340210/junsoo.java",
+          "review": "reviews/programmers/340210/junsoo.md",
+          "hasReview": true,
+          "lines": 94,
+          "bytes": 3857
+        }
+      ]
+    },
+    {
+      "key": "programmers/340211",
+      "platform": "programmers",
+      "problemId": "340211",
+      "title": "[PCCP 기출문제] 3번 / 충돌위험 찾기",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340211",
+      "verified": true,
+      "weeks": [],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": null,
+          "variant": null,
+          "source": "김준수/PCCP/충돌위험 찾기.java",
+          "target": "solutions/programmers/340211/junsoo.java",
+          "review": "reviews/programmers/340211/junsoo.md",
+          "hasReview": true,
+          "lines": 133,
+          "bytes": 4785
+        }
+      ]
+    },
+    {
+      "key": "programmers/340212",
+      "platform": "programmers",
+      "problemId": "340212",
+      "title": "[PCCP 기출문제] 2번 / 퍼즐 게임 챌린지",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340212",
+      "verified": true,
+      "weeks": [],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": null,
+          "variant": null,
+          "source": "김준수/PCCP/퍼즐 게임 챌린지.java",
+          "target": "solutions/programmers/340212/junsoo.java",
+          "review": "reviews/programmers/340212/junsoo.md",
+          "hasReview": true,
+          "lines": 62,
+          "bytes": 1588
+        }
+      ]
+    },
+    {
+      "key": "programmers/340213",
+      "platform": "programmers",
+      "problemId": "340213",
+      "title": "[PCCP 기출문제] 1번 / 동영상 재생기",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340213",
+      "verified": true,
+      "weeks": [],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": null,
+          "variant": null,
+          "source": "김준수/PCCP/동영상 재생기.java",
+          "target": "solutions/programmers/340213/junsoo.java",
+          "review": "reviews/programmers/340213/junsoo.md",
+          "hasReview": true,
+          "lines": 32,
+          "bytes": 1076
         }
       ]
     },
