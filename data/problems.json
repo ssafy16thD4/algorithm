@@ -30,6 +30,10 @@
     { "platform": "programmers", "problemId": "81303", "title": "표 편집", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/81303", "aliases": ["표 편집"], "verified": true },
     { "platform": "programmers", "problemId": "87694", "title": "아이템 줍기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/87694", "aliases": ["아이템 줍기"], "verified": true },
     { "platform": "programmers", "problemId": "92343", "title": "양과 늑대", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/92343", "aliases": ["양과 늑대"], "verified": true },
+    { "platform": "programmers", "problemId": "340213", "title": "[PCCP 기출문제] 1번 / 동영상 재생기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340213", "aliases": ["동영상 재생기"], "verified": true },
+    { "platform": "programmers", "problemId": "340212", "title": "[PCCP 기출문제] 2번 / 퍼즐 게임 챌린지", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340212", "aliases": ["퍼즐 게임 챌린지"], "verified": true },
+    { "platform": "programmers", "problemId": "340211", "title": "[PCCP 기출문제] 3번 / 충돌위험 찾기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340211", "aliases": ["충돌위험 찾기"], "verified": true },
+    { "platform": "programmers", "problemId": "340210", "title": "[PCCP 기출문제] 4번 / 수식 복원하기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340210", "aliases": ["수식 복원하기"], "verified": true },
 
     { "platform": "swea", "problemId": "1249", "title": "보급로", "url": null, "aliases": ["SWEA1249"], "verified": true },
     { "platform": "swea", "problemId": "1251", "title": "하나로", "url": null, "aliases": ["SWEA1251"], "verified": true },
