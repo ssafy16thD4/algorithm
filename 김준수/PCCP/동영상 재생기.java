@@ -20,7 +20,8 @@ class Solution {
             
             if(curr < 0) curr = 0;
             else if(curr > end) curr = end;
-            else if(curr >= opStart && curr < opEnd) curr = opEnd;
+            
+            if(curr >= opStart && curr < opEnd) curr = opEnd;
         }
         
         return String.format("%02d:%02d", curr / 60, curr % 60);
