@@ -44,20 +44,34 @@ class Solution {
             isComplete = false;
             digits = new ArrayList<>();
         }
+        
+        @Override
+        public String toString(){
+            String resultStr = "";
+            if(result == -1) resultStr = "?";
+            else resultStr = Integer.toString(result);
+            
+            return String.format("%d %s %d = %s", left, calc, right, resultStr);
+        }
     }
     
     public String[] solution(String[] expressions) {
         // 수식 객체 만들기
+        // 결과 있는 수식의 수, 결과없는 수식의 수 세기
         Exp[] exps = new Exp[expressions.length];
+        int existRCnt = 0;
+        int nonRCnt = 0;
         for(int i = 0; i < exps.length; i++){
             String[] components = expressions[i].split(" ");
             if(components[4].equals("X")){
                 exps[i] = new Exp(Integer.parseInt(components[0]), components[1], 
                                   Integer.parseInt(components[2]));
+                nonRCnt++;
             }
             else{
                 exps[i] = new Exp(Integer.parseInt(components[0]), components[1], 
                                   Integer.parseInt(components[2]), Integer.parseInt(components[4]));
+                existRCnt++;
             }
         }
         
@@ -71,24 +85,134 @@ class Solution {
                 nums.add(exps[i].left / 10);
                 nums.add(exps[i].right % 10);
                 nums.add(exps[i].right / 10);
+                nums.add(exps[i].result % 10);
+                nums.add(exps[i].result / 100); // result는 세자리까지 가능
+                nums.add(exps[i].result / 10 % 10);
                 
                 boolean flag = false;
                 for(int num : nums){
-                    if(num >= d) flag = true;
+                    if(num >= d) {
+                        flag = true;
+                        break;
+                    }
+                    
                 }
-                if(flag) break;
-                System.out.println(i + " " + d);
+                if(flag) continue;
                 
                 // 해당 진법에 맞춰서 수식 계산
-                int left = Integer.parseInt(Integer.toString(exps[i].left, d));
-                System.out.println(left + " " + d + " " + i);
+                int left = Integer.parseInt(Integer.toString(exps[i].left), d);
+                int right = Integer.parseInt(Integer.toString(exps[i].right), d);
+                switch(exps[i].calc){
+                    case "+":
+                        left += right;
+                        break;
+                    case "-":
+                        left -= right;
+                        break;
+                }
                 
                 // 진법 계산 결과와 실제 결과가 같으면 가능 진법에 추가
+                if(left == Integer.parseInt(Integer.toString(exps[i].result), d)){
+                    exps[i].digits.add(d);   
+                }
             }
         }
         
+        // 각 수식이 어떤 진법을 쓸 수 있는지를 세서
+        // 최종적으로 전체에 다 적용할 수 있는 진법 찾기
+        Map<Integer, Integer> canDigitMap = new HashMap<>();
+        for(int i = 0; i < exps.length; i++){
+            // System.out.println(exps[i].digits.toString());
+            for(int d : exps[i].digits){
+                canDigitMap.compute(d, (k, v) -> (v == null) ? 1 : v + 1);
+            }
+        }
         
-        String[] answer = {};
+        List<Integer> canDigitList = new ArrayList<>();
+        for(int key : canDigitMap.keySet()){
+            if(canDigitMap.get(key) == existRCnt){
+                canDigitList.add(key);
+            }
+        }
+        
+        // 예외 처리
+        // 결과가 있는 수식이 입력에 하나도 없으면
+        // 가능한 진법을 2 ~ 9 모두로 해야 함
+        if(existRCnt == 0){
+            for(int i = 2; i <= 9; i++){
+                canDigitList.add(i); 
+            }
+        }
+        
+         
+        // 진법의 수보다 큰 수가 존재하면 해당 진법은 가능 목록에서 제거
+        List<Integer> deleteDigits = new ArrayList<>();
+        for(int i = 0; i < exps.length; i++){
+            if(exps[i].isComplete) continue; // 결과 있는 수식이면 스킵
+            
+            List<Integer> nums = new ArrayList<>();
+            nums.add(exps[i].left % 10);
+            nums.add(exps[i].left / 10);
+            nums.add(exps[i].right % 10);
+            nums.add(exps[i].right / 10);
+            
+            for(int d : canDigitList){
+                 
+                boolean flag = false;
+                for(int num : nums){
+                    if(num >= d) {
+                        deleteDigits.add(d);
+                    }
+                }
+            }
+        }
+        for(int d : deleteDigits){
+            if(canDigitList.contains(d)){
+                canDigitList.remove(canDigitList.indexOf(d));
+            }
+        }
+        
+        // 결과 없는 수식에 가능한 진법 대입
+        for(int i = 0; i < exps.length; i++){
+            if(exps[i].isComplete) continue; // 결과 있는 수식이면 스킵
+            
+            Set<Integer> resultSet = new HashSet<>();
+            
+            for(int d : canDigitList){
+                // 진법으로 계산한 결과를 Set에 저장
+                int left = Integer.parseInt(Integer.toString(exps[i].left), d);
+                int right = Integer.parseInt(Integer.toString(exps[i].right), d);
+                switch(exps[i].calc){
+                    case "+":
+                        left += right;
+                        break;
+                    case "-":
+                        left -= right;
+                        break;
+                }
+                resultSet.add(Integer.parseInt(Integer.toString(left, d)));
+            }
+            // System.out.println(i + " " + resultSet.toString());
+            
+            // Set의 크기가 1이면 result를 해당 값으로 할당
+            // Set의 크기가 2 이상이면 result를 -1로 유지
+            if(resultSet.size() == 1){
+                List<Integer> temp = new ArrayList<>(resultSet);
+                exps[i].result = temp.get(0);
+            }
+        }
+        
+        List<String> answerList = new ArrayList<>();
+        for(int i = 0; i < exps.length; i++){
+            if(!exps[i].isComplete){
+                answerList.add(exps[i].toString());
+            }
+        }
+        
+        String[] answer = new String[answerList.size()];
+        for(int i = 0; i < answer.length; i++){
+            answer[i] = answerList.get(i);
+        }
         return answer;
     }
 }
