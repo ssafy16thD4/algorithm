@@ -2,7 +2,7 @@
 platform: programmers
 problemId: "67258"
 author: seongil
-source: 이성일/week4/보석쇼핑시간초과.java
+source: 이성일/week4/보석쇼핑실패.java
 week: 4
 compiles: true
 verdict: needs-fix

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T06:40:25.517Z",
+  "generatedAt": "2026-08-20T06:43:07.880Z",
   "authors": [
     {
       "id": "junsoo",
@@ -725,8 +725,20 @@
           "author": "seongil",
           "authorName": "이성일",
           "week": 4,
+          "variant": null,
+          "source": "이성일/week4/보석쇼핑.java",
+          "target": "solutions/programmers/67258/seongil.java",
+          "review": "reviews/programmers/67258/seongil.md",
+          "hasReview": true,
+          "lines": 59,
+          "bytes": 2373
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 4,
           "variant": "failed",
-          "source": "이성일/week4/보석쇼핑시간초과.java",
+          "source": "이성일/week4/보석쇼핑실패.java",
           "target": "solutions/programmers/67258/seongil.failed.java",
           "review": "reviews/programmers/67258/seongil.failed.md",
           "hasReview": true,
@@ -1225,8 +1237,8 @@
           "target": "solutions/programmers/340213/junsoo.java",
           "review": "reviews/programmers/340213/junsoo.md",
           "hasReview": true,
-          "lines": 32,
-          "bytes": 1076
+          "lines": 33,
+          "bytes": 1085
         },
         {
           "author": "chanung",
