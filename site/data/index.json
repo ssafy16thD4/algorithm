@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-19T14:38:06.642Z",
+  "generatedAt": "2026-08-20T04:14:57.186Z",
   "authors": [
     {
       "id": "junsoo",
@@ -42,7 +42,7 @@
           "source": "안찬웅/week3/가장 긴 팰린드롬.java",
           "target": "solutions/programmers/12904/chanung.java",
           "review": "reviews/programmers/12904/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 44,
           "bytes": 1160
         },
@@ -79,7 +79,7 @@
           "source": "김준수/week3/셔틀버스.java",
           "target": "solutions/programmers/17678/junsoo.java",
           "review": "reviews/programmers/17678/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 67,
           "bytes": 2444
         },
@@ -91,7 +91,7 @@
           "source": "안찬웅/week3/셔틀버스.java",
           "target": "solutions/programmers/17678/chanung.java",
           "review": "reviews/programmers/17678/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 66,
           "bytes": 1968
         },
@@ -103,7 +103,7 @@
           "source": "이성일/week3/셔틀버스.java",
           "target": "solutions/programmers/17678/seongil.java",
           "review": "reviews/programmers/17678/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 106,
           "bytes": 3740
         },
@@ -226,7 +226,7 @@
           "source": "김준수/week4/섬 연결하기.java",
           "target": "solutions/programmers/42861/junsoo.java",
           "review": "reviews/programmers/42861/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 79,
           "bytes": 2022
         }
@@ -251,7 +251,7 @@
           "source": "이성일/week3/연습/단속카메라.java",
           "target": "solutions/programmers/42884/seongil.java",
           "review": "reviews/programmers/42884/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 31,
           "bytes": 1168
         }
@@ -276,7 +276,7 @@
           "source": "김준수/week3/길 찾기 게임.java",
           "target": "solutions/programmers/42892/junsoo.java",
           "review": "reviews/programmers/42892/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 146,
           "bytes": 4711
         },
@@ -288,7 +288,7 @@
           "source": "이성일/week3/길찾기게임.java",
           "target": "solutions/programmers/42892/seongil.java",
           "review": "reviews/programmers/42892/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 113,
           "bytes": 3080
         }
@@ -386,7 +386,7 @@
           "source": "김준수/week4/여행 경로.java",
           "target": "solutions/programmers/43164/junsoo.java",
           "review": "reviews/programmers/43164/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 92,
           "bytes": 3138
         },
@@ -398,7 +398,7 @@
           "source": "안찬웅/week4/여행경로.java",
           "target": "solutions/programmers/43164/chanung.java",
           "review": "reviews/programmers/43164/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 43,
           "bytes": 1250
         }
@@ -484,7 +484,7 @@
           "source": "김준수/week4/가장 먼 노드.java",
           "target": "solutions/programmers/49189/junsoo.java",
           "review": "reviews/programmers/49189/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 58,
           "bytes": 1618
         },
@@ -496,7 +496,7 @@
           "source": "안찬웅/week4/가장 먼 노드.java",
           "target": "solutions/programmers/49189/chanung.java",
           "review": "reviews/programmers/49189/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 58,
           "bytes": 1576
         }
@@ -521,7 +521,7 @@
           "source": "김준수/week2/순위.java",
           "target": "solutions/programmers/49191/junsoo.java",
           "review": "reviews/programmers/49191/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 88,
           "bytes": 2487
         },
@@ -533,7 +533,7 @@
           "source": "안찬웅/week2/순위.java",
           "target": "solutions/programmers/49191/chanung.java",
           "review": "reviews/programmers/49191/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 63,
           "bytes": 1684
         },
@@ -545,7 +545,7 @@
           "source": "이성일/week2/순위.java",
           "target": "solutions/programmers/49191/seongil.java",
           "review": "reviews/programmers/49191/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 83,
           "bytes": 2573
         },
@@ -582,7 +582,7 @@
           "source": "김준수/week2/자물쇠와 열쇠.java",
           "target": "solutions/programmers/60059/junsoo.java",
           "review": "reviews/programmers/60059/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 90,
           "bytes": 3330
         },
@@ -594,7 +594,7 @@
           "source": "안찬웅/week2/자물쇠와 열쇠.java",
           "target": "solutions/programmers/60059/chanung.java",
           "review": "reviews/programmers/60059/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 98,
           "bytes": 3398
         },
@@ -606,7 +606,7 @@
           "source": "이성일/week2/자물쇠와열쇠.java",
           "target": "solutions/programmers/60059/seongil.java",
           "review": "reviews/programmers/60059/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 147,
           "bytes": 5047
         },
@@ -655,7 +655,7 @@
           "source": "김준수/week4/징검다리 건너기.java",
           "target": "solutions/programmers/64062/junsoo.java",
           "review": "reviews/programmers/64062/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 85,
           "bytes": 2934
         }
@@ -680,7 +680,7 @@
           "source": "이성일/week4/불량사용자.java",
           "target": "solutions/programmers/64064/seongil.java",
           "review": "reviews/programmers/64064/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 89,
           "bytes": 2853
         }
@@ -698,6 +698,30 @@
       ],
       "entries": [
         {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 4,
+          "variant": "failed",
+          "source": "김준수/week4/보석 쇼핑 실패.java",
+          "target": "solutions/programmers/67258/junsoo.failed.java",
+          "review": "reviews/programmers/67258/junsoo.failed.md",
+          "hasReview": true,
+          "lines": 80,
+          "bytes": 3044
+        },
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 4,
+          "variant": null,
+          "source": "김준수/week4/보석 쇼핑.java",
+          "target": "solutions/programmers/67258/junsoo.java",
+          "review": "reviews/programmers/67258/junsoo.md",
+          "hasReview": true,
+          "lines": 71,
+          "bytes": 2889
+        },
+        {
           "author": "seongil",
           "authorName": "이성일",
           "week": 4,
@@ -705,7 +729,7 @@
           "source": "이성일/week4/보석쇼핑시간초과.java",
           "target": "solutions/programmers/67258/seongil.failed.java",
           "review": "reviews/programmers/67258/seongil.failed.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 82,
           "bytes": 3016
         }
@@ -804,7 +828,7 @@
           "source": "김준수/week2/합승 택시 요금.java",
           "target": "solutions/programmers/72413/junsoo.java",
           "review": "reviews/programmers/72413/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 97,
           "bytes": 3276
         },
@@ -816,7 +840,7 @@
           "source": "안찬웅/week2/합승 택시 요금.java",
           "target": "solutions/programmers/72413/chanung.java",
           "review": "reviews/programmers/72413/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 92,
           "bytes": 2888
         },
@@ -828,7 +852,7 @@
           "source": "이성일/week2/합승택시요금.java",
           "target": "solutions/programmers/72413/seongil.java",
           "review": "reviews/programmers/72413/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 67,
           "bytes": 2381
         },
@@ -926,7 +950,7 @@
           "source": "김준수/week3/표 편집 실패.java",
           "target": "solutions/programmers/81303/junsoo.failed.java",
           "review": "reviews/programmers/81303/junsoo.failed.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 80,
           "bytes": 2144
         },
@@ -938,7 +962,7 @@
           "source": "김준수/week3/표 편집.java",
           "target": "solutions/programmers/81303/junsoo.java",
           "review": "reviews/programmers/81303/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 115,
           "bytes": 4157
         },
@@ -950,7 +974,7 @@
           "source": "안찬웅/week3/표 편집",
           "target": "solutions/programmers/81303/chanung.java",
           "review": "reviews/programmers/81303/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 75,
           "bytes": 2796
         },
@@ -962,7 +986,7 @@
           "source": "이성일/week3/표편집.java",
           "target": "solutions/programmers/81303/seongil.java",
           "review": "reviews/programmers/81303/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 118,
           "bytes": 3678
         }
@@ -999,7 +1023,7 @@
           "source": "안찬웅/week2/아이템줍기.java",
           "target": "solutions/programmers/87694/chanung.java",
           "review": "reviews/programmers/87694/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 18,
           "bytes": 585
         },
@@ -1011,7 +1035,7 @@
           "source": "이성일/week2/아이템줍기.java",
           "target": "solutions/programmers/87694/seongil.java",
           "review": "reviews/programmers/87694/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 84,
           "bytes": 3146
         },
@@ -1048,7 +1072,7 @@
           "source": "김준수/week3/양과 늑대.java",
           "target": "solutions/programmers/92343/junsoo.java",
           "review": "reviews/programmers/92343/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 102,
           "bytes": 3600
         },
@@ -1060,7 +1084,7 @@
           "source": "안찬웅/week3/양과 늑대.java",
           "target": "solutions/programmers/92343/chanung.java",
           "review": "reviews/programmers/92343/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 79,
           "bytes": 2565
         },
@@ -1072,7 +1096,7 @@
           "source": "이성일/week3/양과늑대.java",
           "target": "solutions/programmers/92343/seongil.java",
           "review": "reviews/programmers/92343/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 74,
           "bytes": 2781
         },
@@ -1084,7 +1108,7 @@
           "source": "이성일/week3/양과늑대2.java",
           "target": "solutions/programmers/92343/seongil.alt.java",
           "review": "reviews/programmers/92343/seongil.alt.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 44,
           "bytes": 1234
         }
@@ -1170,7 +1194,7 @@
           "source": "김준수/week1/SWEA1251.java",
           "target": "solutions/swea/1251/junsoo.java",
           "review": "reviews/swea/1251/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 143,
           "bytes": 4125
         },
@@ -1182,7 +1206,7 @@
           "source": "안찬웅/week1/SWEA1251.java",
           "target": "solutions/swea/1251/chanung.java",
           "review": "reviews/swea/1251/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 90,
           "bytes": 3028
         },
@@ -1194,7 +1218,7 @@
           "source": "이성일/week1/SWEA1251.java",
           "target": "solutions/swea/1251/seongil.java",
           "review": "reviews/swea/1251/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 95,
           "bytes": 2574
         },
@@ -1231,7 +1255,7 @@
           "source": "김준수/week1/SWEA1767.java",
           "target": "solutions/swea/1767/junsoo.java",
           "review": "reviews/swea/1767/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 170,
           "bytes": 6122
         },
@@ -1243,7 +1267,7 @@
           "source": "안찬웅/week1/SWEA1767.java",
           "target": "solutions/swea/1767/chanung.java",
           "review": "reviews/swea/1767/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 127,
           "bytes": 3272
         },
@@ -1255,7 +1279,7 @@
           "source": "이성일/week1/SWEA1767.java",
           "target": "solutions/swea/1767/seongil.java",
           "review": "reviews/swea/1767/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 133,
           "bytes": 3999
         },
@@ -1292,7 +1316,7 @@
           "source": "김준수/week1/SWEA5643.java",
           "target": "solutions/swea/5643/junsoo.java",
           "review": "reviews/swea/5643/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 92,
           "bytes": 2412
         },
@@ -1304,7 +1328,7 @@
           "source": "안찬웅/week1/SWEA5643.java",
           "target": "solutions/swea/5643/chanung.java",
           "review": "reviews/swea/5643/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 73,
           "bytes": 2274
         },
@@ -1316,7 +1340,7 @@
           "source": "이성일/week1/SWEA5643.java",
           "target": "solutions/swea/5643/seongil.java",
           "review": "reviews/swea/5643/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 75,
           "bytes": 1998
         },
@@ -1353,7 +1377,7 @@
           "source": "김준수/week1/SWEA5653.java",
           "target": "solutions/swea/5653/junsoo.java",
           "review": "reviews/swea/5653/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 169,
           "bytes": 4288
         }
@@ -1378,7 +1402,7 @@
           "source": "김준수/week1/SWEA5656.java",
           "target": "solutions/swea/5656/junsoo.java",
           "review": "reviews/swea/5656/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 186,
           "bytes": 5078
         },
@@ -1415,7 +1439,7 @@
           "source": "김준수/week1/SWEA5658.java",
           "target": "solutions/swea/5658/junsoo.java",
           "review": "reviews/swea/5658/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 68,
           "bytes": 2496
         },
@@ -1427,7 +1451,7 @@
           "source": "안찬웅/week1/SWEA5658.java",
           "target": "solutions/swea/5658/chanung.java",
           "review": "reviews/swea/5658/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 74,
           "bytes": 2550
         },
@@ -1464,7 +1488,7 @@
           "source": "김준수/week1/SWEA14510.java",
           "target": "solutions/swea/14510/junsoo.java",
           "review": "reviews/swea/14510/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 80,
           "bytes": 3162
         },
@@ -1476,7 +1500,7 @@
           "source": "안찬웅/week1/SWEA14510.java",
           "target": "solutions/swea/14510/chanung.java",
           "review": "reviews/swea/14510/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 94,
           "bytes": 2693
         },
@@ -1488,7 +1512,7 @@
           "source": "이성일/week1/SWEA14510.java",
           "target": "solutions/swea/14510/seongil.java",
           "review": "reviews/swea/14510/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 53,
           "bytes": 1367
         },

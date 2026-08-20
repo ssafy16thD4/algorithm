@@ -42,7 +42,6 @@ input, select { font: inherit; font-size: 14px; padding: 7px 11px; border: 1px s
 input[type=search] { min-width: 210px; }
 label.chk { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); cursor: pointer; }
 .count { margin-left: auto; color: var(--muted); font-size: 13px; }
-label.chk.alum { font-size: 13px; white-space: nowrap; }
 
 table { width: 100%; border-collapse: collapse; background: var(--panel);
   border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
@@ -83,6 +82,18 @@ pre.code { margin: 0; padding: 14px; overflow-x: auto; background: var(--code-bg
   font-family: var(--mono); font-size: 12.5px; line-height: 1.6; tab-size: 4; }
 pre.code .k { color: var(--kw); } pre.code .s { color: var(--str); }
 pre.code .c { color: var(--com); font-style: italic; } pre.code .n { color: var(--num); }
+
+.expand-btn { font: inherit; font-size: 12px; padding: 4px 10px; border-radius: 6px;
+  border: 1px solid var(--line); background: var(--panel); color: var(--muted); cursor: pointer; white-space: nowrap; }
+.expand-btn:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.tabs.foc-tabs { display: flex; }
+.tabs.foc-tabs .back { margin-left: auto; }
+.focus { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 400px); gap: 16px; align-items: start; }
+.focus-code pre.code { font-size: 14.5px; }
+.focus-review { align-self: start; }
+.focus-review > details.rev, .focus-review > .norev { border-top: 0; }
+.ref-panel { margin-bottom: 22px; }
+.ref-note { padding: 10px 14px 0; font-size: 12.5px; color: var(--muted); }
 
 .badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 700; border: 1px solid transparent; }
 .b-good { background: color-mix(in srgb, var(--ok) 15%, transparent); color: var(--ok); }
@@ -146,6 +157,7 @@ details.rev.fb, .norev.fb { background: var(--panel); border: 1px solid var(--li
   .cols.tabbed > .col { display: none; }
   .cols.tabbed > .col.on { display: block; }
   .tabs { display: flex; }
+  .focus { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ---------- 모바일 (휴대폰 폭) ---------- */
@@ -155,7 +167,6 @@ details.rev.fb, .norev.fb { background: var(--panel); border: 1px solid var(--li
   h1 { font-size: 17px; }
   h1 span { display: block; margin-left: 0; margin-top: 2px; }
   nav { margin-left: 0; }
-  label.chk.alum { margin-left: 0; }
 
   .bar { flex-direction: column; align-items: stretch; }
   .bar > select, .bar > input, .bar > label.chk { width: 100%; }
@@ -194,7 +205,6 @@ details.rev.fb, .norev.fb { background: var(--panel); border: 1px solid var(--li
 <header><div class="head-in">
   <h1>알고리즘 스터디 <span id="sub"></span></h1>
   <nav><a href="#/" id="nav-p">문제</a><a href="#/people" id="nav-w">사람별</a><a href="#/rotation" id="nav-r">로테이션</a></nav>
-  <label class="chk alum"><input type="checkbox" id="f-alum"> 졸업생 포함</label>
 </div></header>
 <div class="wrap" id="app"></div>
 
@@ -354,55 +364,127 @@ function altBlock(a) {
     '</div></details>';
 }
 
+let focusIdx = null; // 문제 상세: 크게 보기 상태. null 이면 그리드.
+let refOpen = false;  // 문제 상세: 정석 코드 패널 열림 여부.
+
+function reviewBlock(e) {
+  const r = e.review;
+  const verdict = r ? r.verdict : null;
+  return r
+    ? '<details class="rev"><summary><span class="t-open">리뷰 보기</span>' +
+        '<span class="t-close">리뷰 접기</span></summary>' +
+      '<div class="rev-body"><div class="rev-meta">' +
+        (verdict ? '<span class="badge b-' + verdict + '">' + verdict + '</span>' : '') +
+        (r.compiles === 'false' ? '<span class="badge b-nc">compile ✗</span>' : '') +
+        (r.tags || []).map(t => '<span class="tag">' + esc(tagLabel(t)) + '</span>').join('') +
+      '</div>' + md(r.body) + '</div></details>'
+    : '<div class="norev">리뷰 없음 · <code>/review ' + esc(e.source) + '</code></div>';
+}
+
+function refPanel(p) {
+  const refs = (p.references || []).slice(0, 2);
+  return '<div class="ref-panel">' +
+    (refs.length
+      ? '<div class="cols ' + (refs.length === 1 ? 'n1' : 'n2') + '">' + refs.map(r =>
+          '<div class="col"><h3>' + esc(r.sourceTitle || '정석 코드') +
+            (r.url ? ' <a class="tag" href="' + esc(r.url) + '" target="_blank" rel="noopener">출처 ↗</a>' : '') +
+          '</h3>' +
+          (r.note ? '<div class="ref-note">' + esc(r.note) + '</div>' : '') +
+          '<pre class="code">' + hl(r.code) + '</pre></div>').join('') + '</div>'
+      : '<div class="norev">정석 코드가 아직 없습니다 · <code>references/' + p.key + '/{id}.java</code> 로 추가하면 여기 표시됩니다</div>') +
+  '</div>';
+}
+
 function viewProblem(key) {
   const p = D.problems.find(x => x.key === key);
   if (!p) { location.hash = '#/'; return; }
   const entries = shownEntries(p);
   const n = entries.length;
   const hidden = p.entries.length - n;
+  focusIdx = null;
+  refOpen = false;
 
-  app.innerHTML =
-    '<a class="back" href="#/">← 문제 목록</a>' +
-    '<div class="phead"><h2>' + esc(p.title) + '</h2><div class="meta">' +
-      '<span class="tag">' + p.platform + ' ' + p.problemId + '</span>' +
-      '<span>' + (p.weeks.join(', ') || '—') + '주차</span>' +
-      '<span>' + n + '개 풀이' + (hidden ? ' (졸업생 ' + hidden + '개 숨김)' : '') + '</span>' +
-      (p.url ? '<a href="' + p.url + '" target="_blank" rel="noopener">문제 보기 ↗</a>' : '') +
-    '</div></div>' +
-    (p.teamFeedback
-      ? '<details class="rev fb"><summary><span class="t-open">발표 후 팀 피드백 보기</span>' +
-        '<span class="t-close">팀 피드백 접기</span></summary>' +
-        '<div class="rev-body">' + md(p.teamFeedback) + '</div></details>'
-      : '<div class="norev fb">팀 피드백 없음 · <code>reviews/' + p.key + '/team-feedback.md</code> 에 적으면 여기 표시됩니다</div>') +
-    '<div class="tabs">' + entries.map((e, i) =>
-      '<button data-i="' + i + '"' + (i === 0 ? ' class="on"' : '') + '>' + esc(e.authorName) +
-      (e.variant ? ' (' + e.variant + ')' : '') + '</button>').join('') + '</div>' +
-    '<div class="cols ' + (n <= 2 ? 'n' + n : '') + ' tabbed">' + entries.map((e, i) => {
-      const r = e.review;
-      const verdict = r ? r.verdict : null;
-      return '<div class="col' + (i === 0 ? ' on' : '') + '">' +
-        '<h3>' + esc(e.authorName) + (e.variant ? ' <span class="tag">' + e.variant + '</span>' : '') +
-          '<span class="sub">' + e.lines + '줄</span></h3>' +
-        '<pre class="code">' + hl(e.code) + '</pre>' +
-        (r
-          ? '<details class="rev"><summary><span class="t-open">리뷰 보기</span>' +
-              '<span class="t-close">리뷰 접기</span></summary>' +
-            '<div class="rev-body"><div class="rev-meta">' +
-              (verdict ? '<span class="badge b-' + verdict + '">' + verdict + '</span>' : '') +
-              (r.compiles === 'false' ? '<span class="badge b-nc">compile ✗</span>' : '') +
-              (r.tags || []).map(t => '<span class="tag">' + esc(tagLabel(t)) + '</span>').join('') +
-            '</div>' + md(r.body) + '</div></details>'
-          : '<div class="norev">리뷰 없음 · <code>/review ' + esc(e.source) + '</code></div>') +
-        (e.alts || []).map(a => altBlock(a)).join('') +
+  function colCard(e, i) {
+    return '<div class="col' + (i === 0 && focusIdx === null ? ' on' : '') + '">' +
+      '<h3>' + esc(e.authorName) + (e.variant ? ' <span class="tag">' + e.variant + '</span>' : '') +
+        '<span class="sub">' + e.lines + '줄</span>' +
+        '<button class="expand-btn" data-i="' + i + '">크게 보기</button>' +
+      '</h3>' +
+      '<pre class="code">' + hl(e.code) + '</pre>' +
+      reviewBlock(e) +
+      (e.alts || []).map(a => altBlock(a)).join('') +
+    '</div>';
+  }
+
+  function focusView(i) {
+    const e = entries[i];
+    return '<div class="tabs foc-tabs">' +
+        entries.map((x, j) => '<button data-i="' + j + '"' + (j === i ? ' class="on"' : '') + '>' +
+          esc(x.authorName) + (x.variant ? ' (' + x.variant + ')' : '') + '</button>').join('') +
+        '<button class="expand-btn back" id="grid-back">그리드로 보기</button>' +
+      '</div>' +
+      '<div class="focus">' +
+        '<div class="col focus-code"><h3>' + esc(e.authorName) +
+            (e.variant ? ' <span class="tag">' + e.variant + '</span>' : '') +
+            '<span class="sub">' + e.lines + '줄</span></h3>' +
+          '<pre class="code">' + hl(e.code) + '</pre>' +
+          (e.alts || []).map(a => altBlock(a)).join('') +
+        '</div>' +
+        '<div class="col focus-review">' + reviewBlock(e) + '</div>' +
       '</div>';
-    }).join('') + '</div>';
+  }
 
-  app.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
-    app.querySelectorAll('.tabs button').forEach(x => x.classList.remove('on'));
-    app.querySelectorAll('.col').forEach(x => x.classList.remove('on'));
-    b.classList.add('on');
-    app.querySelectorAll('.col')[+b.dataset.i].classList.add('on');
-  });
+  function render() {
+    app.innerHTML =
+      '<a class="back" href="#/">← 문제 목록</a>' +
+      '<div class="phead"><div class="phead-top"><h2>' + esc(p.title) + '</h2>' +
+        '<button class="expand-btn ref-btn" id="ref-btn">정석 코드' +
+          ((p.references || []).length ? ' (' + p.references.length + ')' : '') + '</button>' +
+      '</div><div class="meta">' +
+        '<span class="tag">' + p.platform + ' ' + p.problemId + '</span>' +
+        '<span>' + (p.weeks.join(', ') || '—') + '주차</span>' +
+        '<span>' + n + '개 풀이' + (hidden ? ' (졸업생 ' + hidden + '개 숨김)' : '') + '</span>' +
+        (p.url ? '<a href="' + p.url + '" target="_blank" rel="noopener">문제 보기 ↗</a>' : '') +
+      '</div></div>' +
+      (refOpen ? refPanel(p) : '') +
+      (p.teamFeedback
+        ? '<details class="rev fb"><summary><span class="t-open">발표 후 팀 피드백 보기</span>' +
+          '<span class="t-close">팀 피드백 접기</span></summary>' +
+          '<div class="rev-body">' + md(p.teamFeedback) + '</div></details>'
+        : '<div class="norev fb">팀 피드백 없음 · <code>reviews/' + p.key + '/team-feedback.md</code> 에 적으면 여기 표시됩니다</div>') +
+      (focusIdx === null
+        ? '<div class="tabs">' + entries.map((e, i) =>
+            '<button data-i="' + i + '"' + (i === 0 ? ' class="on"' : '') + '>' + esc(e.authorName) +
+            (e.variant ? ' (' + e.variant + ')' : '') + '</button>').join('') + '</div>' +
+          '<div class="cols ' + (n <= 2 ? 'n' + n : '') + ' tabbed">' + entries.map(colCard).join('') + '</div>'
+        : focusView(focusIdx));
+
+    bind();
+  }
+
+  function bind() {
+    const refBtn = document.getElementById('ref-btn');
+    if (refBtn) refBtn.onclick = () => { refOpen = !refOpen; render(); };
+    const back = document.getElementById('grid-back');
+    if (back) back.onclick = () => { focusIdx = null; render(); };
+
+    app.querySelectorAll('.expand-btn[data-i]').forEach(b => b.onclick = () => {
+      focusIdx = +b.dataset.i; render();
+    });
+    app.querySelectorAll('.foc-tabs button[data-i]').forEach(b => b.onclick = () => {
+      focusIdx = +b.dataset.i; render();
+    });
+    if (focusIdx === null) {
+      app.querySelectorAll('.tabs:not(.foc-tabs) button').forEach(b => b.onclick = () => {
+        app.querySelectorAll('.tabs:not(.foc-tabs) button').forEach(x => x.classList.remove('on'));
+        app.querySelectorAll('.col').forEach(x => x.classList.remove('on'));
+        b.classList.add('on');
+        app.querySelectorAll('.col')[+b.dataset.i].classList.add('on');
+      });
+    }
+  }
+
+  render();
 }
 
 /* ---------- 사람별 ---------- */
@@ -531,9 +613,6 @@ function route() {
   else viewList();
 }
 addEventListener('hashchange', route);
-
-const alumBox = document.getElementById('f-alum');
-if (alumBox) alumBox.addEventListener('change', e => { showAlumni = e.target.checked; route(); });
 
 route();
 </script>
