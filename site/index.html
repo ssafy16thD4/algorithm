@@ -92,8 +92,15 @@ pre.code .c { color: var(--com); font-style: italic; } pre.code .n { color: var(
 .focus-code pre.code { font-size: 14.5px; }
 .focus-review { align-self: start; }
 .focus-review > details.rev, .focus-review > .norev { border-top: 0; }
-.ref-panel { margin-bottom: 22px; }
 .ref-note { padding: 10px 14px 0; font-size: 12.5px; color: var(--muted); }
+details.rev.ref, .norev.ref { border: 1.5px solid var(--accent); border-radius: 10px;
+  margin-bottom: 16px; overflow: hidden; background: var(--accent-soft); }
+details.rev.ref { border-bottom: 1.5px solid var(--accent); }
+details.rev.ref > summary { border-radius: 0; border: 0; border-bottom: 1px solid var(--accent);
+  background: transparent; font-size: 14px; padding: 12px 14px; width: 100%; box-sizing: border-box; }
+details.rev.ref[open] > summary { border-bottom: 1px solid var(--accent); }
+details.rev.ref .rev-body { background: var(--bg); padding: 16px 14px; }
+.norev.ref { border-top: 1.5px solid var(--accent); padding: 14px; font-size: 13.5px; color: var(--fg); }
 
 .badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 700; border: 1px solid transparent; }
 .b-good { background: color-mix(in srgb, var(--ok) 15%, transparent); color: var(--ok); }
@@ -365,7 +372,6 @@ function altBlock(a) {
 }
 
 let focusIdx = null; // 문제 상세: 크게 보기 상태. null 이면 그리드.
-let refOpen = false;  // 문제 상세: 정석 코드 패널 열림 여부.
 
 function reviewBlock(e) {
   const r = e.review;
@@ -383,16 +389,12 @@ function reviewBlock(e) {
 
 function refPanel(p) {
   const refs = (p.references || []).slice(0, 2);
-  return '<div class="ref-panel">' +
-    (refs.length
-      ? '<div class="cols ' + (refs.length === 1 ? 'n1' : 'n2') + '">' + refs.map(r =>
-          '<div class="col"><h3>' + esc(r.sourceTitle || '정석 코드') +
-            (r.url ? ' <a class="tag" href="' + esc(r.url) + '" target="_blank" rel="noopener">출처 ↗</a>' : '') +
-          '</h3>' +
-          (r.note ? '<div class="ref-note">' + esc(r.note) + '</div>' : '') +
-          '<pre class="code">' + hl(r.code) + '</pre></div>').join('') + '</div>'
-      : '<div class="norev">정석 코드가 아직 없습니다 · <code>references/' + p.key + '/{id}.java</code> 로 추가하면 여기 표시됩니다</div>') +
-  '</div>';
+  return '<div class="cols ' + (refs.length === 1 ? 'n1' : 'n2') + '">' + refs.map(r =>
+      '<div class="col"><h3>' + esc(r.sourceTitle || '정석 코드') +
+        (r.url ? ' <a class="tag" href="' + esc(r.url) + '" target="_blank" rel="noopener">출처 ↗</a>' : '') +
+      '</h3>' +
+      (r.note ? '<div class="ref-note">' + esc(r.note) + '</div>' : '') +
+      '<pre class="code">' + hl(r.code) + '</pre></div>').join('') + '</div>';
 }
 
 function viewProblem(key) {
@@ -402,7 +404,6 @@ function viewProblem(key) {
   const n = entries.length;
   const hidden = p.entries.length - n;
   focusIdx = null;
-  refOpen = false;
 
   function colCard(e, i) {
     return '<div class="col' + (i === 0 && focusIdx === null ? ' on' : '') + '">' +
@@ -435,18 +436,21 @@ function viewProblem(key) {
   }
 
   function render() {
+    const refs = (p.references || []).slice(0, 2);
     app.innerHTML =
       '<a class="back" href="#/">← 문제 목록</a>' +
-      '<div class="phead"><div class="phead-top"><h2>' + esc(p.title) + '</h2>' +
-        '<button class="expand-btn ref-btn" id="ref-btn">정석 코드' +
-          ((p.references || []).length ? ' (' + p.references.length + ')' : '') + '</button>' +
-      '</div><div class="meta">' +
+      '<div class="phead"><h2>' + esc(p.title) + '</h2>' +
+      '<div class="meta">' +
         '<span class="tag">' + p.platform + ' ' + p.problemId + '</span>' +
         '<span>' + (p.weeks.join(', ') || '—') + '주차</span>' +
         '<span>' + n + '개 풀이' + (hidden ? ' (졸업생 ' + hidden + '개 숨김)' : '') + '</span>' +
         (p.url ? '<a href="' + p.url + '" target="_blank" rel="noopener">문제 보기 ↗</a>' : '') +
       '</div></div>' +
-      (refOpen ? refPanel(p) : '') +
+      (refs.length
+        ? '<details class="rev ref" open><summary><span class="t-open">📖 정석 코드 보기 (' + refs.length + ')</span>' +
+            '<span class="t-close">📖 정석 코드 접기</span></summary>' +
+          '<div class="rev-body">' + refPanel(p) + '</div></details>'
+        : '<div class="norev ref">📖 정석 코드가 아직 없습니다 · <code>references/' + p.key + '/{id}.java</code> 로 추가하면 여기 표시됩니다</div>') +
       (p.teamFeedback
         ? '<details class="rev fb"><summary><span class="t-open">발표 후 팀 피드백 보기</span>' +
           '<span class="t-close">팀 피드백 접기</span></summary>' +
@@ -463,8 +467,6 @@ function viewProblem(key) {
   }
 
   function bind() {
-    const refBtn = document.getElementById('ref-btn');
-    if (refBtn) refBtn.onclick = () => { refOpen = !refOpen; render(); };
     const back = document.getElementById('grid-back');
     if (back) back.onclick = () => { focusIdx = null; render(); };
 
