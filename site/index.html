@@ -212,6 +212,7 @@ details.rev.fb, .norev.fb { background: var(--panel); border: 1px solid var(--li
 <header><div class="head-in">
   <h1>알고리즘 스터디 <span id="sub"></span></h1>
   <nav><a href="#/" id="nav-p">문제</a><a href="#/people" id="nav-w">사람별</a><a href="#/rotation" id="nav-r">로테이션</a></nav>
+  <label class="chk"><input type="checkbox" id="alumni-toggle"> 졸업생 포함</label>
 </div></header>
 <div class="wrap" id="app"></div>
 
@@ -233,6 +234,11 @@ const tagLabel = id => (D.tags.find(t => t.id === id) || {}).label || id;
 
 document.getElementById('sub').textContent =
   D.problems.length + '문제 · ' + D.problems.reduce((a, p) => a + p.entries.length, 0) + '풀이 · ' + D.generatedAt + ' 기준';
+
+document.getElementById('alumni-toggle').addEventListener('change', e => {
+  showAlumni = e.target.checked;
+  route();
+});
 
 /* ---------- Java 하이라이터 ---------- */
 const KW = 'abstract|boolean|break|byte|case|catch|char|class|continue|default|do|double|else|enum|extends|final|finally|float|for|if|implements|import|instanceof|int|interface|long|new|package|private|protected|public|return|short|static|super|switch|this|throw|throws|try|void|while|var|record|true|false|null';
