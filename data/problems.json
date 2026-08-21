@@ -21,7 +21,7 @@
     { "platform": "programmers", "problemId": "49189", "title": "가장 먼 노드", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/49189", "aliases": ["가장 먼 노드"], "verified": true },
     { "platform": "programmers", "problemId": "49191", "title": "순위", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/49191", "aliases": ["순위"], "verified": true },
     { "platform": "programmers", "problemId": "60059", "title": "자물쇠와 열쇠", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/60059", "aliases": ["자물쇠와 열쇠"], "verified": true },
-    { "platform": "programmers", "problemId": "64062", "title": "징검다리 건너기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/64062", "aliases": ["징검다리 건너기"], "verified": true },
+    { "platform": "programmers", "problemId": "64062", "title": "징검다리 건너기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/64062", "aliases": ["징검다리 건너기", "가장긴징검다리"], "verified": true },
     { "platform": "programmers", "problemId": "64064", "title": "불량 사용자", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/64064", "aliases": ["불량 사용자"], "verified": true },
     { "platform": "programmers", "problemId": "67258", "title": "보석 쇼핑", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/67258", "aliases": ["보석 쇼핑"], "verified": true },
     { "platform": "programmers", "problemId": "67259", "title": "경주로 건설", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/67259", "aliases": ["경주로 건설", "월경주로건설"], "verified": true },
