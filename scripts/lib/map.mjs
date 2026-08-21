@@ -13,15 +13,21 @@ const SKIP_DIRS = new Set([
 ]);
 
 // 결과물이 아닌 부산물
-const NON_SOLUTION = [/^Test$/i, /^Testcode$/i, /^ttt$/i];
+// 헌터 문제: 이성일/week4 — `public class 헌터 문제 {}` 뿐인 빈 스캐폴드. 실제 문제와
+// 매칭할 근거가 코드에 전혀 없어(추측 금지 원칙, T0-2) 풀이로 세지 않는다.
+const NON_SOLUTION = [/^Test$/i, /^Testcode$/i, /^ttt$/i, /^헌터\s*문제$/];
 
 // 같은 문제의 실패/연습 버전. 대표 풀이와 구분해서 variant로 붙인다.
+// keep: true 면 매칭된 문자열을 stem에서 지우지 않는다 (별칭 조회에 그대로 써야 할 때).
 const VARIANT_RULES = [
   { re: /\s*실패\s*$/, tag: 'failed' },
   { re: /\s*잘못된\s*풀이\s*$/, tag: 'failed' },
   { re: /FailVersion$/i, tag: 'failed' },
   { re: /\s*시간초과\s*$/, tag: 'failed' },
   { re: /(?<=[가-힣])2$/, tag: 'alt' },
+  // 이성일/week4/가장긴징검다리.java: "징검다리 건너기"(64062)를 다른 이름으로 부른 별도 시도.
+  // 같은 폴더의 징검다리건너기.java(대표 풀이)와 경로가 겹치지 않도록 alt로 구분한다.
+  { re: /^가장긴징검다리$/, tag: 'alt', keep: true },
 ];
 
 const problemsFile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/problems.json'), 'utf8'));
@@ -98,7 +104,7 @@ export function resolveSource(rel) {
   for (const rule of VARIANT_RULES) {
     if (rule.re.test(stem)) {
       variant = rule.tag;
-      stem = stem.replace(rule.re, '').trim();
+      if (!rule.keep) stem = stem.replace(rule.re, '').trim();
       break;
     }
   }

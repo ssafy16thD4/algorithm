@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-21T07:25:04.977Z",
+  "generatedAt": "2026-08-21T08:26:11.068Z",
   "authors": [
     {
       "id": "junsoo",
@@ -723,6 +723,30 @@
           "author": "seongil",
           "authorName": "이성일",
           "week": 4,
+          "variant": "alt",
+          "source": "이성일/week4/가장긴징검다리.java",
+          "target": "solutions/programmers/64062/seongil.alt.java",
+          "review": "reviews/programmers/64062/seongil.alt.md",
+          "hasReview": false,
+          "lines": 51,
+          "bytes": 1273
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 4,
+          "variant": "failed",
+          "source": "이성일/week4/가장긴징검다리실패.java",
+          "target": "solutions/programmers/64062/seongil.failed.java",
+          "review": "reviews/programmers/64062/seongil.failed.md",
+          "hasReview": false,
+          "lines": 40,
+          "bytes": 1217
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 4,
           "variant": null,
           "source": "이성일/week4/징검다리건너기.java",
           "target": "solutions/programmers/64062/seongil.java",
@@ -1251,8 +1275,8 @@
           "target": "solutions/programmers/250136/junsoo.java",
           "review": "reviews/programmers/250136/junsoo.md",
           "hasReview": true,
-          "lines": 65,
-          "bytes": 1879
+          "lines": 98,
+          "bytes": 2863
         },
         {
           "author": "chanung",
@@ -1298,8 +1322,8 @@
           "target": "solutions/programmers/250137/junsoo.java",
           "review": "reviews/programmers/250137/junsoo.md",
           "hasReview": true,
-          "lines": 53,
-          "bytes": 1617
+          "lines": 52,
+          "bytes": 1588
         },
         {
           "author": "chanung",
