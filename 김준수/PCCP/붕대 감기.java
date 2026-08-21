@@ -42,10 +42,9 @@ class Solution {
             }
             else{
                 health -= turnList[i];
+                healCnt = 0; // 이거 빼먹음
                 if(health <= 0) return -1;
             }
-            
-            // System.out.println(i + " 번째 턴 " + health);
         }
         
         return health;
