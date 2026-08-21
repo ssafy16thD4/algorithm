@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-21T08:37:36.787Z",
+  "generatedAt": "2026-08-21T08:51:50.032Z",
   "authors": [
     {
       "id": "junsoo",
@@ -723,25 +723,25 @@
           "author": "seongil",
           "authorName": "이성일",
           "week": 4,
-          "variant": "alt",
-          "source": "이성일/week4/가장긴징검다리.java",
-          "target": "solutions/programmers/64062/seongil.alt.java",
-          "review": "reviews/programmers/64062/seongil.alt.md",
-          "hasReview": false,
-          "lines": 51,
-          "bytes": 1273
-        },
-        {
-          "author": "seongil",
-          "authorName": "이성일",
-          "week": 4,
           "variant": "failed",
-          "source": "이성일/week4/가장긴징검다리실패.java",
+          "source": "이성일/week4/징검다리 건너기 실패.java",
           "target": "solutions/programmers/64062/seongil.failed.java",
           "review": "reviews/programmers/64062/seongil.failed.md",
           "hasReview": false,
           "lines": 40,
           "bytes": 1217
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 4,
+          "variant": "alt",
+          "source": "이성일/week4/징검다리 건너기.java",
+          "target": "solutions/programmers/64062/seongil.alt.java",
+          "review": "reviews/programmers/64062/seongil.alt.md",
+          "hasReview": false,
+          "lines": 51,
+          "bytes": 1273
         },
         {
           "author": "seongil",

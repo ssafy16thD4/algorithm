@@ -25,10 +25,18 @@ const VARIANT_RULES = [
   { re: /FailVersion$/i, tag: 'failed' },
   { re: /\s*시간초과\s*$/, tag: 'failed' },
   { re: /(?<=[가-힣])2$/, tag: 'alt' },
-  // 이성일/week4/가장긴징검다리.java: "징검다리 건너기"(64062)를 다른 이름으로 부른 별도 시도.
-  // 같은 폴더의 징검다리건너기.java(대표 풀이)와 경로가 겹치지 않도록 alt로 구분한다.
-  { re: /^가장긴징검다리$/, tag: 'alt', keep: true },
 ];
+
+// 파일명만으로는 variant를 못 정하는 경우 (예: 같은 사람이 같은 문제를 접미사 없는
+// 두 파일명으로 올려서 대표 경로가 겹치는 경우). 저장소 상대경로로 직접 지정한다.
+// 전역 정규식으로 처리하면 다른 사람의 정상적인 대표 풀이까지 alt로 바뀔 수 있어서
+// (예: 이성일 폴더의 다른 파일에만 적용되어야 하는데 "징검다리 건너기"라는 이름은
+// 김준수/안찬웅의 정상 대표 풀이 이름이기도 하다) 경로 단위로만 좁혀서 적용한다.
+const PATH_VARIANT_OVERRIDES = new Map([
+  // 이성일/week4/징검다리 건너기.java(옛 가장긴징검다리.java, 이진탐색 버전)는
+  // 같은 폴더의 징검다리건너기.java(deque 버전, 대표)와 경로가 겹친다.
+  ['이성일/week4/징검다리 건너기.java', 'alt'],
+]);
 
 const problemsFile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/problems.json'), 'utf8'));
 const authorsFile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/authors.json'), 'utf8'));
@@ -100,12 +108,14 @@ export function resolveSource(rel) {
 
   // variant 추출 (실패/대안 풀이)
   let stem = stemRaw.normalize('NFC').trim();
-  let variant = null;
-  for (const rule of VARIANT_RULES) {
-    if (rule.re.test(stem)) {
-      variant = rule.tag;
-      if (!rule.keep) stem = stem.replace(rule.re, '').trim();
-      break;
+  let variant = PATH_VARIANT_OVERRIDES.get(rel) ?? null;
+  if (!variant) {
+    for (const rule of VARIANT_RULES) {
+      if (rule.re.test(stem)) {
+        variant = rule.tag;
+        if (!rule.keep) stem = stem.replace(rule.re, '').trim();
+        break;
+      }
     }
   }
 
