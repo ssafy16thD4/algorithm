@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T06:43:07.880Z",
+  "generatedAt": "2026-08-21T07:25:04.977Z",
   "authors": [
     {
       "id": "junsoo",
@@ -133,6 +133,18 @@
       ],
       "entries": [
         {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 4,
+          "variant": null,
+          "source": "김준수/week4/베스트앨범.java",
+          "target": "solutions/programmers/42579/junsoo.java",
+          "review": "reviews/programmers/42579/junsoo.md",
+          "hasReview": false,
+          "lines": 85,
+          "bytes": 3488
+        },
+        {
           "author": "chanung",
           "authorName": "안찬웅",
           "week": 4,
@@ -229,6 +241,30 @@
           "hasReview": true,
           "lines": 79,
           "bytes": 2022
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 4,
+          "variant": "failed",
+          "source": "안찬웅/week4/섬 연결하기 실패.java",
+          "target": "solutions/programmers/42861/chanung.failed.java",
+          "review": "reviews/programmers/42861/chanung.failed.md",
+          "hasReview": false,
+          "lines": 64,
+          "bytes": 1705
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 4,
+          "variant": null,
+          "source": "안찬웅/week4/섬 연결하기.java",
+          "target": "solutions/programmers/42861/chanung.java",
+          "review": "reviews/programmers/42861/chanung.md",
+          "hasReview": false,
+          "lines": 58,
+          "bytes": 1519
         }
       ]
     },
@@ -401,6 +437,18 @@
           "hasReview": true,
           "lines": 43,
           "bytes": 1250
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 4,
+          "variant": null,
+          "source": "이성일/week4/여행경로.java",
+          "target": "solutions/programmers/43164/seongil.java",
+          "review": "reviews/programmers/43164/seongil.md",
+          "hasReview": false,
+          "lines": 46,
+          "bytes": 1207
         }
       ]
     },
@@ -658,6 +706,30 @@
           "hasReview": true,
           "lines": 85,
           "bytes": 2934
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 4,
+          "variant": null,
+          "source": "안찬웅/week4/징검다리 건너기.java",
+          "target": "solutions/programmers/64062/chanung.java",
+          "review": "reviews/programmers/64062/chanung.md",
+          "hasReview": false,
+          "lines": 42,
+          "bytes": 1012
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 4,
+          "variant": null,
+          "source": "이성일/week4/징검다리건너기.java",
+          "target": "solutions/programmers/64062/seongil.java",
+          "review": "reviews/programmers/64062/seongil.md",
+          "hasReview": false,
+          "lines": 26,
+          "bytes": 643
         }
       ]
     },
@@ -672,6 +744,18 @@
         4
       ],
       "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 4,
+          "variant": null,
+          "source": "김준수/week4/불량 사용자.java",
+          "target": "solutions/programmers/64064/junsoo.java",
+          "review": "reviews/programmers/64064/junsoo.md",
+          "hasReview": false,
+          "lines": 80,
+          "bytes": 2968
+        },
         {
           "author": "seongil",
           "authorName": "이성일",
@@ -718,8 +802,8 @@
           "target": "solutions/programmers/67258/junsoo.java",
           "review": "reviews/programmers/67258/junsoo.md",
           "hasReview": true,
-          "lines": 71,
-          "bytes": 2889
+          "lines": 72,
+          "bytes": 2891
         },
         {
           "author": "seongil",
@@ -1127,6 +1211,123 @@
       ]
     },
     {
+      "key": "programmers/250135",
+      "platform": "programmers",
+      "problemId": "250135",
+      "title": "[PCCP 기출문제] 3번 / 아날로그 시계",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250135",
+      "verified": true,
+      "weeks": [],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": null,
+          "variant": null,
+          "source": "김준수/PCCP/아날로그 시계.java",
+          "target": "solutions/programmers/250135/junsoo.java",
+          "review": "reviews/programmers/250135/junsoo.md",
+          "hasReview": true,
+          "lines": 92,
+          "bytes": 2572
+        }
+      ]
+    },
+    {
+      "key": "programmers/250136",
+      "platform": "programmers",
+      "problemId": "250136",
+      "title": "[PCCP 기출문제] 2번 / 석유 시추",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250136",
+      "verified": true,
+      "weeks": [],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": null,
+          "variant": null,
+          "source": "김준수/PCCP/석유 시추.java",
+          "target": "solutions/programmers/250136/junsoo.java",
+          "review": "reviews/programmers/250136/junsoo.md",
+          "hasReview": true,
+          "lines": 65,
+          "bytes": 1879
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": null,
+          "variant": null,
+          "source": "안찬웅/pccp/석유 시추.java",
+          "target": "solutions/programmers/250136/chanung.java",
+          "review": "reviews/programmers/250136/chanung.md",
+          "hasReview": true,
+          "lines": 88,
+          "bytes": 2836
+        },
+        {
+          "author": "seungjoo",
+          "authorName": "이승주",
+          "week": null,
+          "variant": null,
+          "source": "이승주/pccp/석유 시추(박진우).java",
+          "target": "solutions/programmers/250136/seungjoo.java",
+          "review": "reviews/programmers/250136/seungjoo.md",
+          "hasReview": true,
+          "lines": 73,
+          "bytes": 2051
+        }
+      ]
+    },
+    {
+      "key": "programmers/250137",
+      "platform": "programmers",
+      "problemId": "250137",
+      "title": "[PCCP 기출문제] 1번 / 붕대 감기",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250137",
+      "verified": true,
+      "weeks": [],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": null,
+          "variant": null,
+          "source": "김준수/PCCP/붕대 감기.java",
+          "target": "solutions/programmers/250137/junsoo.java",
+          "review": "reviews/programmers/250137/junsoo.md",
+          "hasReview": true,
+          "lines": 53,
+          "bytes": 1617
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": null,
+          "variant": null,
+          "source": "안찬웅/pccp/붕대 감기.java",
+          "target": "solutions/programmers/250137/chanung.java",
+          "review": "reviews/programmers/250137/chanung.md",
+          "hasReview": true,
+          "lines": 66,
+          "bytes": 2776
+        },
+        {
+          "author": "seungjoo",
+          "authorName": "이승주",
+          "week": null,
+          "variant": null,
+          "source": "이승주/pccp/붕대감기(박진우).java",
+          "target": "solutions/programmers/250137/seungjoo.java",
+          "review": "reviews/programmers/250137/seungjoo.md",
+          "hasReview": true,
+          "lines": 44,
+          "bytes": 1200
+        }
+      ]
+    },
+    {
       "key": "programmers/340210",
       "platform": "programmers",
       "problemId": "340210",
@@ -1144,8 +1345,8 @@
           "target": "solutions/programmers/340210/junsoo.java",
           "review": "reviews/programmers/340210/junsoo.md",
           "hasReview": true,
-          "lines": 94,
-          "bytes": 3857
+          "lines": 218,
+          "bytes": 8715
         }
       ]
     },

@@ -34,6 +34,9 @@
     { "platform": "programmers", "problemId": "340212", "title": "[PCCP 기출문제] 2번 / 퍼즐 게임 챌린지", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340212", "aliases": ["퍼즐 게임 챌린지"], "verified": true },
     { "platform": "programmers", "problemId": "340211", "title": "[PCCP 기출문제] 3번 / 충돌위험 찾기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340211", "aliases": ["충돌위험 찾기"], "verified": true },
     { "platform": "programmers", "problemId": "340210", "title": "[PCCP 기출문제] 4번 / 수식 복원하기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340210", "aliases": ["수식 복원하기"], "verified": true },
+    { "platform": "programmers", "problemId": "250137", "title": "[PCCP 기출문제] 1번 / 붕대 감기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250137", "aliases": ["붕대 감기", "붕대감기(박진우)"], "verified": true },
+    { "platform": "programmers", "problemId": "250136", "title": "[PCCP 기출문제] 2번 / 석유 시추", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250136", "aliases": ["석유 시추", "석유 시추(박진우)"], "verified": true },
+    { "platform": "programmers", "problemId": "250135", "title": "[PCCP 기출문제] 3번 / 아날로그 시계", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250135", "aliases": ["아날로그 시계"], "verified": true },
 
     { "platform": "swea", "problemId": "1249", "title": "보급로", "url": null, "aliases": ["SWEA1249"], "verified": true },
     { "platform": "swea", "problemId": "1251", "title": "하나로", "url": null, "aliases": ["SWEA1251"], "verified": true },
