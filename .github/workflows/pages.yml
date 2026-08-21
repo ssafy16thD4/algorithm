@@ -17,6 +17,13 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # configure-pages가 저장소의 Pages 설정을 읽고(처음이면 활성화까지) 해야 해서
+    # 최상단 contents:read 만으로는 403이 난다. actions/deploy-pages 공식 예제와
+    # 동일하게 pages:write / id-token:write 를 build job에도 준다.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - uses: actions/checkout@v7
 
