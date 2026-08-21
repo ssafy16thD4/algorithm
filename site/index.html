@@ -400,7 +400,12 @@ function refPanel(p) {
         (r.url ? ' <a class="tag" href="' + esc(r.url) + '" target="_blank" rel="noopener">출처 ↗</a>' : '') +
       '</h3>' +
       (r.note ? '<div class="ref-note">' + esc(r.note) + '</div>' : '') +
-      '<pre class="code">' + hl(r.code) + '</pre></div>').join('') + '</div>';
+      (r.code.trim()
+        ? '<pre class="code">' + hl(r.code) + '</pre>'
+        : '<div class="norev">코드 원문은 저작권상 저장하지 않습니다 · ' +
+          (r.url ? '<a href="' + esc(r.url) + '" target="_blank" rel="noopener">출처에서 직접 확인</a>' : '출처 링크 참고') +
+          '</div>') +
+      '</div>').join('') + '</div>';
 }
 
 function viewProblem(key) {
