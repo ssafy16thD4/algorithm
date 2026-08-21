@@ -1,4 +1,4 @@
-package coding;
+package com.ssafy.swb;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -14,7 +14,7 @@ import java.util.*;
  * 		
  * 4. 숫자를 정렬한다.
  */
-public class Solution {
+public class SWEA5658 {
 	
 	static Deque<Character> deq;
 	static Set<Integer> set;
@@ -48,9 +48,9 @@ public class Solution {
 			
 			int[] arr = setToArr(set);
 			Arrays.sort(arr);
-			
+
 			StringBuilder sb = new StringBuilder();
-			sb.append("#").append(tc).append(" ").append(arr[k-1]);
+			sb.append("#").append(tc).append(" ").append(arr[arr.length - k]);
 			System.out.println(sb);
 		}
 	}
@@ -61,7 +61,7 @@ public class Solution {
 			char c = deq.pollLast();
 			deq.offerFirst(c);
 		}
-		for (int j = 0; j < deq.size()/4; j++ ) {
+		for (int j = 0; j < 4; j++ ) {
 			char[] num = new char[deq.size()/4];
 			for (int i = 0; i < num.length; i++) {
 				num[i] = deq.pollFirst();
