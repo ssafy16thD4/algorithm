@@ -13,9 +13,12 @@ const SKIP_DIRS = new Set([
 ]);
 
 // 결과물이 아닌 부산물
-const NON_SOLUTION = [/^Test$/i, /^Testcode$/i, /^ttt$/i];
+// 헌터 문제: 이성일/week4 — `public class 헌터 문제 {}` 뿐인 빈 스캐폴드. 실제 문제와
+// 매칭할 근거가 코드에 전혀 없어(추측 금지 원칙, T0-2) 풀이로 세지 않는다.
+const NON_SOLUTION = [/^Test$/i, /^Testcode$/i, /^ttt$/i, /^헌터\s*문제$/];
 
 // 같은 문제의 실패/연습 버전. 대표 풀이와 구분해서 variant로 붙인다.
+// keep: true 면 매칭된 문자열을 stem에서 지우지 않는다 (별칭 조회에 그대로 써야 할 때).
 const VARIANT_RULES = [
   { re: /\s*실패\s*$/, tag: 'failed' },
   { re: /\s*잘못된\s*풀이\s*$/, tag: 'failed' },
@@ -23,6 +26,17 @@ const VARIANT_RULES = [
   { re: /\s*시간초과\s*$/, tag: 'failed' },
   { re: /(?<=[가-힣])2$/, tag: 'alt' },
 ];
+
+// 파일명만으로는 variant를 못 정하는 경우 (예: 같은 사람이 같은 문제를 접미사 없는
+// 두 파일명으로 올려서 대표 경로가 겹치는 경우). 저장소 상대경로로 직접 지정한다.
+// 전역 정규식으로 처리하면 다른 사람의 정상적인 대표 풀이까지 alt로 바뀔 수 있어서
+// (예: 이성일 폴더의 다른 파일에만 적용되어야 하는데 "징검다리 건너기"라는 이름은
+// 김준수/안찬웅의 정상 대표 풀이 이름이기도 하다) 경로 단위로만 좁혀서 적용한다.
+const PATH_VARIANT_OVERRIDES = new Map([
+  // 이성일/week4/징검다리 건너기.java(옛 가장긴징검다리.java, 이진탐색 버전)는
+  // 같은 폴더의 징검다리건너기.java(deque 버전, 대표)와 경로가 겹친다.
+  ['이성일/week4/징검다리 건너기.java', 'alt'],
+]);
 
 const problemsFile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/problems.json'), 'utf8'));
 const authorsFile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/authors.json'), 'utf8'));
@@ -94,12 +108,14 @@ export function resolveSource(rel) {
 
   // variant 추출 (실패/대안 풀이)
   let stem = stemRaw.normalize('NFC').trim();
-  let variant = null;
-  for (const rule of VARIANT_RULES) {
-    if (rule.re.test(stem)) {
-      variant = rule.tag;
-      stem = stem.replace(rule.re, '').trim();
-      break;
+  let variant = PATH_VARIANT_OVERRIDES.get(rel) ?? null;
+  if (!variant) {
+    for (const rule of VARIANT_RULES) {
+      if (rule.re.test(stem)) {
+        variant = rule.tag;
+        if (!rule.keep) stem = stem.replace(rule.re, '').trim();
+        break;
+      }
     }
   }
 
