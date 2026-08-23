@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-23T14:42:43.467Z",
+  "generatedAt": "2026-08-23T15:02:04.834Z",
   "authors": [
     {
       "id": "junsoo",
@@ -140,7 +140,7 @@
           "source": "김준수/week4/베스트앨범.java",
           "target": "solutions/programmers/42579/junsoo.java",
           "review": "reviews/programmers/42579/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 85,
           "bytes": 3488
         },
@@ -250,7 +250,7 @@
           "source": "안찬웅/week4/섬 연결하기 실패.java",
           "target": "solutions/programmers/42861/chanung.failed.java",
           "review": "reviews/programmers/42861/chanung.failed.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 64,
           "bytes": 1705
         },
@@ -262,7 +262,7 @@
           "source": "안찬웅/week4/섬 연결하기.java",
           "target": "solutions/programmers/42861/chanung.java",
           "review": "reviews/programmers/42861/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 58,
           "bytes": 1519
         }
@@ -446,7 +446,7 @@
           "source": "이성일/week4/여행경로.java",
           "target": "solutions/programmers/43164/seongil.java",
           "review": "reviews/programmers/43164/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 46,
           "bytes": 1207
         }
@@ -691,7 +691,7 @@
           "source": "김준수/week4/징검다리 건너기 실패.java",
           "target": "solutions/programmers/64062/junsoo.failed.java",
           "review": "reviews/programmers/64062/junsoo.failed.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 88,
           "bytes": 3231
         },
@@ -715,7 +715,7 @@
           "source": "안찬웅/week4/징검다리 건너기.java",
           "target": "solutions/programmers/64062/chanung.java",
           "review": "reviews/programmers/64062/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 42,
           "bytes": 1012
         },
@@ -727,7 +727,7 @@
           "source": "이성일/week4/징검다리 건너기 실패.java",
           "target": "solutions/programmers/64062/seongil.failed.java",
           "review": "reviews/programmers/64062/seongil.failed.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 40,
           "bytes": 1217
         },
@@ -739,7 +739,7 @@
           "source": "이성일/week4/징검다리 건너기.java",
           "target": "solutions/programmers/64062/seongil.alt.java",
           "review": "reviews/programmers/64062/seongil.alt.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 51,
           "bytes": 1273
         },
@@ -751,7 +751,7 @@
           "source": "이성일/week4/징검다리건너기.java",
           "target": "solutions/programmers/64062/seongil.java",
           "review": "reviews/programmers/64062/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 26,
           "bytes": 643
         }
@@ -776,7 +776,7 @@
           "source": "김준수/week4/불량 사용자.java",
           "target": "solutions/programmers/64064/junsoo.java",
           "review": "reviews/programmers/64064/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 80,
           "bytes": 2968
         },
@@ -1829,7 +1829,7 @@
           "source": "이성일/week4/SWEA5658.java",
           "target": "solutions/swea/5658/seongil.java",
           "review": "reviews/swea/5658/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 99,
           "bytes": 2605
         },
