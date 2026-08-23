@@ -42,7 +42,6 @@ input, select { font: inherit; font-size: 14px; padding: 7px 11px; border: 1px s
 input[type=search] { min-width: 210px; }
 label.chk { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); cursor: pointer; }
 .count { margin-left: auto; color: var(--muted); font-size: 13px; }
-label.chk.alum { font-size: 13px; white-space: nowrap; }
 
 table { width: 100%; border-collapse: collapse; background: var(--panel);
   border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
@@ -84,6 +83,38 @@ pre.code { margin: 0; padding: 14px; overflow-x: auto; background: var(--code-bg
 pre.code .k { color: var(--kw); } pre.code .s { color: var(--str); }
 pre.code .c { color: var(--com); font-style: italic; } pre.code .n { color: var(--num); }
 
+.expand-btn { font: inherit; font-size: 12px; padding: 4px 10px; border-radius: 6px;
+  border: 1px solid var(--line); background: var(--panel); color: var(--muted); cursor: pointer; white-space: nowrap; }
+.expand-btn:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.tabs.foc-tabs { display: flex; }
+.tabs.foc-tabs .back { margin-left: auto; }
+.focus { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 400px); gap: 16px; align-items: start; }
+.focus-code pre.code { font-size: 14.5px; }
+.focus-review { align-self: start; }
+.focus-review > details.rev, .focus-review > .norev { border-top: 0; }
+.ref-note { padding: 10px 14px 0; font-size: 12.5px; color: var(--muted); }
+/* T4-3. 정석 코드 diff */
+.reftabs { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0 4px; }
+.reftabs button { font: inherit; font-size: 12px; padding: 4px 10px; border-radius: 6px;
+  border: 1px solid var(--line); background: var(--panel); color: var(--muted); cursor: pointer; }
+.reftabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.refpane { display: none; } .refpane.on { display: block; }
+.refsrc { font-size: 12px; margin: 6px 0; }
+pre.code.diff span { display: block; padding-left: 18px; text-indent: -14px; margin: 0 -14px 0 0; }
+pre.code.diff .dm { background: color-mix(in srgb, var(--bad) 14%, transparent); }
+pre.code.diff .dp { background: color-mix(in srgb, var(--ok) 14%, transparent); }
+pre.code.diff .dfold { color: var(--muted); font-style: italic; background: var(--line-soft); }
+.difflegend { display: flex; gap: 10px; font-size: 11.5px; color: var(--muted); margin: 0 0 6px; flex-wrap: wrap; }
+.difflegend .m { color: var(--bad); } .difflegend .p { color: var(--ok); }
+details.rev.ref, .norev.ref { border: 1.5px solid var(--accent); border-radius: 10px;
+  margin-bottom: 16px; overflow: hidden; background: var(--accent-soft); }
+details.rev.ref { border-bottom: 1.5px solid var(--accent); }
+details.rev.ref > summary { border-radius: 0; border: 0; border-bottom: 1px solid var(--accent);
+  background: transparent; font-size: 14px; padding: 12px 14px; width: 100%; box-sizing: border-box; }
+details.rev.ref[open] > summary { border-bottom: 1px solid var(--accent); }
+details.rev.ref .rev-body { background: var(--bg); padding: 16px 14px; }
+.norev.ref { border-top: 1.5px solid var(--accent); padding: 14px; font-size: 13.5px; color: var(--fg); }
+
 .badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 700; border: 1px solid transparent; }
 .b-good { background: color-mix(in srgb, var(--ok) 15%, transparent); color: var(--ok); }
 .b-needs-fix { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
@@ -117,28 +148,6 @@ details.rev.alt .rev-meta:first-child { margin-top: 4px; }
 details.rev.fb, .norev.fb { background: var(--panel); border: 1px solid var(--line);
   border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
 .norev.fb { border-top: 0; }
-/* ---------- T4-3. 정석코드 비교 ---------- */
-details.rev.ref > summary { color: var(--accent); border-color: var(--accent);
-  background: var(--accent-soft); }
-.reftabs { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0 4px; }
-.reftabs button, .refmode button { font: inherit; font-size: 12px; padding: 4px 10px; border-radius: 6px;
-  border: 1px solid var(--line); background: var(--panel); color: var(--muted); cursor: pointer; }
-.reftabs button.on, .refmode button.on { background: var(--accent); border-color: var(--accent);
-  color: #fff; font-weight: 600; }
-.refmode { display: flex; gap: 4px; margin: 10px 0 6px; }
-.refpane { display: none; } .refpane.on { display: block; }
-.refview { display: none; } .refview.on { display: block; }
-.refmeta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; margin: 6px 0; }
-.refmeta a { font-size: 12px; }
-.lic { color: var(--warn); font-size: 11.5px; }
-.refnote { color: var(--muted); font-size: 12px; margin: 8px 0 0; }
-pre.code.diff span { display: block; padding: 0 4px; margin: 0 -14px; padding-left: 18px; text-indent: -14px; }
-pre.code.diff .dm { background: color-mix(in srgb, var(--bad) 14%, transparent); }
-pre.code.diff .dp { background: color-mix(in srgb, var(--ok) 14%, transparent); }
-pre.code.diff .dfold { color: var(--muted); font-style: italic; background: var(--line-soft); }
-.difflegend { display: flex; gap: 10px; font-size: 11.5px; color: var(--muted); margin: 0 0 6px; }
-.difflegend b { font-weight: 700; }
-.difflegend .m { color: var(--bad); } .difflegend .p { color: var(--ok); }
 .norev { padding: 12px 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
 .norev code { font-family: var(--mono); font-size: 12px; background: var(--code-bg);
   padding: 2px 6px; border-radius: 4px; border: 1px solid var(--line-soft); }
@@ -168,6 +177,47 @@ pre.code.diff .dfold { color: var(--muted); font-style: italic; background: var(
   .cols.tabbed > .col { display: none; }
   .cols.tabbed > .col.on { display: block; }
   .tabs { display: flex; }
+  .focus { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---------- 모바일 (휴대폰 폭) ---------- */
+@media (max-width: 680px) {
+  .wrap { padding: 0 12px 60px; }
+  .head-in { flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px 16px; }
+  h1 { font-size: 17px; }
+  h1 span { display: block; margin-left: 0; margin-top: 2px; }
+  nav { margin-left: 0; }
+
+  .bar { flex-direction: column; align-items: stretch; }
+  .bar > select, .bar > input, .bar > label.chk { width: 100%; }
+  .bar > .count { margin-left: 0; text-align: right; }
+
+  .cards { grid-template-columns: 1fr; gap: 12px; }
+  .card { padding: 15px; }
+  .stats { gap: 16px; flex-wrap: wrap; }
+
+  .phead h2 { font-size: 20px; }
+
+  /* 표 → 카드형 리스트로. 헤더 행을 숨기고 각 td를 라벨+값 줄로 펼친다. */
+  table { border: 0; background: none; }
+  thead { display: none; }
+  table, tbody, tr, td { display: block; width: 100%; }
+  tbody tr, tr.row {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 2px 14px; margin-bottom: 10px;
+  }
+  tbody tr:last-child, tr.row:last-child { margin-bottom: 0; }
+  td { padding: 8px 0; border-bottom: 1px solid var(--line-soft); }
+  td:last-child { border-bottom: 0; }
+  td:not([data-label]) { padding: 12px 0 8px; }
+  td:not([data-label]) .ttl { font-size: 15.5px; }
+  td[data-label] { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  td[data-label]::before {
+    content: attr(data-label); font-size: 11px; text-transform: uppercase;
+    letter-spacing: .04em; color: var(--muted); font-weight: 600; flex-shrink: 0;
+  }
+
+  pre.code { font-size: 11.5px; padding: 12px; }
 }
 </style>
 </head>
@@ -175,7 +225,7 @@ pre.code.diff .dfold { color: var(--muted); font-style: italic; background: var(
 <header><div class="head-in">
   <h1>알고리즘 스터디 <span id="sub"></span></h1>
   <nav><a href="#/" id="nav-p">문제</a><a href="#/people" id="nav-w">사람별</a><a href="#/rotation" id="nav-r">로테이션</a></nav>
-  <label class="chk alum"><input type="checkbox" id="f-alum"> 졸업생 포함</label>
+  <label class="chk"><input type="checkbox" id="alumni-toggle"> 졸업생 포함</label>
 </div></header>
 <div class="wrap" id="app"></div>
 
@@ -197,6 +247,11 @@ const tagLabel = id => (D.tags.find(t => t.id === id) || {}).label || id;
 
 document.getElementById('sub').textContent =
   D.problems.length + '문제 · ' + D.problems.reduce((a, p) => a + p.entries.length, 0) + '풀이 · ' + D.generatedAt + ' 기준';
+
+document.getElementById('alumni-toggle').addEventListener('change', e => {
+  showAlumni = e.target.checked;
+  route();
+});
 
 /* ---------- Java 하이라이터 ---------- */
 const KW = 'abstract|boolean|break|byte|case|catch|char|class|continue|default|do|double|else|enum|extends|final|finally|float|for|if|implements|import|instanceof|int|interface|long|new|package|private|protected|public|return|short|static|super|switch|this|throw|throws|try|void|while|var|record|true|false|null';
@@ -243,19 +298,26 @@ function md(src) {
 }
 
 /* ---------- 문제 목록 ---------- */
-let filt = { platform: '', week: '', q: '', full: false, reviewed: false, ref: false };
+let filt = { platform: '', week: '', q: '', full: false, reviewed: false };
 
 function viewList() {
   const weeks = [...new Set(D.problems.flatMap(p => p.weeks))].sort((a, b) => a - b);
-  const refN = D.problems.filter(p => (p.references || []).length).length;
   const rows = D.problems.filter(p => {
     if (filt.platform && p.platform !== filt.platform) return false;
     if (filt.week && !p.weeks.includes(+filt.week)) return false;
     if (filt.full && new Set(shownEntries(p).map(e => e.author)).size < shownAuthors().length) return false;
     if (filt.reviewed && !shownEntries(p).some(e => e.review)) return false;
-    if (filt.ref && !(p.references || []).length) return false;
     if (filt.q && !(p.title + ' ' + p.problemId).toLowerCase().includes(filt.q.toLowerCase())) return false;
     return true;
+  });
+
+  // 회차 역순(최신 먼저) 정렬. 같은 회차면 푼 사람 수가 적은 게 위, 많은 게 아래.
+  rows.sort((a, b) => {
+    const wa = Math.max(0, ...a.weeks), wb = Math.max(0, ...b.weeks);
+    if (wa !== wb) return wb - wa;
+    const ca = new Set(shownEntries(a).map(e => e.author)).size;
+    const cb = new Set(shownEntries(b).map(e => e.author)).size;
+    return ca - cb;
   });
 
   app.innerHTML =
@@ -271,26 +333,22 @@ function viewList() {
       '<input type="search" id="f-q" placeholder="문제 제목 / 번호 검색" value="' + esc(filt.q) + '">' +
       '<label class="chk"><input type="checkbox" id="f-full"' + (filt.full ? ' checked' : '') + '> ' + shownAuthors().length + '명 다 푼 문제만</label>' +
       '<label class="chk"><input type="checkbox" id="f-rev"' + (filt.reviewed ? ' checked' : '') + '> 리뷰 있는 문제만</label>' +
-      '<label class="chk"><input type="checkbox" id="f-ref"' + (filt.ref ? ' checked' : '') + '> 정석코드 있는 문제만 (' + refN + ')</label>' +
       '<span class="count">' + rows.length + ' / ' + D.problems.length + '문제</span>' +
     '</div>' +
-    (rows.length ? '<table><thead><tr><th>문제</th><th>플랫폼</th><th>회차</th><th>푼 사람</th><th>리뷰</th><th>정석코드</th></tr></thead><tbody>' +
+    (rows.length ? '<table><thead><tr><th>문제</th><th>플랫폼</th><th>회차</th><th>푼 사람</th><th>리뷰</th></tr></thead><tbody>' +
       rows.map(p => {
         const shown = shownEntries(p);
         const revN = shown.filter(e => e.review).length;
         return '<tr class="row" data-k="' + p.key + '">' +
           '<td><span class="ttl">' + esc(p.title) + '</span></td>' +
-          '<td><span class="tag">' + p.platform + ' ' + p.problemId + '</span></td>' +
-          '<td>' + (p.weeks.join(', ') || '—') + '주차</td>' +
-          '<td><div class="who">' + shownAuthors().map(a => {
+          '<td data-label="플랫폼"><span class="tag">' + p.platform + ' ' + p.problemId + '</span></td>' +
+          '<td data-label="회차">' + (p.weeks.join(', ') || '—') + '주차</td>' +
+          '<td data-label="푼 사람"><div class="who">' + shownAuthors().map(a => {
             const es = shown.filter(e => e.author === a.id);
             const cls = 'av' + (es.length ? ' has' : '') + (es.some(e => e.review) ? ' rev' : '');
             return '<div class="' + cls + '" title="' + a.displayName + '">' + esc(initial(a.displayName)) + '</div>';
           }).join('') + '</div></td>' +
-          '<td>' + (revN ? revN + ' / ' + shown.length : '<span style="color:var(--muted)">—</span>') + '</td>' +
-          '<td>' + ((p.references || []).length
-            ? '<span class="tag">' + p.references.length + '개</span>'
-            : '<span style="color:var(--muted)">—</span>') + '</td>' +
+          '<td data-label="리뷰">' + (revN ? revN + ' / ' + shown.length : '<span style="color:var(--muted)">—</span>') + '</td>' +
         '</tr>';
       }).join('') + '</tbody></table>'
       : '<p class="empty">조건에 맞는 문제가 없습니다.</p>');
@@ -302,129 +360,9 @@ function viewList() {
   bind('f-wk', 'change', e => { filt.week = e.target.value; viewList(); });
   bind('f-full', 'change', e => { filt.full = e.target.checked; viewList(); });
   bind('f-rev', 'change', e => { filt.reviewed = e.target.checked; viewList(); });
-  bind('f-ref', 'change', e => { filt.ref = e.target.checked; viewList(); });
   bind('f-q', 'input', e => {
     filt.q = e.target.value; viewList();
     const el = document.getElementById('f-q'); el.focus(); el.setSelectionRange(el.value.length, el.value.length);
-  });
-}
-
-
-/* ---------- T4-3. 정석코드 diff ----------
-   줄 단위 LCS. 들여쓰기만 다른 줄은 같은 줄로 본다(trim 비교) — 스타일 차이로
-   diff 가 새빨개지면 정작 알고리즘 차이가 안 보인다.
-   풀이 파일은 길어야 200줄 남짓이라 O(n*m) DP 를 그냥 돌린다. */
-function diffLines(mine, ref) {
-  const a = mine.split('\n'), b = ref.split('\n');
-  const n = a.length, m = b.length;
-  const ka = a.map(s => s.trim()), kb = b.map(s => s.trim());
-  const dp = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
-  for (let i = n - 1; i >= 0; i--) {
-    for (let j = m - 1; j >= 0; j--) {
-      dp[i][j] = ka[i] === kb[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
-    }
-  }
-  const out = [];
-  let i = 0, j = 0;
-  while (i < n && j < m) {
-    if (ka[i] === kb[j]) { out.push(['=', b[j]]); i++; j++; }
-    else if (dp[i + 1][j] >= dp[i][j + 1]) { out.push(['-', a[i++]]); }
-    else { out.push(['+', b[j++]]); }
-  }
-  while (i < n) out.push(['-', a[i++]]);
-  while (j < m) out.push(['+', b[j++]]);
-  return out;
-}
-
-/* 안 바뀐 줄이 6줄 넘게 이어지면 접는다. 앞뒤 2줄은 맥락으로 남긴다. */
-function foldRuns(rows, ctx = 2, min = 6) {
-  const out = [];
-  let run = [];
-  const flush = () => {
-    if (!run.length) return;
-    if (run.length <= min) out.push(...run);
-    else {
-      out.push(...run.slice(0, ctx));
-      out.push(['~', (run.length - ctx * 2) + '줄 동일']);
-      out.push(...run.slice(-ctx));
-    }
-    run = [];
-  };
-  for (const r of rows) {
-    if (r[0] === '=') run.push(r);
-    else { flush(); out.push(r); }
-  }
-  flush();
-  return out;
-}
-
-function diffHtml(mine, ref) {
-  const rows = foldRuns(diffLines(mine, ref));
-  const changed = rows.filter(r => r[0] === '-' || r[0] === '+').length;
-  const body = rows.map(([k, line]) => {
-    if (k === '~') return '<span class="dfold">   ⋯ ' + esc(line) + ' ⋯</span>';
-    const cls = k === '=' ? 'de' : k === '-' ? 'dm' : 'dp';
-    const mark = k === '=' ? '  ' : k + ' ';
-    return '<span class="' + cls + '">' + esc(mark) + hl(line) + '</span>';
-  }).join('');
-  return '<div class="difflegend"><span class="m"><b>−</b> 내 코드에만</span>' +
-    '<span class="p"><b>+</b> 정석코드에만</span>' +
-    '<span>' + changed + '줄 차이</span></div>' +
-    '<pre class="code diff">' + body + '</pre>';
-}
-
-/* 코드 열 하나에 붙는 "정석코드" 버튼. p.references 가 비면 아무것도 안 붙는다. */
-function refBlock(p, e) {
-  const refs = p.references || [];
-  if (!refs.length) return '';
-  return '<details class="rev ref"><summary><span class="t-open">정석코드 비교</span>' +
-      '<span class="t-close">정석코드 접기</span></summary>' +
-    '<div class="rev-body">' +
-      (refs.length > 1
-        ? '<div class="reftabs">' + refs.map((r, k) =>
-            '<button data-rk="' + k + '"' + (k === 0 ? ' class="on"' : '') + '>' +
-            esc(r.label) + '</button>').join('') + '</div>'
-        : '') +
-      refs.map((r, k) =>
-        '<div class="refpane' + (k === 0 ? ' on' : '') + '">' +
-          '<div class="refmeta">' +
-            '<span class="tag">' + esc(r.providerName) + '</span>' +
-            (refs.length === 1 ? '<span class="tag">' + esc(r.label) + '</span>' : '') +
-            '<a href="' + esc(r.sourceUrl) + '" target="_blank" rel="noopener">원본 보기 ↗</a>' +
-            (r.license ? '<span class="tag">' + esc(r.license) + '</span>'
-                       : '<span class="lic">라이선스 표기 없음 · 출처 링크 유지 필수</span>') +
-          '</div>' +
-          '<div class="refmode">' +
-            '<button class="on" data-rm="diff">내 코드와 diff</button>' +
-            '<button data-rm="full">정석코드 전문</button></div>' +
-          '<div class="refview m-diff on">' + diffHtml(e.code, r.code) + '</div>' +
-          '<div class="refview m-full"><pre class="code">' + hl(r.code) + '</pre></div>' +
-          (r.notes
-            ? '<details class="rev notes"><summary><span class="t-open">' + esc(r.providerName) +
-              ' 의 풀이 설명 보기</span><span class="t-close">풀이 설명 접기</span></summary>' +
-              '<div class="rev-body">' + md(r.notes) + '</div></details>'
-            : '<p class="refnote">이 레퍼런스에는 풀이 설명이 없습니다.</p>') +
-        '</div>').join('') +
-    '</div></details>';
-}
-
-/* 정석코드 블록 안의 탭·모드 버튼. 열마다 독립적으로 동작해야 하므로 블록 단위로 건다. */
-function bindRefBlocks(root) {
-  root.querySelectorAll('details.rev.ref').forEach(box => {
-    box.querySelectorAll(':scope > .rev-body > .reftabs button').forEach(b => b.onclick = () => {
-      box.querySelectorAll(':scope > .rev-body > .reftabs button').forEach(x => x.classList.remove('on'));
-      box.querySelectorAll(':scope > .rev-body > .refpane').forEach(x => x.classList.remove('on'));
-      b.classList.add('on');
-      box.querySelectorAll(':scope > .rev-body > .refpane')[+b.dataset.rk].classList.add('on');
-    });
-    box.querySelectorAll('.refpane').forEach(pane => {
-      pane.querySelectorAll('.refmode button').forEach(b => b.onclick = () => {
-        pane.querySelectorAll('.refmode button').forEach(x => x.classList.remove('on'));
-        pane.querySelectorAll('.refview').forEach(x => x.classList.remove('on'));
-        b.classList.add('on');
-        pane.querySelector('.refview.m-' + b.dataset.rm).classList.add('on');
-      });
-    });
   });
 }
 
@@ -452,60 +390,217 @@ function altBlock(a) {
     '</div></details>';
 }
 
+let focusIdx = null; // 문제 상세: 크게 보기 상태. null 이면 그리드.
+
+function reviewBlock(e) {
+  const r = e.review;
+  const verdict = r ? r.verdict : null;
+  return r
+    ? '<details class="rev"><summary><span class="t-open">리뷰 보기</span>' +
+        '<span class="t-close">리뷰 접기</span></summary>' +
+      '<div class="rev-body"><div class="rev-meta">' +
+        (verdict ? '<span class="badge b-' + verdict + '">' + verdict + '</span>' : '') +
+        (r.compiles === 'false' ? '<span class="badge b-nc">compile ✗</span>' : '') +
+        (r.tags || []).map(t => '<span class="tag">' + esc(tagLabel(t)) + '</span>').join('') +
+      '</div>' + md(r.body) + '</div></details>'
+    : '<div class="norev">리뷰 없음 · <code>/review ' + esc(e.source) + '</code></div>';
+}
+
+
+/* ---------- T4-3. 정석 코드 diff ----------
+   줄 단위 LCS. 들여쓰기만 다른 줄은 같은 줄로 본다(trim 비교) — 스타일 차이로
+   diff 가 새빨개지면 정작 알고리즘 차이가 안 보인다.
+   풀이 파일은 길어야 200줄 남짓이라 O(n*m) DP 를 그냥 돌린다. */
+function diffLines(mine, ref) {
+  const a = mine.split('\n'), b = ref.split('\n');
+  const n = a.length, m = b.length;
+  const ka = a.map(s => s.trim()), kb = b.map(s => s.trim());
+  const dp = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
+  for (let i = n - 1; i >= 0; i--)
+    for (let j = m - 1; j >= 0; j--)
+      dp[i][j] = ka[i] === kb[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const out = [];
+  let i = 0, j = 0;
+  while (i < n && j < m) {
+    if (ka[i] === kb[j]) { out.push(['=', b[j]]); i++; j++; }
+    else if (dp[i + 1][j] >= dp[i][j + 1]) out.push(['-', a[i++]]);
+    else out.push(['+', b[j++]]);
+  }
+  while (i < n) out.push(['-', a[i++]]);
+  while (j < m) out.push(['+', b[j++]]);
+  return out;
+}
+
+/* 안 바뀐 줄이 6줄 넘게 이어지면 접는다. 앞뒤 2줄은 맥락으로 남긴다. */
+function foldRuns(rows, ctx = 2, min = 6) {
+  const out = [];
+  let run = [];
+  const flush = () => {
+    if (!run.length) return;
+    if (run.length <= min) out.push(...run);
+    else { out.push(...run.slice(0, ctx)); out.push(['~', (run.length - ctx * 2) + '줄 동일']); out.push(...run.slice(-ctx)); }
+    run = [];
+  };
+  for (const r of rows) { if (r[0] === '=') run.push(r); else { flush(); out.push(r); } }
+  flush();
+  return out;
+}
+
+function diffHtml(mine, ref) {
+  const rows = foldRuns(diffLines(mine, ref));
+  const changed = rows.filter(r => r[0] !== '=' && r[0] !== '~').length;
+  const body = rows.map(([k, line]) => {
+    if (k === '~') return '<span class="dfold">   ⋯ ' + esc(line) + ' ⋯</span>';
+    const cls = k === '=' ? 'de' : k === '-' ? 'dm' : 'dp';
+    return '<span class="' + cls + '">' + esc(k === '=' ? '  ' : k + ' ') + hl(line) + '</span>';
+  }).join('');
+  return '<div class="difflegend"><span class="m"><b>−</b> 내 코드에만</span>' +
+    '<span class="p"><b>+</b> 정석 코드에만</span><span>' + changed + '줄 차이</span></div>' +
+    '<pre class="code diff">' + body + '</pre>';
+}
+
+/* 코드 열마다 붙는 "정석 코드와 diff" 버튼.
+   위쪽 refPanel 이 정석 코드 전문을 이미 보여주므로 여기서는 차이만 보여준다.
+   코드 원문이 없는(링크만 있는) 레퍼런스는 대조할 게 없으니 건너뛴다. */
+function refDiffBlock(p, e) {
+  const refs = (p.references || []).filter(r => r.code && r.code.trim());
+  if (!refs.length) return '';
+  return '<details class="rev ref"><summary><span class="t-open">정석 코드와 diff</span>' +
+      '<span class="t-close">diff 접기</span></summary><div class="rev-body">' +
+    (refs.length > 1
+      ? '<div class="reftabs">' + refs.map((r, k) =>
+          '<button data-rk="' + k + '"' + (k === 0 ? ' class="on"' : '') + '>' +
+          esc(r.sourceTitle || r.refId) + '</button>').join('') + '</div>'
+      : '') +
+    refs.map((r, k) =>
+      '<div class="refpane' + (k === 0 ? ' on' : '') + '">' +
+        '<div class="refsrc"><span class="tag">' + esc(r.refId) + '</span>' +
+          (r.url ? ' <a href="' + esc(r.url) + '" target="_blank" rel="noopener">출처 ↗</a>' : '') +
+        '</div>' + diffHtml(e.code, r.code) +
+      '</div>').join('') +
+    '</div></details>';
+}
+
+/* diff 블록의 레퍼런스 탭. 열마다 독립이라 블록 단위로 건다. */
+function bindRefDiff(root) {
+  root.querySelectorAll('details.rev.ref .reftabs').forEach(tabs => {
+    const body = tabs.parentElement;
+    tabs.querySelectorAll('button').forEach(b => b.onclick = () => {
+      tabs.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+      body.querySelectorAll(':scope > .refpane').forEach(x => x.classList.remove('on'));
+      b.classList.add('on');
+      body.querySelectorAll(':scope > .refpane')[+b.dataset.rk].classList.add('on');
+    });
+  });
+}
+
+function refPanel(p) {
+  const refs = (p.references || []).slice(0, 2);
+  return '<div class="cols ' + (refs.length === 1 ? 'n1' : 'n2') + '">' + refs.map(r =>
+      '<div class="col refcard"><h3>' + esc(r.sourceTitle || '정석 코드') +
+        (r.url ? ' <a class="tag" href="' + esc(r.url) + '" target="_blank" rel="noopener">출처 ↗</a>' : '') +
+      '</h3>' +
+      (r.note ? '<div class="ref-note">' + esc(r.note) + '</div>' : '') +
+      (r.code.trim()
+        ? '<pre class="code">' + hl(r.code) + '</pre>'
+        : '<div class="norev">코드 원문은 저작권상 저장하지 않습니다 · ' +
+          (r.url ? '<a href="' + esc(r.url) + '" target="_blank" rel="noopener">출처에서 직접 확인</a>' : '출처 링크 참고') +
+          '</div>') +
+      '</div>').join('') + '</div>';
+}
+
 function viewProblem(key) {
   const p = D.problems.find(x => x.key === key);
   if (!p) { location.hash = '#/'; return; }
   const entries = shownEntries(p);
   const n = entries.length;
   const hidden = p.entries.length - n;
+  focusIdx = null;
 
-  app.innerHTML =
-    '<a class="back" href="#/">← 문제 목록</a>' +
-    '<div class="phead"><h2>' + esc(p.title) + '</h2><div class="meta">' +
-      '<span class="tag">' + p.platform + ' ' + p.problemId + '</span>' +
-      '<span>' + (p.weeks.join(', ') || '—') + '주차</span>' +
-      '<span>' + n + '개 풀이' + (hidden ? ' (졸업생 ' + hidden + '개 숨김)' : '') + '</span>' +
-      (p.url ? '<a href="' + p.url + '" target="_blank" rel="noopener">문제 보기 ↗</a>' : '') +
-      ((p.references || []).length
-        ? '<span class="tag">정석코드 ' + p.references.length + '개</span>' : '') +
-    '</div></div>' +
-    (p.teamFeedback
-      ? '<details class="rev fb"><summary><span class="t-open">발표 후 팀 피드백 보기</span>' +
-        '<span class="t-close">팀 피드백 접기</span></summary>' +
-        '<div class="rev-body">' + md(p.teamFeedback) + '</div></details>'
-      : '<div class="norev fb">팀 피드백 없음 · <code>reviews/' + p.key + '/team-feedback.md</code> 에 적으면 여기 표시됩니다</div>') +
-    '<div class="tabs">' + entries.map((e, i) =>
-      '<button data-i="' + i + '"' + (i === 0 ? ' class="on"' : '') + '>' + esc(e.authorName) +
-      (e.variant ? ' (' + e.variant + ')' : '') + '</button>').join('') + '</div>' +
-    '<div class="cols ' + (n <= 2 ? 'n' + n : '') + ' tabbed">' + entries.map((e, i) => {
-      const r = e.review;
-      const verdict = r ? r.verdict : null;
-      return '<div class="col' + (i === 0 ? ' on' : '') + '">' +
-        '<h3>' + esc(e.authorName) + (e.variant ? ' <span class="tag">' + e.variant + '</span>' : '') +
-          '<span class="sub">' + e.lines + '줄</span></h3>' +
-        '<pre class="code">' + hl(e.code) + '</pre>' +
-        (r
-          ? '<details class="rev"><summary><span class="t-open">리뷰 보기</span>' +
-              '<span class="t-close">리뷰 접기</span></summary>' +
-            '<div class="rev-body"><div class="rev-meta">' +
-              (verdict ? '<span class="badge b-' + verdict + '">' + verdict + '</span>' : '') +
-              (r.compiles === 'false' ? '<span class="badge b-nc">compile ✗</span>' : '') +
-              (r.tags || []).map(t => '<span class="tag">' + esc(tagLabel(t)) + '</span>').join('') +
-            '</div>' + md(r.body) + '</div></details>'
-          : '<div class="norev">리뷰 없음 · <code>/review ' + esc(e.source) + '</code></div>') +
-        (e.alts || []).map(a => altBlock(a)).join('') +
-        refBlock(p, e) +
+  function colCard(e, i) {
+    return '<div class="col' + (i === 0 && focusIdx === null ? ' on' : '') + '">' +
+      '<h3>' + esc(e.authorName) + (e.variant ? ' <span class="tag">' + e.variant + '</span>' : '') +
+        '<span class="sub">' + e.lines + '줄</span>' +
+        '<button class="expand-btn" data-i="' + i + '">크게 보기</button>' +
+      '</h3>' +
+      '<pre class="code">' + hl(e.code) + '</pre>' +
+      reviewBlock(e) +
+      (e.alts || []).map(a => altBlock(a)).join('') +
+      refDiffBlock(p, e) +
+    '</div>';
+  }
+
+  function focusView(i) {
+    const e = entries[i];
+    return '<div class="tabs foc-tabs">' +
+        entries.map((x, j) => '<button data-i="' + j + '"' + (j === i ? ' class="on"' : '') + '>' +
+          esc(x.authorName) + (x.variant ? ' (' + x.variant + ')' : '') + '</button>').join('') +
+        '<button class="expand-btn back" id="grid-back">그리드로 보기</button>' +
+      '</div>' +
+      '<div class="focus">' +
+        '<div class="col focus-code"><h3>' + esc(e.authorName) +
+            (e.variant ? ' <span class="tag">' + e.variant + '</span>' : '') +
+            '<span class="sub">' + e.lines + '줄</span></h3>' +
+          '<pre class="code">' + hl(e.code) + '</pre>' +
+          (e.alts || []).map(a => altBlock(a)).join('') +
+        '</div>' +
+        '<div class="col focus-review">' + reviewBlock(e) + '</div>' +
       '</div>';
-    }).join('') + '</div>';
+  }
 
-  bindRefBlocks(app);
+  function render() {
+    const refs = (p.references || []).slice(0, 2);
+    app.innerHTML =
+      '<a class="back" href="#/">← 문제 목록</a>' +
+      '<div class="phead"><h2>' + esc(p.title) + '</h2>' +
+      '<div class="meta">' +
+        '<span class="tag">' + p.platform + ' ' + p.problemId + '</span>' +
+        '<span>' + (p.weeks.join(', ') || '—') + '주차</span>' +
+        '<span>' + n + '개 풀이' + (hidden ? ' (졸업생 ' + hidden + '개 숨김)' : '') + '</span>' +
+        (p.url ? '<a href="' + p.url + '" target="_blank" rel="noopener">문제 보기 ↗</a>' : '') +
+      '</div></div>' +
+      (refs.length
+        ? '<details class="rev ref" open><summary><span class="t-open">📖 정석 코드 보기 (' + refs.length + ')</span>' +
+            '<span class="t-close">📖 정석 코드 접기</span></summary>' +
+          '<div class="rev-body">' + refPanel(p) + '</div></details>'
+        : '<div class="norev ref">📖 정석 코드가 아직 없습니다 · <code>references/' + p.key + '/{id}.java</code> 로 추가하면 여기 표시됩니다</div>') +
+      (p.teamFeedback
+        ? '<details class="rev fb"><summary><span class="t-open">발표 후 팀 피드백 보기</span>' +
+          '<span class="t-close">팀 피드백 접기</span></summary>' +
+          '<div class="rev-body">' + md(p.teamFeedback) + '</div></details>'
+        : '<div class="norev fb">팀 피드백 없음 · <code>reviews/' + p.key + '/team-feedback.md</code> 에 적으면 여기 표시됩니다</div>') +
+      (focusIdx === null
+        ? '<div class="tabs">' + entries.map((e, i) =>
+            '<button data-i="' + i + '"' + (i === 0 ? ' class="on"' : '') + '>' + esc(e.authorName) +
+            (e.variant ? ' (' + e.variant + ')' : '') + '</button>').join('') + '</div>' +
+          '<div class="cols ' + (n <= 2 ? 'n' + n : '') + ' tabbed">' + entries.map(colCard).join('') + '</div>'
+        : focusView(focusIdx));
 
-  app.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
-    app.querySelectorAll('.tabs button').forEach(x => x.classList.remove('on'));
-    app.querySelectorAll('.col').forEach(x => x.classList.remove('on'));
-    b.classList.add('on');
-    app.querySelectorAll('.col')[+b.dataset.i].classList.add('on');
-  });
+    bind();
+  }
+
+  function bind() {
+    bindRefDiff(app);
+    const back = document.getElementById('grid-back');
+    if (back) back.onclick = () => { focusIdx = null; render(); };
+
+    app.querySelectorAll('.expand-btn[data-i]').forEach(b => b.onclick = () => {
+      focusIdx = +b.dataset.i; render();
+    });
+    app.querySelectorAll('.foc-tabs button[data-i]').forEach(b => b.onclick = () => {
+      focusIdx = +b.dataset.i; render();
+    });
+    if (focusIdx === null) {
+      app.querySelectorAll('.tabs:not(.foc-tabs) button').forEach(b => b.onclick = () => {
+        app.querySelectorAll('.tabs:not(.foc-tabs) button').forEach(x => x.classList.remove('on'));
+        app.querySelectorAll('.col').forEach(x => x.classList.remove('on'));
+        b.classList.add('on');
+        app.querySelectorAll('.col')[+b.dataset.i].classList.add('on');
+      });
+    }
+  }
+
+  render();
 }
 
 /* ---------- 사람별 ---------- */
@@ -582,8 +677,8 @@ function viewRotation() {
     (upcoming.length
       ? '<table><thead><tr><th>발표일</th><th>담당</th><th>문제</th></tr></thead><tbody>' +
         upcoming.slice(0, 5).map(a =>
-          '<tr><td>' + esc(a.date || '미정') + '</td><td>' + esc(authorName(a.presenter)) + '</td>' +
-          '<td><a href="#/p/' + a.problem + '">' + esc(titleOf(a.problem)) + '</a></td></tr>').join('') +
+          '<tr><td data-label="발표일">' + esc(a.date || '미정') + '</td><td data-label="담당">' + esc(authorName(a.presenter)) + '</td>' +
+          '<td data-label="문제"><a href="#/p/' + a.problem + '">' + esc(titleOf(a.problem)) + '</a></td></tr>').join('') +
         '</tbody></table>'
       : '<p class="empty">예정된 발표가 없습니다.</p>') +
 
@@ -595,9 +690,9 @@ function viewRotation() {
         lastCycle.map(a => {
           const pr = D.problems.find(x => x.key === a.problem);
           const mine = pr && pr.entries.find(e => e.author === a.presenter);
-          return '<tr><td>' + esc(authorName(a.presenter)) + '</td>' +
-            '<td>' + esc(titleOf(a.problem)) + '</td>' +
-            '<td>' + (mine ? '<a href="#/p/' + a.problem + '">' + esc(mine.source) + '</a>'
+          return '<tr><td data-label="발표자">' + esc(authorName(a.presenter)) + '</td>' +
+            '<td data-label="문제">' + esc(titleOf(a.problem)) + '</td>' +
+            '<td data-label="그때 내 코드">' + (mine ? '<a href="#/p/' + a.problem + '">' + esc(mine.source) + '</a>'
                            : '<span style="color:var(--muted)">풀이 없음</span>') + '</td></tr>';
         }).join('') + '</tbody></table>'
       : '<p class="empty">한 바퀴(' + n + '명)가 완료되면 여기에 복습 목록이 뜹니다.</p>') +
@@ -634,9 +729,6 @@ function route() {
   else viewList();
 }
 addEventListener('hashchange', route);
-
-const alumBox = document.getElementById('f-alum');
-if (alumBox) alumBox.addEventListener('change', e => { showAlumni = e.target.checked; route(); });
 
 route();
 </script>

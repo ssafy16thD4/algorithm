@@ -1,24 +1,19 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Testcode {
     public static void main(String[] args) {
-
-        Set<Integer> s = new HashSet<>();
-        Set<Set<Integer>> ss = new HashSet<>();
-        ss.add(s);
-        s.add(1);
-        s.add(2);
-        s.add(3);
-        Set<Integer> s1 = new HashSet<>();
-        s1.add(1);
-        s1.add(2);
-        s1.add(3);
-        for (Set<Integer> ex : ss) {
-            if (s1.equals(ex))
-                System.out.println("true");
+        int[] stones = new int[] { 2, 4, 5, 3, 2, 1, 4, 2, 5, 1 };
+        int minimum = 200000001, maximum = 0;
+        for (int i = 0; i < stones.length; i++) {
+            if (stones[i] < minimum) {
+                minimum = stones[i];
+            }
+            if (stones[i] > maximum)
+                maximum = stones[i];
         }
+        System.out.println(minimum + "" + maximum);
+
+        Deque<Integer> deq = new ArrayDeque<>();
+        deq.peekFirst()
     }
 }

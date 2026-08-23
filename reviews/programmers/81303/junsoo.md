@@ -6,10 +6,10 @@ source: 김준수/week3/표 편집.java
 week: 3
 compiles: true
 verdict: good
-tags: [good-complexity, good-readability, magic-number]
+tags: [good-complexity]
 complexity:
-  time: O(n + m) — 명령당 O(1)
-  space: O(n)
+  time: O(N + Σmove)
+  space: O(N)
 generatedBy: claude-code-local
 generatedAt: 2026-08-20
 ---
@@ -18,93 +18,35 @@ generatedAt: 2026-08-20
 
 ## 접근
 
-배열 두 개(`frontPointers`, `backPointers`)로 **이중 연결 리스트를 직접 구현**하고,
-삭제된 행은 스택에 쌓아 되돌린다. 이 문제의 정석이다.
+`ArrayList`/`LinkedList`로 시간초과가 났던 시행착오를 거쳐, 배열 두 개(`frontPointers`,
+`backPointers`)로 직접 더블 링크드 리스트를 구현했다. 삭제는 앞뒤 포인터만 서로 이어붙이고
+`current` 자신은 건드리지 않는 방식이라, 되돌리기(`Z`)할 때 `current`가 그대로 유지된다는 문제
+규칙과 자연스럽게 맞아떨어진다. 삭제된 행의 인덱스를 스택에 쌓아두고, 되돌리기는 그 인덱스만
+다시 앞뒤에 연결해주면 되는 것도 정확하다.
 
-주석의 시행착오 기록이 정확하다.
+세부 로직을 하나씩 손으로 따라가봤다.
 
-> java의 LinkedList, ArrayList는 각 아이템마다 Node를 생성하고 조작해야 해서 remove, insert 작업이 오래 걸림
+- `delete()`: 이웃을 먼저 연결한 뒤 `current`를 아래(`backPointers`)로, 없으면 위(`frontPointers`)로
+  옮긴다 — 이때 참조하는 `backPointers[current]`/`frontPointers[current]`는 아직 갱신 전(자기 자신은
+  안 건드림) 값이라 원래 이웃이 맞다.
+- `recover()`: `current`를 바꾸지 않고 스택에서 꺼낸 행만 원래 자리에 다시 끼워 넣는다 — "되돌리기해도
+  현재 선택된 행은 바뀌지 않는다"는 규칙과 정확히 일치한다.
 
-같은 폴더의 실패 버전이 `ArrayList` 로 짠 것이고, **실측으로 그 판단이 맞다는 게 확인됐다.**
-
-```
-n=1,000,000 / 명령 200,000개
-  junsoo(이 파일)   26ms
-  실패 버전         15초 초과 (중단)
-```
-
-핵심은 `delete()` 에서 **삭제 노드의 포인터를 지우지 않고 이웃만 재연결한 것**이다.
-
-```java
-// current는 건드리지 않고, 앞 뒤 행끼리만 연결
-if(frontPointers[current] != -1) backPointers[frontPointers[current]] = backPointers[current];
-if(backPointers[current] != -1) frontPointers[backPointers[current]] = frontPointers[current];
-```
-
-삭제된 노드가 자기 이웃을 그대로 기억하고 있으니 `recover()` 가 그 정보만으로 복원된다.
-"되돌리기"를 위해 별도 자료구조를 안 만들어도 되는 이유가 여기 있고, 주석에도 그 의도가 적혀 있다.
-
-**정답 시뮬레이터와 무작위 600케이스를 대조해 불일치 0건이다.** `good-complexity`
+배열 기반 링크드 리스트라 삭제/복구가 각각 `O(1)`이라 이 문제의 큰 제약(`n <= 1,000,000`)에서도
+시간초과 없이 통과할 수 있는 구조다.
 
 ## 개선점
 
-### 1. (사소) 결과 문자열을 두 번 훑는다 — `magic-number`
-
-```java
-StringBuilder sb = new StringBuilder();
-for(int i = 0; i < n; i++) sb.append("O");
-
-while(!stack.isEmpty()){
-    int del = stack.pop();
-    sb.setCharAt(del, 'X');
-}
-```
-
-`n` 만큼 `"O"` 를 채우고 스택을 비우며 `X` 로 덮는다. 정확하고, `n=100만` 에서도 26ms라 문제없다.
-
-다만 `sb.append("O")` 는 문자열 리터럴이라 매번 `String` 을 다룬다. `sb.append('O')` (문자)가 더 싸고,
-`"O".repeat(n)` 을 `char[]` 로 받으면 루프 자체가 없어진다.
-
-```java
-char[] out = new char[n];
-Arrays.fill(out, 'O');
-while (!stack.isEmpty()) out[stack.pop()] = 'X';
-return new String(out);
-```
-
-### 2. (사소) `stack` 을 다 비워버려서 재사용이 안 된다
-
-결과를 만들 때 `stack.pop()` 으로 스택을 소진한다. 지금은 마지막 단계라 상관없지만,
-"삭제된 행 목록"이라는 정보가 사라진다. 위 1번처럼 `for (int d : stack)` 로 순회만 하면 남는다.
-
-### 3. (사소) `frontPointers` / `backPointers` 이름
-
-`front` 가 위쪽인지 앞쪽인지, `back` 이 아래쪽인지 헷갈린다. 실제로는 위/아래다.
-`up` / `down` 이나 `prev` / `next` 가 이 문제의 어휘에 더 가깝다.
-
-`-1` 이 "없음"을 뜻하는 것도 상수로 빼면 조건문이 읽기 쉬워진다.
-
-### 4. (사소) `static` 필드에 상태를 둔다
-
-```java
-static int[] frontPointers;
-static int[] backPointers;
-static int current;
-static Deque<Integer> stack;
-```
-
-`solution` 첫머리에서 전부 새로 만들기 때문에 지금은 안전하다.
-다만 `delete()` / `recover()` 는 인스턴스 메서드인데 필드는 `static` 이라 섞여 있다.
-`solution` 안의 지역 변수로 내리고 두 메서드에 넘기면 생명주기가 한눈에 보인다.
+특별히 지적할 부분을 찾지 못했다. 링크드 리스트 연결·해제, 스택을 이용한 되돌리기, 최종 결과
+문자열 구성까지 모두 손으로 재현했을 때 어긋나는 지점이 없었다.
 
 ## 복잡도
 
-- 시간: `O(n + m)` — 초기화 `O(n)`, 명령 하나당 포인터 조작 `O(1)`.
-  `U x` / `D x` 는 `x` 만큼 도니 최악 `O(n)` 이지만 총합은 이동 거리로 묶인다
-- 공간: `O(n)` — 포인터 배열 두 개와 스택
+- 시간: `O(N + Σmove)` — 초기화 `O(N)`에, `U`/`D`는 이동 칸 수만큼, `C`/`Z`는 각각 `O(1)`.
+- 공간: `O(N)` — 포인터 배열 두 개와 스택.
 
 ## 요약
 
-`ArrayList` 로 시작해 시간초과를 만나고, 배열 이중 연결 리스트로 옮겨온 과정이 주석에 남아 있고
-그 판단이 실측으로 확인된다(26ms vs 15초 초과). 600케이스 대조 오답 0건.
-남은 건 전부 다듬기 수준이다.
+시간초과 시행착오를 겪은 뒤 배열 기반 더블 링크드 리스트로 갈아탄 판단이 정확했고, 삭제·복구·이동
+로직 모두 문제 규칙과 정확히 맞는다. 지적할 결함을 찾지 못했다.
+</content>

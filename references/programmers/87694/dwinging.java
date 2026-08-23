@@ -1,3 +1,6 @@
+// ref-title: DWinging — 아이템 줍기 (좌표 2배 + 테두리 BFS)
+// ref-url: https://github.com/DWinging/Algorithm/blob/02325ae360ea1563d6cd81735e5eb1e570e12354/Algorithm/2026/07/30/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4_%EC%95%84%EC%9D%B4%ED%85%9C_%EC%A4%8D%EA%B8%B0/Solution.java
+// ref-note: 모든 좌표에 2를 곱해 격자를 늘린 뒤(<<1) 테두리만 걸어 BFS 하고 마지막에 이동 횟수를 절반으로 줄인다(>>1). 테두리 판정은 "채워진 칸인데 8방향에 빈 칸이 있다" 이며, 이 조건이라야 두 직사각형이 맞붙은 이음매를 막을 수 있다. 원저자가 같은 폴더 solve.md 에 풀이 근거를 적어두었다(https://github.com/DWinging/Algorithm/tree/02325ae360ea1563d6cd81735e5eb1e570e12354/Algorithm/2026/07/30/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4_%EC%95%84%EC%9D%B4%ED%85%9C_%EC%A4%8D%EA%B8%B0). 저장소에 라이선스 표기가 없어 코드 원문은 커밋 02325ae 기준 사본이며, 출처 링크를 지우지 말 것.
 class Solution {
     
     final static int MAX_SIZE = 100;

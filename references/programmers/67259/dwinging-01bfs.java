@@ -1,3 +1,6 @@
+// ref-title: DWinging — 경주로 건설 (0-1 BFS)
+// ref-url: https://github.com/DWinging/Algorithm/blob/02325ae360ea1563d6cd81735e5eb1e570e12354/Algorithm/2026/05/01/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4_%EA%B2%BD%EC%A3%BC%EB%A1%9C%EA%B1%B4%EC%84%A4/Solution_01BFS.java
+// ref-note: 비용이 100/600 두 가지뿐인 점을 이용해 우선순위 큐 대신 덱을 쓴다. 직진(+100)은 addFirst, 회전(+600)은 addLast. 상태를 (행, 열, 진행방향) 3차원으로 잡아 회전 비용을 정확히 구분한다. 원저자가 같은 폴더 solve.md 에 풀이 근거를 적어두었다(https://github.com/DWinging/Algorithm/tree/02325ae360ea1563d6cd81735e5eb1e570e12354/Algorithm/2026/05/01/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4_%EA%B2%BD%EC%A3%BC%EB%A1%9C%EA%B1%B4%EC%84%A4). 저장소에 라이선스 표기가 없어 코드 원문은 커밋 02325ae 기준 사본이며, 출처 링크를 지우지 말 것.
 import java.util.*;
 
 class Solution {
