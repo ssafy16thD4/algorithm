@@ -168,6 +168,59 @@ if (alumni.length) {
   must(true, '토글: 졸업생 없음 — 검사 생략');
 }
 
+
+// 6. T4-3. 정석코드 비교
+{
+  const withRef = D.problems.filter((p) => (p.references || []).length);
+  must(withRef.length > 0, `정석코드: 레퍼런스가 붙은 문제 ${withRef.length}개`);
+
+  sandbox.location.hash = '#/p/programmers/67259';
+  vm.runInContext('route()', sandbox);
+  const rv = app.innerHTML;
+  must(rv.includes('정석코드 비교'), '정석코드: 코드 열마다 버튼 렌더');
+  must((rv.match(/정석코드 비교/g) || []).length === act, `정석코드: ${act}열 전부에 버튼`);
+  must(!rv.includes('<details class="rev ref" open'), '정석코드: 기본은 접힘 (코드 먼저 읽게)');
+  must(rv.indexOf('pre class="code"') < rv.indexOf('정석코드 비교'), '정석코드: 코드가 버튼보다 먼저');
+  must(rv.includes('0-1 BFS') && rv.includes('다익스트라'), '정석코드: 레퍼런스 2개면 탭 2개');
+  must(rv.includes('내 코드와 diff'), '정석코드: diff 모드 버튼');
+  must(rv.includes('정석코드 전문'), '정석코드: 전문 모드 버튼');
+  must(rv.includes('원본 보기 ↗'), '정석코드: 출처 링크 (T4-4)');
+  must(rv.includes('github.com/DWinging/Algorithm/blob/02325ae'), '정석코드: 출처가 커밋 SHA 로 고정');
+  must(rv.includes('라이선스 표기 없음'), '정석코드: 라이선스 없음 경고 (T4-4)');
+  must(rv.includes('풀이 설명 보기'), '정석코드: solve.md 를 접어서 제공');
+  must(rv.includes('class="dm"') && rv.includes('class="dp"'), '정석코드: diff 가 양쪽 차이를 칠한다');
+
+  // 레퍼런스가 없는 문제에는 버튼 자체가 안 붙어야 한다 (빈 버튼은 스포일러만 되고 쓸모가 없다)
+  const noRef = D.problems.find((p) => !(p.references || []).length);
+  sandbox.location.hash = '#/p/' + noRef.key;
+  vm.runInContext('route()', sandbox);
+  must(!app.innerHTML.includes('정석코드 비교'), `정석코드: 레퍼런스 없으면 버튼 없음 (${noRef.key})`);
+
+  // diff 자체
+  const dl = sandbox.diffLines;
+  must(dl('a\nb\nc', 'a\nb\nc').every((r) => r[0] === '='), 'diff: 같은 코드는 전부 = 로 나온다');
+  must(dl('    int a;', 'int a;').every((r) => r[0] === '='), 'diff: 들여쓰기 차이는 무시한다');
+  const d3 = dl('a\nb', 'a\nX\nb');
+  must(d3.filter((r) => r[0] === '+').length === 1 && d3.filter((r) => r[0] === '-').length === 0,
+    'diff: 정석코드에만 있는 줄은 + 하나');
+  const d4 = dl('a\nY\nb', 'a\nb');
+  must(d4.filter((r) => r[0] === '-').length === 1, 'diff: 내 코드에만 있는 줄은 −');
+  must(sandbox.diffHtml('a', 'b').includes('&lt;') === false, 'diff: 정상 입력에 잘못된 이스케이프 없음');
+  must(sandbox.diffHtml('<script>', 'x').includes('&lt;script&gt;'), 'diff: HTML 이스케이프');
+  // 접기: 같은 줄이 길게 이어지면 ⋯ 로 접힌다
+  const long = Array.from({ length: 30 }, (_, i) => 'line' + i).join('\n');
+  must(sandbox.diffHtml(long, long).includes('줄 동일'), 'diff: 긴 동일 구간은 접는다');
+}
+
+// 7. 목록 화면의 정석코드 열·필터
+{
+  sandbox.location.hash = '#/';
+  vm.runInContext('route()', sandbox);
+  const lv = app.innerHTML;
+  must(lv.includes('정석코드 있는 문제만'), '목록: 정석코드 필터 체크박스');
+  must(lv.includes('<th>정석코드</th>'), '목록: 정석코드 열');
+}
+
 console.log(out.join('\n'));
 console.log(`\n통과 ${out.filter((l) => l.startsWith('OK')).length} / 실패 ${bad}`);
 process.exit(bad ? 1 : 0);

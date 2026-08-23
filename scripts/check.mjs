@@ -177,6 +177,80 @@ if (fs.existsSync(indexPath)) {
   warn.push('site/data/index.json 없음 — node scripts/scan.mjs 를 먼저 실행하세요');
 }
 
+// ---------- T4. 레퍼런스(정석 코드) ----------
+{
+  const reg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/references.json'), 'utf8'));
+  const providerIds = new Set(reg.providers.map((p) => p.id));
+  const problemKeys = new Set(keys);
+  const REF_ID = /^[a-z0-9-]+$/;
+
+  check(reg.providers.length > 0, `레퍼런스 제공자 ${reg.providers.length}명 등록`);
+  check(reg.providers.every((p) => p.repo && p.pinnedCommit),
+    '제공자마다 repo + pinnedCommit 보유 (T4-4 출처 추적)');
+
+  const badProvider = reg.entries.filter((e) => !providerIds.has(e.provider));
+  check(badProvider.length === 0,
+    badProvider.length ? `알 수 없는 provider ${badProvider.length}건: ${badProvider.map((e) => e.provider).join(', ')}`
+                       : '레퍼런스 provider 전부 유효');
+
+  const badKey = reg.entries.filter((e) => !problemKeys.has(`${e.platform}/${e.problemId}`));
+  check(badKey.length === 0,
+    badKey.length ? `problems.json 에 없는 문제를 가리키는 레퍼런스 ${badKey.length}건`
+                  : '레퍼런스가 가리키는 문제 전부 problems.json 에 있음');
+
+  // 생성물 경로에 한글 금지 (CLAUDE.md 네이밍 규칙)
+  const badId = reg.entries.filter((e) => !REF_ID.test(e.refId));
+  check(badId.length === 0,
+    badId.length ? `refId 규칙 위반 ${badId.length}건 (영문 소문자·숫자·하이픈만): ${badId.map((e) => e.refId).join(', ')}`
+                 : 'refId 전부 영문 소문자·숫자·하이픈');
+
+  const dupRef = new Map();
+  for (const e of reg.entries) {
+    const k = `${e.platform}/${e.problemId}/${e.refId}`;
+    dupRef.set(k, (dupRef.get(k) || 0) + 1);
+  }
+  const dups = [...dupRef].filter(([, n]) => n > 1);
+  check(dups.length === 0, dups.length ? `refId 중복 ${dups.length}건: ${dups.map(([k]) => k).join(', ')}`
+                                       : `레퍼런스 refId 중복 없음 (${reg.entries.length}건)`);
+
+  const missing = reg.entries.filter((e) => !fs.existsSync(path.join(ROOT, e.file)));
+  check(missing.length === 0,
+    missing.length ? `레퍼런스 파일 없음 ${missing.length}건 — node scripts/sync-references.mjs`
+                   : `레퍼런스 파일 ${reg.entries.length}개 전부 존재`);
+
+  const missingNotes = reg.entries.filter((e) => e.notes && !fs.existsSync(path.join(ROOT, e.notes)));
+  check(missingNotes.length === 0,
+    missingNotes.length ? `레퍼런스 풀이 설명 없음 ${missingNotes.length}건` : '레퍼런스 풀이 설명 경로 전부 유효');
+
+  // 등록되지 않았는데 references/ 에 굴러다니는 파일 (지우진 않고 알려만 준다)
+  const refDir = path.join(ROOT, 'references');
+  if (fs.existsSync(refDir)) {
+    const known = new Set(reg.entries.flatMap((e) => [e.file, e.notes].filter(Boolean)));
+    const found = [];
+    const walk = (d) => {
+      for (const ent of fs.readdirSync(d, { withFileTypes: true })) {
+        const abs = path.join(d, ent.name);
+        if (ent.isDirectory()) walk(abs);
+        else found.push(path.relative(ROOT, abs).split(path.sep).join('/'));
+      }
+    };
+    walk(refDir);
+    const orphan = found.filter((f) => !known.has(f) && !f.endsWith('README.md'));
+    check(orphan.length === 0,
+      orphan.length ? `references.json 에 없는 파일 ${orphan.length}건: ${orphan.join(', ')}`
+                    : '고아 레퍼런스 파일 0건', warn);
+  }
+
+  // 우리가 푼 문제 중 아직 정석 코드가 없는 것 — 실패가 아니라 남은 일감
+  const covered = new Set(reg.entries.map((e) => `${e.platform}/${e.problemId}`));
+  const uncovered = keys.filter((k) => !covered.has(k));
+  if (uncovered.length) {
+    warn.push(`정석 코드가 없는 문제 ${uncovered.length} / ${keys.length}개 (T4-2: 제공자를 더 붙여야 함)`);
+  } else {
+    ok.push('모든 문제에 정석 코드가 있음');
+  }
+}
+
 // ---------- 출력 ----------
 console.log('\n=== 통과 ===');
 for (const m of ok) console.log(`  OK   ${m}`);

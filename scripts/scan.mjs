@@ -78,9 +78,15 @@ const noExt = solutions.filter((s) => s.noExtension);
 if (noExt.length) console.log(`  ${pad('확장자 누락', 16)}: ${noExt.length}개  ${noExt.map((s) => s.rel).join(', ')}`);
 
 if (process.argv.includes('--reviews')) {
-  const pending = solutions.filter((s) => !fs.existsSync(path.join(ROOT, s.reviewTarget)));
+  // 졸업생은 앞으로 제출할 일이 없으므로 리뷰 대상에서 뺀다.
+  // 이미 붙은 리뷰와 코드는 그대로 남고 사이트에서도 '졸업생 포함' 토글로 볼 수 있다.
+  const active = new Set(authors.filter((a) => a.active !== false).map((a) => a.id));
+  const all = solutions.filter((s) => !fs.existsSync(path.join(ROOT, s.reviewTarget)));
+  const pending = all.filter((s) => active.has(s.author));
+  const skipped = all.length - pending.length;
   console.log(`\n=== 리뷰 없는 풀이 ${pending.length}개 ===`);
   for (const s of pending) console.log(`  /review ${s.source}`);
+  if (skipped) console.log(`  (졸업생 ${skipped}건 제외 — 보려면 --all)`);
 }
 
 const out = {

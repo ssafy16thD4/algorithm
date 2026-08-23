@@ -8,9 +8,41 @@ import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 import path from 'node:path';
 import { ROOT, authors, walkRepo, resolveSource } from './lib/map.mjs';
+import { blobUrl } from './lib/refs.mjs';
 
 const tagDefs = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/review-tags.json'), 'utf8')).tags;
 const rotation = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/rotation.json'), 'utf8'));
+const refReg = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/references.json'), 'utf8'));
+const refProviders = new Map(refReg.providers.map((p) => [p.id, p]));
+
+// T4. 문제별 외부 레퍼런스(정석 코드). 파일이 없으면 경고만 하고 건너뛴다 —
+// references.json 에 줄만 넣고 아직 sync 를 안 돌린 상태에서도 빌드는 되어야 한다.
+function referencesFor(key) {
+  const out = [];
+  for (const e of refReg.entries) {
+    if (`${e.platform}/${e.problemId}` !== key) continue;
+    const abs = path.join(ROOT, e.file);
+    if (!fs.existsSync(abs)) {
+      console.warn(`  ! 레퍼런스 파일 없음: ${e.file} — node scripts/sync-references.mjs`);
+      continue;
+    }
+    const provider = refProviders.get(e.provider);
+    const notesAbs = e.notes ? path.join(ROOT, e.notes) : null;
+    out.push({
+      refId: e.refId,
+      label: e.label || e.refId,
+      provider: e.provider,
+      providerName: provider?.name || e.provider,
+      license: provider?.license ?? null,
+      sourceUrl: blobUrl(provider, e.sourcePath),
+      code: fs.readFileSync(abs, 'utf8').replace(/\r\n/g, '\n').replace(/\s+$/, ''),
+      notes: notesAbs && fs.existsSync(notesAbs)
+        ? fs.readFileSync(notesAbs, 'utf8').replace(/\r\n/g, '\n').trim()
+        : null,
+    });
+  }
+  return out;
+}
 
 function readReview(rel) {
   const abs = path.join(ROOT, rel);
@@ -106,6 +138,9 @@ for (const p of problems.values()) {
   p.entries = kept;
 }
 
+// T4-3. 정석 코드. 문제 단위이며 한 문제에 여러 개(다른 알고리즘)일 수 있다.
+for (const p of problems.values()) p.references = referencesFor(p.key);
+
 // T3-4. 발표 후 팀 피드백. 문제 단위이므로 개별 리뷰와 달리 문제당 한 개.
 for (const p of problems.values()) {
   const fb = path.join(ROOT, `reviews/${p.platform}/${p.problemId}/team-feedback.md`);
@@ -138,5 +173,7 @@ fs.writeFileSync(outPath, `window.STUDY_DATA = ${JSON.stringify(data)};\n`);
 
 const reviewed = list.flatMap((p) => p.entries).filter((e) => e.review).length;
 const total = list.reduce((a, p) => a + p.entries.length, 0);
+const refCount = list.reduce((a, p) => a + p.references.length, 0);
+const refProblems = list.filter((p) => p.references.length).length;
 const kb = Math.round(fs.statSync(outPath).size / 1024);
-console.log(`-> site/data/bundle.js  (${list.length}문제 / ${total}풀이 / 리뷰 ${reviewed}건 / ${kb}KB)`);
+console.log(`-> site/data/bundle.js  (${list.length}문제 / ${total}풀이 / 리뷰 ${reviewed}건 / 정석코드 ${refCount}개 ${refProblems}문제 / ${kb}KB)`);

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-19T14:38:06.642Z",
+  "generatedAt": "2026-08-23T12:36:06.026Z",
   "authors": [
     {
       "id": "junsoo",
@@ -521,7 +521,7 @@
           "source": "김준수/week2/순위.java",
           "target": "solutions/programmers/49191/junsoo.java",
           "review": "reviews/programmers/49191/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 88,
           "bytes": 2487
         },
@@ -533,7 +533,7 @@
           "source": "안찬웅/week2/순위.java",
           "target": "solutions/programmers/49191/chanung.java",
           "review": "reviews/programmers/49191/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 63,
           "bytes": 1684
         },
@@ -545,7 +545,7 @@
           "source": "이성일/week2/순위.java",
           "target": "solutions/programmers/49191/seongil.java",
           "review": "reviews/programmers/49191/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 83,
           "bytes": 2573
         },
@@ -926,7 +926,7 @@
           "source": "김준수/week3/표 편집 실패.java",
           "target": "solutions/programmers/81303/junsoo.failed.java",
           "review": "reviews/programmers/81303/junsoo.failed.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 80,
           "bytes": 2144
         },
@@ -938,7 +938,7 @@
           "source": "김준수/week3/표 편집.java",
           "target": "solutions/programmers/81303/junsoo.java",
           "review": "reviews/programmers/81303/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 115,
           "bytes": 4157
         },
@@ -962,7 +962,7 @@
           "source": "이성일/week3/표편집.java",
           "target": "solutions/programmers/81303/seongil.java",
           "review": "reviews/programmers/81303/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 118,
           "bytes": 3678
         }
@@ -987,7 +987,7 @@
           "source": "김준수/week2/아이템 줍기.java",
           "target": "solutions/programmers/87694/junsoo.java",
           "review": "reviews/programmers/87694/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 91,
           "bytes": 3331
         },
@@ -999,7 +999,7 @@
           "source": "안찬웅/week2/아이템줍기.java",
           "target": "solutions/programmers/87694/chanung.java",
           "review": "reviews/programmers/87694/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 18,
           "bytes": 585
         },
@@ -1011,7 +1011,7 @@
           "source": "이성일/week2/아이템줍기.java",
           "target": "solutions/programmers/87694/seongil.java",
           "review": "reviews/programmers/87694/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 84,
           "bytes": 3146
         },
