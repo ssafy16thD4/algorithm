@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-23T15:02:04.834Z",
+  "generatedAt": "2026-08-25T00:45:01.357Z",
   "authors": [
     {
       "id": "junsoo",
@@ -781,6 +781,18 @@
           "bytes": 2968
         },
         {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 4,
+          "variant": null,
+          "source": "안찬웅/week4/불량 사용자.java",
+          "target": "solutions/programmers/64064/chanung.java",
+          "review": "reviews/programmers/64064/chanung.md",
+          "hasReview": true,
+          "lines": 42,
+          "bytes": 1284
+        },
+        {
           "author": "seongil",
           "authorName": "이성일",
           "week": 4,
@@ -828,6 +840,18 @@
           "hasReview": true,
           "lines": 72,
           "bytes": 2891
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 4,
+          "variant": null,
+          "source": "안찬웅/week4/보석 쇼핑.java",
+          "target": "solutions/programmers/67258/chanung.java",
+          "review": "reviews/programmers/67258/chanung.md",
+          "hasReview": true,
+          "lines": 58,
+          "bytes": 2153
         },
         {
           "author": "seongil",
