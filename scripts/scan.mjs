@@ -69,6 +69,7 @@ for (const [reason, label] of [
   ['not-a-solution', '풀이 아님'],
   ['empty', '빈 파일'],
   ['commented-out', '전체 주석'],
+  ['duplicate-reupload', '중복 재업로드'],
   ['unknown-author', '작성자 불명'],
 ]) {
   const hits = byReason(reason);

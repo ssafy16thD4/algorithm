@@ -38,6 +38,14 @@ const PATH_VARIANT_OVERRIDES = new Map([
   ['이성일/week4/징검다리 건너기.java', 'alt'],
 ]);
 
+// 같은 파일을 나중 주차에 그대로 다시 올린 경우. 바이트 단위로 동일하므로 새 풀이가
+// 아니고, 세면 대표 경로가 겹쳐서 한쪽이 덮인다. 집계에서만 빼고 파일은 두 곳 다 남긴다.
+// (김준수 week1 -> week5 재업로드 2건, 2026-08-31 확인. diff 결과 0바이트 차이)
+const DUPLICATE_REUPLOADS = new Set([
+  '김준수/week5/벽돌 깨기.java',
+  '김준수/week5/줄기 세포 배양.java',
+]);
+
 const problemsFile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/problems.json'), 'utf8'));
 const authorsFile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/authors.json'), 'utf8'));
 
@@ -79,7 +87,7 @@ export function walkRepo(dir = ROOT, acc = []) {
 /**
  * 레포 상대경로 하나를 해석한다.
  * 성공하면 {ok:true, ...}, 실패하면 {ok:false, reason} 을 돌려준다.
- * reason: not-a-solution | unknown-author | not-java | empty | commented-out | unmapped-title
+ * reason: not-a-solution | unknown-author | not-java | empty | commented-out | unmapped-title | duplicate-reupload
  */
 export function resolveSource(rel) {
   const segs = rel.split('/');
@@ -95,6 +103,7 @@ export function resolveSource(rel) {
 
   if (ext && ext !== '.java') return { ok: false, reason: 'not-java', rel };
   if (NON_SOLUTION.some((re) => re.test(stemRaw))) return { ok: false, reason: 'not-a-solution', rel };
+  if (DUPLICATE_REUPLOADS.has(rel.normalize('NFC'))) return { ok: false, reason: 'duplicate-reupload', rel };
 
   const abs = path.join(ROOT, rel);
   if (!fs.existsSync(abs)) return { ok: false, reason: 'missing', rel };

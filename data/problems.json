@@ -8,43 +8,463 @@
     "verified: true = 출처를 열어 확인함."
   ],
   "problems": [
-    { "platform": "programmers", "problemId": "12904", "title": "가장 긴 팰린드롬", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/12904", "aliases": ["가장 긴 팰린드롬", "가장 긴 펠린드롬 길이"], "verified": true },
-    { "platform": "programmers", "problemId": "17678", "title": "[1차] 셔틀버스", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/17678", "aliases": ["셔틀버스", "[1차] 셔틀버스"], "verified": true },
-    { "platform": "programmers", "problemId": "42579", "title": "베스트앨범", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42579", "aliases": ["베스트앨범"], "verified": true },
-    { "platform": "programmers", "problemId": "42627", "title": "디스크 컨트롤러", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42627", "aliases": ["디스크 컨트롤러", "우선순위 컨트롤러"], "verified": true },
-    { "platform": "programmers", "problemId": "42861", "title": "섬 연결하기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42861", "aliases": ["섬 연결하기"], "verified": true },
-    { "platform": "programmers", "problemId": "42884", "title": "단속카메라", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42884", "aliases": ["단속카메라"], "verified": true },
-    { "platform": "programmers", "problemId": "42892", "title": "길 찾기 게임", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42892", "aliases": ["길 찾기 게임"], "verified": true },
-    { "platform": "programmers", "problemId": "42895", "title": "N으로 표현", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42895", "aliases": ["N으로 표현"], "verified": true },
-    { "platform": "programmers", "problemId": "43164", "title": "여행경로", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/43164", "aliases": ["여행경로"], "verified": true },
-    { "platform": "programmers", "problemId": "43238", "title": "입국심사", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/43238", "aliases": ["입국심사"], "verified": true },
-    { "platform": "programmers", "problemId": "49189", "title": "가장 먼 노드", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/49189", "aliases": ["가장 먼 노드"], "verified": true },
-    { "platform": "programmers", "problemId": "49191", "title": "순위", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/49191", "aliases": ["순위"], "verified": true },
-    { "platform": "programmers", "problemId": "60059", "title": "자물쇠와 열쇠", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/60059", "aliases": ["자물쇠와 열쇠"], "verified": true },
-    { "platform": "programmers", "problemId": "64062", "title": "징검다리 건너기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/64062", "aliases": ["징검다리 건너기", "가장긴징검다리"], "verified": true },
-    { "platform": "programmers", "problemId": "64064", "title": "불량 사용자", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/64064", "aliases": ["불량 사용자"], "verified": true },
-    { "platform": "programmers", "problemId": "67258", "title": "보석 쇼핑", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/67258", "aliases": ["보석 쇼핑"], "verified": true },
-    { "platform": "programmers", "problemId": "67259", "title": "경주로 건설", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/67259", "aliases": ["경주로 건설", "월경주로건설"], "verified": true },
-    { "platform": "programmers", "problemId": "72413", "title": "합승 택시 요금", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/72413", "aliases": ["합승 택시 요금", "합동택시요금"], "verified": true },
-    { "platform": "programmers", "problemId": "77486", "title": "다단계 칫솔 판매", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/77486", "aliases": ["다단계 칫솔 판매"], "verified": true },
-    { "platform": "programmers", "problemId": "81303", "title": "표 편집", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/81303", "aliases": ["표 편집"], "verified": true },
-    { "platform": "programmers", "problemId": "87694", "title": "아이템 줍기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/87694", "aliases": ["아이템 줍기"], "verified": true },
-    { "platform": "programmers", "problemId": "92343", "title": "양과 늑대", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/92343", "aliases": ["양과 늑대"], "verified": true },
-    { "platform": "programmers", "problemId": "340213", "title": "[PCCP 기출문제] 1번 / 동영상 재생기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340213", "aliases": ["동영상 재생기"], "verified": true },
-    { "platform": "programmers", "problemId": "340212", "title": "[PCCP 기출문제] 2번 / 퍼즐 게임 챌린지", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340212", "aliases": ["퍼즐 게임 챌린지"], "verified": true },
-    { "platform": "programmers", "problemId": "340211", "title": "[PCCP 기출문제] 3번 / 충돌위험 찾기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340211", "aliases": ["충돌위험 찾기"], "verified": true },
-    { "platform": "programmers", "problemId": "340210", "title": "[PCCP 기출문제] 4번 / 수식 복원하기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340210", "aliases": ["수식 복원하기"], "verified": true },
-    { "platform": "programmers", "problemId": "250137", "title": "[PCCP 기출문제] 1번 / 붕대 감기", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250137", "aliases": ["붕대 감기", "붕대감기(박진우)"], "verified": true },
-    { "platform": "programmers", "problemId": "250136", "title": "[PCCP 기출문제] 2번 / 석유 시추", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250136", "aliases": ["석유 시추", "석유 시추(박진우)"], "verified": true },
-    { "platform": "programmers", "problemId": "250135", "title": "[PCCP 기출문제] 3번 / 아날로그 시계", "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250135", "aliases": ["아날로그 시계"], "verified": true },
-
-    { "platform": "swea", "problemId": "1249", "title": "보급로", "url": null, "aliases": ["SWEA1249"], "verified": true },
-    { "platform": "swea", "problemId": "1251", "title": "하나로", "url": null, "aliases": ["SWEA1251"], "verified": true },
-    { "platform": "swea", "problemId": "1767", "title": "프로세서 연결하기", "url": null, "aliases": ["SWEA1767"], "verified": true },
-    { "platform": "swea", "problemId": "5643", "title": "키 순서", "url": null, "aliases": ["SWEA5643"], "verified": true },
-    { "platform": "swea", "problemId": "5653", "title": "줄기세포배양", "url": null, "aliases": ["SWEA5653"], "verified": true },
-    { "platform": "swea", "problemId": "5656", "title": "벽돌 깨기", "url": null, "aliases": ["SWEA5656"], "verified": true },
-    { "platform": "swea", "problemId": "5658", "title": "보물상자 비밀번호", "url": null, "aliases": ["SWEA5658"], "verified": true },
-    { "platform": "swea", "problemId": "14510", "title": "나무 높이", "url": null, "aliases": ["SWEA14510"], "verified": true }
+    {
+      "platform": "programmers",
+      "problemId": "12904",
+      "title": "가장 긴 팰린드롬",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/12904",
+      "aliases": [
+        "가장 긴 팰린드롬",
+        "가장 긴 펠린드롬 길이"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "17678",
+      "title": "[1차] 셔틀버스",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/17678",
+      "aliases": [
+        "셔틀버스",
+        "[1차] 셔틀버스"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "42579",
+      "title": "베스트앨범",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42579",
+      "aliases": [
+        "베스트앨범"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "42627",
+      "title": "디스크 컨트롤러",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42627",
+      "aliases": [
+        "디스크 컨트롤러",
+        "우선순위 컨트롤러"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "42861",
+      "title": "섬 연결하기",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42861",
+      "aliases": [
+        "섬 연결하기"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "42884",
+      "title": "단속카메라",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42884",
+      "aliases": [
+        "단속카메라"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "42892",
+      "title": "길 찾기 게임",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42892",
+      "aliases": [
+        "길 찾기 게임"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "42895",
+      "title": "N으로 표현",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/42895",
+      "aliases": [
+        "N으로 표현"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "43164",
+      "title": "여행경로",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/43164",
+      "aliases": [
+        "여행경로"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "43238",
+      "title": "입국심사",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/43238",
+      "aliases": [
+        "입국심사"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "49189",
+      "title": "가장 먼 노드",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/49189",
+      "aliases": [
+        "가장 먼 노드"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "49191",
+      "title": "순위",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/49191",
+      "aliases": [
+        "순위"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "60059",
+      "title": "자물쇠와 열쇠",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/60059",
+      "aliases": [
+        "자물쇠와 열쇠"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "64062",
+      "title": "징검다리 건너기",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/64062",
+      "aliases": [
+        "징검다리 건너기",
+        "가장긴징검다리"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "64064",
+      "title": "불량 사용자",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/64064",
+      "aliases": [
+        "불량 사용자"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "67258",
+      "title": "보석 쇼핑",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/67258",
+      "aliases": [
+        "보석 쇼핑"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "67259",
+      "title": "경주로 건설",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/67259",
+      "aliases": [
+        "경주로 건설",
+        "월경주로건설"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "72413",
+      "title": "합승 택시 요금",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/72413",
+      "aliases": [
+        "합승 택시 요금",
+        "합동택시요금"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "77486",
+      "title": "다단계 칫솔 판매",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/77486",
+      "aliases": [
+        "다단계 칫솔 판매"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "81303",
+      "title": "표 편집",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/81303",
+      "aliases": [
+        "표 편집"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "87694",
+      "title": "아이템 줍기",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/87694",
+      "aliases": [
+        "아이템 줍기"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "92343",
+      "title": "양과 늑대",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/92343",
+      "aliases": [
+        "양과 늑대"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "250135",
+      "title": "[PCCP 기출문제] 3번 / 아날로그 시계",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250135",
+      "aliases": [
+        "아날로그 시계"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "250136",
+      "title": "[PCCP 기출문제] 2번 / 석유 시추",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250136",
+      "aliases": [
+        "석유 시추",
+        "석유 시추(박진우)"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "250137",
+      "title": "[PCCP 기출문제] 1번 / 붕대 감기",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/250137",
+      "aliases": [
+        "붕대 감기",
+        "붕대감기(박진우)"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "340210",
+      "title": "[PCCP 기출문제] 4번 / 수식 복원하기",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340210",
+      "aliases": [
+        "수식 복원하기"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "340211",
+      "title": "[PCCP 기출문제] 3번 / 충돌위험 찾기",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340211",
+      "aliases": [
+        "충돌위험 찾기"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "340212",
+      "title": "[PCCP 기출문제] 2번 / 퍼즐 게임 챌린지",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340212",
+      "aliases": [
+        "퍼즐 게임 챌린지"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "programmers",
+      "problemId": "340213",
+      "title": "[PCCP 기출문제] 1번 / 동영상 재생기",
+      "url": "https://school.programmers.co.kr/learn/courses/30/lessons/340213",
+      "aliases": [
+        "동영상 재생기"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "1249",
+      "title": "보급로",
+      "url": null,
+      "aliases": [
+        "SWEA1249"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "1251",
+      "title": "하나로",
+      "url": null,
+      "aliases": [
+        "SWEA1251"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "1767",
+      "title": "프로세서 연결하기",
+      "url": null,
+      "aliases": [
+        "SWEA1767"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "1949",
+      "title": "등산로 조성",
+      "url": null,
+      "aliases": [
+        "SWEA1949",
+        "등산로 조성",
+        "등산로 조정"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "1952",
+      "title": "수영장",
+      "url": null,
+      "aliases": [
+        "SWEA1952",
+        "수영장"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "1953",
+      "title": "탈주범 검거",
+      "url": null,
+      "aliases": [
+        "SWEA1953",
+        "탈주범 검거"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "2105",
+      "title": "디저트 카페",
+      "url": null,
+      "aliases": [
+        "SWEA2105",
+        "디저트 카페"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "2112",
+      "title": "보호 필름",
+      "url": null,
+      "aliases": [
+        "SWEA2112",
+        "보호 필름"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "5643",
+      "title": "키 순서",
+      "url": null,
+      "aliases": [
+        "SWEA5643"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "5648",
+      "title": "원자 소멸 시뮬레이션",
+      "url": null,
+      "aliases": [
+        "SWEA5648",
+        "원자 소멸 시뮬레이션"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "5650",
+      "title": "핀볼 게임",
+      "url": null,
+      "aliases": [
+        "SWEA5650",
+        "핀볼 게임"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "5653",
+      "title": "줄기세포배양",
+      "url": null,
+      "aliases": [
+        "SWEA5653",
+        "줄기세포배양"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "5656",
+      "title": "벽돌 깨기",
+      "url": null,
+      "aliases": [
+        "SWEA5656",
+        "벽돌 깨기"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "5658",
+      "title": "보물상자 비밀번호",
+      "url": null,
+      "aliases": [
+        "SWEA5658"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "14510",
+      "title": "나무 높이",
+      "url": null,
+      "aliases": [
+        "SWEA14510"
+      ],
+      "verified": true
+    }
   ]
 }

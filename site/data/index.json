@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-25T00:45:01.357Z",
+  "generatedAt": "2026-08-31T12:23:42.770Z",
   "authors": [
     {
       "id": "junsoo",
@@ -1687,6 +1687,215 @@
       ]
     },
     {
+      "key": "swea/1949",
+      "platform": "swea",
+      "problemId": "1949",
+      "title": "등산로 조성",
+      "url": null,
+      "verified": true,
+      "weeks": [
+        5
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 5,
+          "variant": null,
+          "source": "김준수/week5/등산로 조성.java",
+          "target": "solutions/swea/1949/junsoo.java",
+          "review": "reviews/swea/1949/junsoo.md",
+          "hasReview": false,
+          "lines": 96,
+          "bytes": 2770
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 5,
+          "variant": "failed",
+          "source": "안찬웅/week5/등산로 조성 실패.java",
+          "target": "solutions/swea/1949/chanung.failed.java",
+          "review": "reviews/swea/1949/chanung.failed.md",
+          "hasReview": false,
+          "lines": 108,
+          "bytes": 4148
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 5,
+          "variant": null,
+          "source": "안찬웅/week5/등산로 조정.java",
+          "target": "solutions/swea/1949/chanung.java",
+          "review": "reviews/swea/1949/chanung.md",
+          "hasReview": false,
+          "lines": 128,
+          "bytes": 5543
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 5,
+          "variant": null,
+          "source": "이성일/week5/SWEA1949.java",
+          "target": "solutions/swea/1949/seongil.java",
+          "review": "reviews/swea/1949/seongil.md",
+          "hasReview": false,
+          "lines": 124,
+          "bytes": 4325
+        }
+      ]
+    },
+    {
+      "key": "swea/1952",
+      "platform": "swea",
+      "problemId": "1952",
+      "title": "수영장",
+      "url": null,
+      "verified": true,
+      "weeks": [
+        5
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 5,
+          "variant": null,
+          "source": "김준수/week5/수영장.java",
+          "target": "solutions/swea/1952/junsoo.java",
+          "review": "reviews/swea/1952/junsoo.md",
+          "hasReview": false,
+          "lines": 97,
+          "bytes": 3181
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 5,
+          "variant": null,
+          "source": "안찬웅/week5/수영장.java",
+          "target": "solutions/swea/1952/chanung.java",
+          "review": "reviews/swea/1952/chanung.md",
+          "hasReview": false,
+          "lines": 61,
+          "bytes": 1994
+        }
+      ]
+    },
+    {
+      "key": "swea/1953",
+      "platform": "swea",
+      "problemId": "1953",
+      "title": "탈주범 검거",
+      "url": null,
+      "verified": true,
+      "weeks": [
+        5
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 5,
+          "variant": null,
+          "source": "김준수/week5/탈주범 검거.java",
+          "target": "solutions/swea/1953/junsoo.java",
+          "review": "reviews/swea/1953/junsoo.md",
+          "hasReview": false,
+          "lines": 123,
+          "bytes": 3802
+        }
+      ]
+    },
+    {
+      "key": "swea/2105",
+      "platform": "swea",
+      "problemId": "2105",
+      "title": "디저트 카페",
+      "url": null,
+      "verified": true,
+      "weeks": [
+        5
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 5,
+          "variant": null,
+          "source": "김준수/week5/디저트 카페.java",
+          "target": "solutions/swea/2105/junsoo.java",
+          "review": "reviews/swea/2105/junsoo.md",
+          "hasReview": false,
+          "lines": 114,
+          "bytes": 3459
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 5,
+          "variant": "failed",
+          "source": "안찬웅/week5/디저트 카페 실패.java",
+          "target": "solutions/swea/2105/chanung.failed.java",
+          "review": "reviews/swea/2105/chanung.failed.md",
+          "hasReview": false,
+          "lines": 74,
+          "bytes": 2486
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 5,
+          "variant": null,
+          "source": "안찬웅/week5/디저트 카페.java",
+          "target": "solutions/swea/2105/chanung.java",
+          "review": "reviews/swea/2105/chanung.md",
+          "hasReview": false,
+          "lines": 72,
+          "bytes": 2413
+        }
+      ]
+    },
+    {
+      "key": "swea/2112",
+      "platform": "swea",
+      "problemId": "2112",
+      "title": "보호 필름",
+      "url": null,
+      "verified": true,
+      "weeks": [
+        6
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 6,
+          "variant": "failed",
+          "source": "김준수/week6/보호 필름 실패.java",
+          "target": "solutions/swea/2112/junsoo.failed.java",
+          "review": "reviews/swea/2112/junsoo.failed.md",
+          "hasReview": false,
+          "lines": 119,
+          "bytes": 2442
+        },
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 6,
+          "variant": null,
+          "source": "김준수/week6/보호 필름.java",
+          "target": "solutions/swea/2112/junsoo.java",
+          "review": "reviews/swea/2112/junsoo.md",
+          "hasReview": false,
+          "lines": 116,
+          "bytes": 2564
+        }
+      ]
+    },
+    {
       "key": "swea/5643",
       "platform": "swea",
       "problemId": "5643",
@@ -1748,6 +1957,68 @@
       ]
     },
     {
+      "key": "swea/5648",
+      "platform": "swea",
+      "problemId": "5648",
+      "title": "원자 소멸 시뮬레이션",
+      "url": null,
+      "verified": true,
+      "weeks": [
+        5
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 5,
+          "variant": "failed",
+          "source": "김준수/week5/원자 소멸 시뮬레이션 실패.java",
+          "target": "solutions/swea/5648/junsoo.failed.java",
+          "review": "reviews/swea/5648/junsoo.failed.md",
+          "hasReview": false,
+          "lines": 143,
+          "bytes": 3394
+        }
+      ]
+    },
+    {
+      "key": "swea/5650",
+      "platform": "swea",
+      "problemId": "5650",
+      "title": "핀볼 게임",
+      "url": null,
+      "verified": true,
+      "weeks": [
+        5
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 5,
+          "variant": null,
+          "source": "김준수/week5/핀볼 게임.java",
+          "target": "solutions/swea/5650/junsoo.java",
+          "review": "reviews/swea/5650/junsoo.md",
+          "hasReview": false,
+          "lines": 107,
+          "bytes": 3597
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 5,
+          "variant": null,
+          "source": "이성일/week5/SWEA5650.java",
+          "target": "solutions/swea/5650/seongil.java",
+          "review": "reviews/swea/5650/seongil.md",
+          "hasReview": false,
+          "lines": 195,
+          "bytes": 6828
+        }
+      ]
+    },
+    {
       "key": "swea/5653",
       "platform": "swea",
       "problemId": "5653",
@@ -1755,7 +2026,8 @@
       "url": null,
       "verified": true,
       "weeks": [
-        1
+        1,
+        5
       ],
       "entries": [
         {
@@ -1769,6 +2041,30 @@
           "hasReview": true,
           "lines": 169,
           "bytes": 4288
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 5,
+          "variant": null,
+          "source": "안찬웅/week5/줄기세포배양.java",
+          "target": "solutions/swea/5653/chanung.java",
+          "review": "reviews/swea/5653/chanung.md",
+          "hasReview": false,
+          "lines": 91,
+          "bytes": 3576
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 5,
+          "variant": null,
+          "source": "이성일/week5/SWEA5653.java",
+          "target": "solutions/swea/5653/seongil.java",
+          "review": "reviews/swea/5653/seongil.md",
+          "hasReview": false,
+          "lines": 169,
+          "bytes": 4025
         }
       ]
     },
@@ -1780,7 +2076,8 @@
       "url": null,
       "verified": true,
       "weeks": [
-        1
+        1,
+        5
       ],
       "entries": [
         {
@@ -1794,6 +2091,30 @@
           "hasReview": true,
           "lines": 186,
           "bytes": 5078
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 5,
+          "variant": "failed",
+          "source": "안찬웅/week5/벽돌 깨기 실패.java",
+          "target": "solutions/swea/5656/chanung.failed.java",
+          "review": "reviews/swea/5656/chanung.failed.md",
+          "hasReview": false,
+          "lines": 84,
+          "bytes": 2839
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 5,
+          "variant": null,
+          "source": "이성일/week5/SWEA5656.java",
+          "target": "solutions/swea/5656/seongil.java",
+          "review": "reviews/swea/5656/seongil.md",
+          "hasReview": false,
+          "lines": 166,
+          "bytes": 5815
         },
         {
           "author": "seungjoo",
