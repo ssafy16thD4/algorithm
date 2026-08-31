@@ -69,12 +69,12 @@ class Main {
             6: 하좌
             7: 상좌
         */
-        if(time >= l) return;
         if(x < 0 || x >= n || y < 0 || y >= m) return;
         if(graph[x][y] == 0) return;
         
-        if(!vis[x][y]) {
+        if(!vis[x][y]) { 
             vis[x][y] = true;
+            if(time >= l) return;
             if(graph[x][y] == 1) {
                 dfs(x-1, y, time+1);
                 dfs(x+1, y, time+1);
