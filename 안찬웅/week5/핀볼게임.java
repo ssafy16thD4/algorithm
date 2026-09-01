@@ -13,8 +13,8 @@ import java.io.*;
  *   2.1.2 경사면일 경우 직각으로 방향이 꺾임 점수카운트++
  *   2.1.3 벽일 경우 다시 돌아옴 
  *  2.2 다음 칸이 웜홀일 경우 동일한 숫자를 가진 다른 웜홀로 나옴
- *  2.3 다음 칸이 블랙홀일 경우: 게임 종료
- *  2.4 다음 칸이 출발 위치일 경우: 게임 종료
+ *  2.3 다음 칸이 블랙홀일 경우 게임 종료
+ *  2.4 다음 칸이 출발 위치일 경우 게임 종료
  * 3. 최대 점수 출력
  */
 class Main {
@@ -24,6 +24,11 @@ class Main {
     static int n;
     static int maxScore;
     static int startX, startY;
+    static int indexSix;
+    static int indexSeven;
+    static int indexEight;
+    static int indexNine;
+    static int indexTen;
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
@@ -42,15 +47,14 @@ class Main {
             	}
             }
             
+            maxScore = 0;
             for(int i=0; i<n; i++) {
             	for(int j=0; j<n; j++) {
-            		// 블록, 웜홀, 블랙혹 출발지점 불가능
-            		if(1 <= graph[i][j] && graph[i][j] <= 10) continue;
-            		if(graph[i][j] == -1) continue;
-            		maxScore = 0;
-            		startX = i;
-            		startY = j;
-            		dfs(i, j, 0, 0);
+            		if(graph[i][j] == 0) {
+	            		startX = i;
+	            		startY = j;
+	            		dfs(i, j, 0, 0);
+            		}
             	}
             }
             sb.append("#").append(test_case).append(" ").append(maxScore).append("\n");
@@ -59,17 +63,6 @@ class Main {
     }
     // 현재 내방향, 현재 내점수
     static void dfs(int x, int y, int dir, int score) {
-    /*  
-	 *  점수: 벽이나 블록에 부딪히면 점수 카운트
-     * 
-     *  2.1 다음 칸이 블록일 경우: o
-     *   2.1.1 수평/수직면일 경우: 점수카운트++ 반대 방향으로 돌아옴 
-     *   2.1.2 경사면일 경우: 직각으로 방향이 꺾임 점수카운트++
-     *  2.2 다음 칸이 벽일 경우: 다시 돌아옴 o 점수카운트++
-     *  2.3 다음 칸이 웜홀 경우: 동일한 숫자를 가진 다른 웜홀로 나옴
-     *  2.4 다음 칸이 블랙홀일 경우: 게임 종료
-     *  2.5 다음 칸이 출발 위치일 경우: 게임 종료
-     */
     	System.out.println("x: " + x + " y: " + y + " dir: " + dir + " score: " + score);
     	int nx = x + dx[dir];
     	int ny = y + dy[dir];
@@ -88,18 +81,10 @@ class Main {
     		return;
     	}
     	
-//      2.5 다음 칸이 출발 위치일 경우: 게임 종료
+    	// 2.5 다음 칸이 출발 위치일 경우: 게임 종료
     	else if(graph[nx][ny] == graph[startX][startY]) {
     		maxScore = Math.max(maxScore, score);
     		return;
-    	}
-    	
-    	// 2.2 다음 칸이 벽일 경우 다시 돌아옴 
-    	if(nx < 0 || nx >= n || ny < 0 || ny >= n) {
-    		// 다음 칸이 벽이면 원래 왔던 방향을 바꾸고 점수카운트
-    		// 우<->좌 하<->상
-    		// 0<->2 1<->3
-    		dir = (dir + 2) % 4;
     	}
     	
     	// 2.1 다음 칸이 블록일 경우
@@ -162,7 +147,7 @@ class Main {
     		dfs(nx, ny, dir, score+1);
     	}
     	
-//      2.3 다음 칸이 웜홀 경우: 동일한 숫자를 가진 다른 웜홀로 나옴
+    	// 2.3 다음 칸이 웜홀 경우: 동일한 숫자를 가진 다른 웜홀로 나옴
     	else if(6 <= graph[nx][ny] && graph[nx][ny] <= 10) {
     		// 현재 웜홀에 있는 수와 같은 다른 웜홀수로 이동함
     		return;
