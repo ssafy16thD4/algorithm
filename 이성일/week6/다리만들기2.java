@@ -1,4 +1,4 @@
-package coding;
+package com.ssafy.swb;
 
 import java.util.*;
 import java.io.*;
@@ -50,6 +50,7 @@ public class 다리만들기2 {
                 if (board[i][j] == 1 && !visited[i][j]) {
                     Deque<int[]> idxs = new ArrayDeque<>();
                     idxs.add(new int[] { i, j });
+                    visited[i][j] = true;
                     List<int[]> idxList = bfs(board, idxs, ++islandSize, visited);
                     islandIdxs.add(idxList);
                 }
@@ -66,8 +67,10 @@ public class 다리만들기2 {
             Arrays.fill(edge, Integer.MAX_VALUE);
         }
 
-        for (int i = 1; i <= islandSize; i++) {
-            getEdges(islandIdxs.get(i), edges, i);
+        boolean[] initialized = new boolean[islandSize + 1];
+        for (int i = 0; i < islandSize; i++) {
+            getEdges(islandIdxs.get(i), edges, i+1, initialized);
+            initialized[i+1] = true;
         }
 
         PriorityQueue<int[]> edgesList = new PriorityQueue<>((o1, o2) -> Integer.compare(o1[2], o2[2]));
@@ -79,16 +82,34 @@ public class 다리만들기2 {
             }
         }
 
-        int answer = mst(edgesList);
+        int answer = mst(edgesList, islandSize);
+//        if (answer == 0) answer = -1;
+        System.out.println(answer);
 
     }
 
-    static int mst(PriorityQueue<int[]> edgesList) {
+    static int mst(PriorityQueue<int[]> edgesList, int islandSize) {
 
-        return 0;
+        int edgeCnt = 0;
+        int cost = 0;
+
+        while(!edgesList.isEmpty()) {
+            if (edgeCnt == islandSize - 1 ) break;
+            int[] edge = edgesList.poll();
+            if (find(edge[0]) == find(edge[1])) continue;
+            union(edge[0],edge[1]);
+            edgeCnt+=1;
+            cost += edge[2];
+//            System.out.println("edge n " + edgeCnt + ": " + "island " + edge[0] + " to " + edge[1] + " cost: " + edge[2] + 
+//            		" total cost: " + cost);
+        }
+        
+        if (edgeCnt != (islandSize -1)) return -1;
+
+        return cost;
     }
 
-    static void getEdges(List<int[]> idxs, int[][] edges, int i) {
+    static void getEdges(List<int[]> idxs, int[][] edges, int i, boolean[] initialized) {
 
         for (int[] idx : idxs) {
             int x = idx[0];
@@ -106,7 +127,9 @@ public class 다리만들기2 {
                     } else {
                         if (cost < 2) {
                             break;
-                        } else {
+                        } 
+                        if (initialized[board[nx][ny]]) break;
+                        else {
                             edges[i][board[nx][ny]] = Math.min(edges[i][board[nx][ny]], cost);
                             break;
                         }
@@ -122,7 +145,7 @@ public class 다리만들기2 {
 
         List<int[]> result = new ArrayList<>();
         int[] firstIdx = idxs.peek();
-        visited[firstIdx[0]][firstIdx[1]] = true;
+        board[firstIdx[0]][firstIdx[1]] = islandSize;
         result.add(firstIdx);
 
         while (!idxs.isEmpty()) {
@@ -149,10 +172,12 @@ public class 다리만들기2 {
     }
 
     static void union(int v1, int v2) {
-        if (v1 < v2) {
-            parents[v2] = v1;
+    	int p1 = find(v1);
+    	int p2 = find(v2);
+        if (p1 < p2) {
+            parents[p2] = p1;
         } else {
-            parents[v1] = v2;
+            parents[p1] = p2;
         }
     }
 
