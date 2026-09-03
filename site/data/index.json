@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T01:49:36.960Z",
+  "generatedAt": "2026-09-03T03:29:25.023Z",
   "authors": [
     {
       "id": "junsoo",
@@ -1931,8 +1931,8 @@
           "target": "solutions/swea/2105/seongil.java",
           "review": "reviews/swea/2105/seongil.md",
           "hasReview": false,
-          "lines": 74,
-          "bytes": 1817
+          "lines": 95,
+          "bytes": 2127
         },
         {
           "author": "hongseon",
@@ -1994,6 +1994,18 @@
           "hasReview": false,
           "lines": 108,
           "bytes": 2666
+        },
+        {
+          "author": "seungjoo",
+          "authorName": "이승주",
+          "week": 6,
+          "variant": null,
+          "source": "이승주/week6/보호 필름.java",
+          "target": "solutions/swea/2112/seungjoo.java",
+          "review": "reviews/swea/2112/seungjoo.md",
+          "hasReview": false,
+          "lines": 113,
+          "bytes": 2601
         },
         {
           "author": "hongseon",
@@ -2092,6 +2104,30 @@
           "hasReview": false,
           "lines": 93,
           "bytes": 2847
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 6,
+          "variant": "failed",
+          "source": "안찬웅/week6/홈 방범 서비스 실패.java",
+          "target": "solutions/swea/2117/chanung.failed.java",
+          "review": "reviews/swea/2117/chanung.failed.md",
+          "hasReview": false,
+          "lines": 99,
+          "bytes": 3156
+        },
+        {
+          "author": "seungjoo",
+          "authorName": "이승주",
+          "week": 6,
+          "variant": null,
+          "source": "이승주/week6/홈 방범 서비스.java",
+          "target": "solutions/swea/2117/seungjoo.java",
+          "review": "reviews/swea/2117/seungjoo.md",
+          "hasReview": false,
+          "lines": 104,
+          "bytes": 2754
         },
         {
           "author": "hongseon",
