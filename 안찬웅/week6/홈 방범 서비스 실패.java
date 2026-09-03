@@ -49,7 +49,7 @@ class Solution {
         	
         	maxHouseCnt = 0;
         	k = 0;        	
-        	while(k <= 100) {
+        	while(k <= 1) {
         		k++;
 	        	for(int i=0; i<n; i++) {
 	        		for(int j=0; j<n; j++) {
@@ -92,7 +92,7 @@ class Solution {
     	
     	if(fee >= 0) {
     		maxHouseCnt = Math.max(maxHouseCnt, houseCnt);
-    		//System.out.println("houseCnt: " + houseCnt + " fee: " + fee + " profit: " + profit);
+    		System.out.println("houseCnt: " + houseCnt + " fee: " + fee + " profit: " + profit);
     	}
     }
 }
