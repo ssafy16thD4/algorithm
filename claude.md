@@ -12,8 +12,13 @@
 
 - [x] T1-1. `/review <풀이경로>` 슬래시 커맨드 (`.claude/commands/review.md`)
       → 팀원이 각자 Claude Code에서 실행. 비용 0, Secret 0
-- [x] T1-2. 경로 해석기 `scripts/resolve.mjs` — 소스 경로 → 문제/작성자/리뷰 저장 경로 + `javac` 판정
+- [x] T1-2. 경로 해석기 `scripts/resolve.mjs` — 소스 경로 → 문제/작성자/리뷰 저장 경로 + 컴파일 판정
       → 매핑 규칙은 `scripts/lib/map.mjs` 한 곳에만. 인덱서와 커맨드가 같은 모듈을 쓴다
+      → **2026-09-03 추가: `.cpp` 지원.** `전홍선` 합류로 C++ 풀이가 들어와 `.java` 전용이던
+      `resolveSource` 를 `.java`/`.cpp` 둘 다 받게 확장했다(`lang` 필드로 구분). 컴파일러도
+      언어별로 갈린다 — `java` 는 javac, `cpp` 는 `g++ -std=c++17`. 이 환경엔 g++ 가 없어서
+      `compiles: null` / `compileError: 'g++ 없음(...)'` 으로만 확인했다(javac 없을 때와 동일 패턴) —
+      g++ 있는 환경에서 실제 컴파일 성공까지 확인된 건 아니다.
 - [x] T1-3. 리뷰 마크다운 고정 스키마 + 고정 태그 어휘 (`data/review-tags.json`, 25개)
       → 태그는 "반복 지적 패턴 Top 5" 집계 키. 자유 서술 금지. 견본 2건:
       `reviews/programmers/42579/chanung.md`, `reviews/programmers/77486/chanung.md`
@@ -69,7 +74,7 @@
 > "정석 코드가 아직 없습니다" 빈 상태로 조용히 넘어간다.
 
 - [x] T4-1. `references/{platform}/{problemId}/{refId}.java` + 출처 URL 메타 (파일 헤더 주석 3줄)
-      → `scripts/check.mjs` 가 경로·refId·`ref-url` 누락을 막는다. 현재 21건 / 17문제
+      → `scripts/check.mjs` 가 경로·refId·`ref-url` 누락을 막는다. 현재 23건 / 18문제
       → **2026-08-25 추가: 4주차 7문제**(가장 먼 노드 49189, 베스트앨범 42579, 보석 쇼핑 67258,
         불량 사용자 64064, 섬 연결하기 42861, 여행경로 43164, 징검다리 건너기 64062) 전부에 정석 코드 연결.
         전부 개인 블로그(velog 등) 출처라 T4-4 원칙대로 **코드 원문 미저장, 링크 + 접근 요약만** 저장.
@@ -80,6 +85,10 @@
         수영장 1952, 탈주범 검거 1953)는 **검색 결과가 전부 C++·Python 이라 등록하지 않았다** —
         프로젝트 규칙이 Java 라(목표 5항) 언어가 다른 코드는 대조용으로 값어치가 없다.
         Java 풀이를 찾으면 그때 추가한다.
+      → **2026-09-01 정정: 탈주범 검거 1953** 다시 검색하니 Java 풀이 블로그 2건이 나와 등록했다
+        (`hyeon930`: BFS + 4방향 switch 검증, `wonthechan`: BFS/DFS 두 버전 비교).
+        둘 다 개인 블로그라 링크 + 접근 요약만 저장. 나머지 5문제(2105/5650/2112/5648/1952)는
+        여전히 Java 결과가 없어 미등록 상태 유지.
 - [x] T4-2. ~~레퍼런스 제공자 2명 고정~~ → 문제별 구글 검색 기준 최대 2개로 변경 (위 참고)
       → 2026-08-23 추가 출처: [DWinging/Algorithm](https://github.com/DWinging/Algorithm) — 공개 저장소,
         문제마다 `solve.md` 로 풀이 근거를 남기는 스타일이라 대조용으로 값어치가 있다.
@@ -107,9 +116,17 @@
 - [x] T0-2. **문제 매핑 데이터** — 파일명 → `{platform, problemId, 제목, URL}` (`data/problems.json`)
       → 28문제 전부 `verified: true`. programmers 20개는 lessons 페이지에서 제목 직접 확인,
       swea 8개는 검색 결과를 각 파일의 주석·알고리즘과 대조해 확인. **팀에 물어볼 필요 없었음**
+      → **2026-09-03 추가: SWEA 3문제 신규 등록** — `swea/2115`(벌꿀채취), `swea/2117`(홈 방범 서비스),
+      `swea/2382`(미생물 격리). 전홍선의 `.cpp` 풀이(`swea2115.cpp`, `swea2117.cpp`)와 기존에
+      매핑 안 됐던 김준수/안찬웅의 동일 문제 풀이가 이번에 같이 잡혔다. 2117/2382는 소스 코드의
+      `public class SWEA2117`/`SWEA2382` 클래스명으로 문제 번호를 직접 확인했고(추측 아님),
+      2115는 전홍선 파일명(`swea2115.cpp`)과 팀원 커밋 메시지("벌꿀채취")가 일치해 확인했다.
 - [~] T0-3. **작성자 매핑 데이터** — 한글 폴더명 + git 커밋 identity → 고정 영문 `author` ID (`data/authors.json`)
   → `junsoo / chanung / seongil / seungjoo` 로 확정 진행. 본인이 다른 ID 원하면 그때 교체.
   git identity가 1인당 2~3개로 갈라져 있어(`Sirius147` ↔ `LeeSeongIl` 등) 커밋→작성자 연결에 이 표가 필요
+  → **2026-09-03 추가: `전홍선` 합류.** id `hongseon` 으로 등록(다른 팀원과 같은 패턴 —
+  이름 로마자 표기). `data/rotation.json` order 에도 추가(활성 팀원 4명: junsoo/chanung/seongil/hongseon).
+  git identity는 커밋 1건(`hpgcpy <hongsun724@gmail.com>`)만 확인돼 `verified: false` — 본인 확인 필요.
 - [x] T0-4. 파일명 규칙 정리 — `실패`, `잘못된 풀이`, `FailVersion`, `2` 접미사 →
       `{author}.failed.java` / `{author}.alt.java`. 빈 파일과 전체 주석 파일은 풀이로 세지 않고 제외
 - [x] T0-5. ~~인코딩 통일~~ — **기존 파일을 일괄 변환하지 않는다.** 88개 전부 CRLF지만

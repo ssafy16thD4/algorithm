@@ -40,6 +40,11 @@ vm.runInContext(scripts[0], sandbox);
 
 const D = sandbox.window.STUDY_DATA;
 const app = els.app;
+// 팀원이 늘어도(전홍선 등) 모든 활성 인원이 모든 테스트용 문제를 풀어둔 건 아니므로,
+// "전원이 풀었다"는 전제 대신 그 문제를 실제로 푼 활성 인원 수를 매번 데이터에서 구한다.
+const activeAuthorIds = new Set(D.authors.filter((a) => a.active !== false).map((a) => a.id));
+const activeEntryCount = (key) =>
+  D.problems.find((p) => p.key === key).entries.filter((e) => activeAuthorIds.has(e.author)).length;
 const out = [];
 let bad = 0;
 const must = (c, m) => { out.push((c ? 'OK   ' : 'FAIL ') + m); if (!c) bad++; };
@@ -56,7 +61,7 @@ vm.runInContext('route()', sandbox);
 const detail = app.innerHTML;
 must(detail.includes('다단계 칫솔 판매'), '상세: 제목');
 // class="cols ..." (컨테이너) 와 구분하기 위해 닫는 따옴표까지 본다
-const act = D.authors.filter(a => a.active !== false).length;
+const act = activeEntryCount('programmers/77486');
 must((detail.match(/class="col( on)?"/g) || []).length === act, `상세: 현역 ${act}열만 렌더`);
 must(detail.includes('졸업생 1개 숨김'), '상세: 숨긴 풀이 수 표시');
 must(detail.includes('<span class="k">class</span>'), '상세: Java 하이라이트 (keyword)');
@@ -90,7 +95,8 @@ const alt2 = app.innerHTML;
 must(alt2.includes('이전 코드 보기'), '변형: 현역 변형은 버튼으로 렌더');
 must(!alt2.includes('<details class="rev alt" open>'), '변형: 변형 코드는 접힌 채로');
 must(alt2.indexOf('양과늑대2') === -1 || true, '변형: 대표 파일명은 헤더에 노출하지 않는다');
-must((alt2.match(/class="col( on)?"/g) || []).length === act, `변형: 변형이 있어도 현역 ${act}열 유지`);
+const act92343 = activeEntryCount('programmers/92343');
+must((alt2.match(/class="col( on)?"/g) || []).length === act92343, `변형: 변형이 있어도 현역 ${act92343}열 유지`);
 must(!detail.includes('norev">리뷰 없음'), '상세: 다 리뷰됐으면 "리뷰 없음" 안 뜸');
 
 // "리뷰 없음" 안내는 실제로 리뷰가 빠진 문제에서 확인한다 (특정 문제에 고정하지 않는다).
@@ -179,7 +185,8 @@ if (alumni.length) {
   vm.runInContext('route()', sandbox);
   const rv = app.innerHTML;
   must(rv.includes('정석 코드와 diff'), '정석코드: 코드 열마다 diff 버튼');
-  must((rv.match(/정석 코드와 diff/g) || []).length === act, `정석코드: ${act}열 전부에 diff 버튼`);
+  const act67259 = activeEntryCount('programmers/67259');
+  must((rv.match(/정석 코드와 diff/g) || []).length === act67259, `정석코드: ${act67259}열 전부에 diff 버튼`);
   must(!rv.includes('<details class="rev ref" open><summary><span class="t-open">정석 코드와 diff'),
     '정석코드: diff 는 기본 접힘 (코드 먼저 읽게)');
   must(rv.indexOf('pre class="code"') < rv.indexOf('정석 코드와 diff'), '정석코드: 코드가 diff 버튼보다 먼저');

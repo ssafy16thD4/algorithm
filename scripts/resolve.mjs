@@ -10,7 +10,7 @@ import { ROOT, resolveSource } from './lib/map.mjs';
 const REASONS = {
   'unknown-author': 'data/authors.json 의 folders 에 없는 최상위 폴더입니다.',
   'unmapped-title': 'data/problems.json 의 aliases 에 이 파일명이 없습니다. alias를 추가하세요.',
-  'not-java': '.java 파일이 아닙니다.',
+  'unsupported-lang': '.java 또는 .cpp 파일이 아닙니다.',
   'not-a-solution': '풀이 파일이 아닙니다 (Test.java, ttt.txt 등).',
   empty: '빈 파일입니다.',
   'commented-out': '전체가 주석 처리되어 있습니다.',
@@ -40,34 +40,40 @@ if (!info.ok) {
 let compiles = null;
 let compileError = null;
 
+const COMPILERS = {
+  java: { bin: 'javac', args: (out, file) => ['-nowarn', '-encoding', 'UTF-8', '-d', out, file], missing: 'javac 없음 (JDK 미설치)' },
+  cpp: { bin: 'g++', args: (out, file) => ['-std=c++17', '-O0', '-o', path.join(out, 'a.out'), file], missing: 'g++ 없음 (MinGW/빌드 도구 미설치)' },
+};
+
 if (process.argv.includes('--no-compile')) {
   compileError = '건너뜀 (--no-compile)';
 } else if (info.noExtension) {
-  // javac 는 .java 확장자가 없으면 파일로 취급하지 않는다 (invalid flag).
+  // javac/g++ 는 확장자가 없으면 파일로 취급하지 않는다 (invalid flag).
   // 컴파일 실패가 아니라 판정 불가로 남긴다.
-  compileError = '확장자가 없어 javac 로 확인 불가';
+  compileError = '확장자가 없어 컴파일러로 확인 불가';
 } else {
-  const outDir = fs.mkdtempSync(path.join(os.tmpdir(), 'review-javac-'));
+  const compiler = COMPILERS[info.lang];
+  const outDir = fs.mkdtempSync(path.join(os.tmpdir(), 'review-compile-'));
   try {
-    execFileSync('javac', ['-nowarn', '-encoding', 'UTF-8', '-d', outDir, path.join(ROOT, rel)], {
+    execFileSync(compiler.bin, compiler.args(outDir, path.join(ROOT, rel)), {
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     compiles = true;
   } catch (e) {
     if (e.code === 'ENOENT') {
-      compileError = 'javac 없음 (JDK 미설치)'; // 컴파일 실패가 아니다
+      compileError = compiler.missing; // 컴파일 실패가 아니다
     } else {
       compiles = false;
-      compileError = cleanJavacError(String(e.stderr ?? ''));
+      compileError = cleanCompilerError(String(e.stderr ?? ''));
     }
   } finally {
     fs.rmSync(outDir, { recursive: true, force: true });
   }
 }
 
-// javac 는 stderr 를 콘솔 코드페이지로 쓴다. 한글 경로가 섞이면 깨져서 나오므로
+// 컴파일러는 stderr 를 콘솔 코드페이지로 쓴다. 한글 경로가 섞이면 깨져서 나오므로
 // 파일 경로 부분을 잘라내고 `줄번호: error: 내용` 만 남긴다.
-function cleanJavacError(stderr) {
+function cleanCompilerError(stderr) {
   return stderr
     .replace(/\r/g, '')
     .split('\n')
@@ -89,6 +95,7 @@ console.log(JSON.stringify({
   authorName: info.authorName,
   week: info.week,
   variant: info.variant,
+  lang: info.lang,
   lines: info.lines,
   compiles,
   compileError,

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T12:48:00.051Z",
+  "generatedAt": "2026-09-03T00:55:22.590Z",
   "authors": [
     {
       "id": "junsoo",
@@ -14,6 +14,11 @@
     {
       "id": "seongil",
       "displayName": "이성일",
+      "verified": false
+    },
+    {
+      "id": "hongseon",
+      "displayName": "전홍선",
       "verified": false
     },
     {
@@ -1781,6 +1786,18 @@
           "hasReview": true,
           "lines": 61,
           "bytes": 1994
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 5,
+          "variant": null,
+          "source": "이성일/week5/SWEA1952.java",
+          "target": "solutions/swea/1952/seongil.java",
+          "review": "reviews/swea/1952/seongil.md",
+          "hasReview": false,
+          "lines": 45,
+          "bytes": 2001
         }
       ]
     },
@@ -1806,6 +1823,54 @@
           "hasReview": true,
           "lines": 123,
           "bytes": 3802
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 5,
+          "variant": "failed",
+          "source": "안찬웅/week5/탈주범 검거 실패.java",
+          "target": "solutions/swea/1953/chanung.failed.java",
+          "review": "reviews/swea/1953/chanung.failed.md",
+          "hasReview": true,
+          "lines": 111,
+          "bytes": 3765
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 5,
+          "variant": null,
+          "source": "안찬웅/week5/탈주범 검거.java",
+          "target": "solutions/swea/1953/chanung.java",
+          "review": "reviews/swea/1953/chanung.md",
+          "hasReview": true,
+          "lines": 114,
+          "bytes": 4272
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 5,
+          "variant": null,
+          "source": "이성일/week5/SWEA1953.java",
+          "target": "solutions/swea/1953/seongil.java",
+          "review": "reviews/swea/1953/seongil.md",
+          "hasReview": false,
+          "lines": 114,
+          "bytes": 2499
+        },
+        {
+          "author": "hongseon",
+          "authorName": "전홍선",
+          "week": 5,
+          "variant": null,
+          "source": "전홍선/week5/1953.cpp",
+          "target": "solutions/swea/1953/hongseon.cpp",
+          "review": "reviews/swea/1953/hongseon.md",
+          "hasReview": false,
+          "lines": 77,
+          "bytes": 2015
         }
       ]
     },
@@ -1817,7 +1882,8 @@
       "url": null,
       "verified": true,
       "weeks": [
-        5
+        5,
+        6
       ],
       "entries": [
         {
@@ -1855,6 +1921,30 @@
           "hasReview": true,
           "lines": 72,
           "bytes": 2413
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 6,
+          "variant": null,
+          "source": "이성일/week6/SWEA2105.java",
+          "target": "solutions/swea/2105/seongil.java",
+          "review": "reviews/swea/2105/seongil.md",
+          "hasReview": false,
+          "lines": 74,
+          "bytes": 1817
+        },
+        {
+          "author": "hongseon",
+          "authorName": "전홍선",
+          "week": 5,
+          "variant": null,
+          "source": "전홍선/week5/2105.cpp",
+          "target": "solutions/swea/2105/hongseon.cpp",
+          "review": "reviews/swea/2105/hongseon.md",
+          "hasReview": false,
+          "lines": 126,
+          "bytes": 3315
         }
       ]
     },
@@ -1892,6 +1982,153 @@
           "hasReview": true,
           "lines": 116,
           "bytes": 2564
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 6,
+          "variant": "failed",
+          "source": "안찬웅/week6/보호 필름 실패.java",
+          "target": "solutions/swea/2112/chanung.failed.java",
+          "review": "reviews/swea/2112/chanung.failed.md",
+          "hasReview": false,
+          "lines": 108,
+          "bytes": 2666
+        },
+        {
+          "author": "hongseon",
+          "authorName": "전홍선",
+          "week": 6,
+          "variant": null,
+          "source": "전홍선/week6/swea2112.cpp",
+          "target": "solutions/swea/2112/hongseon.cpp",
+          "review": "reviews/swea/2112/hongseon.md",
+          "hasReview": false,
+          "lines": 115,
+          "bytes": 2395
+        }
+      ]
+    },
+    {
+      "key": "swea/2115",
+      "platform": "swea",
+      "problemId": "2115",
+      "title": "벌꿀채취",
+      "url": null,
+      "verified": true,
+      "weeks": [
+        6
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 6,
+          "variant": null,
+          "source": "김준수/week6/벌꿀채취.java",
+          "target": "solutions/swea/2115/junsoo.java",
+          "review": "reviews/swea/2115/junsoo.md",
+          "hasReview": false,
+          "lines": 109,
+          "bytes": 3132
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 6,
+          "variant": "failed",
+          "source": "안찬웅/week6/벌꿀채취 실패.java",
+          "target": "solutions/swea/2115/chanung.failed.java",
+          "review": "reviews/swea/2115/chanung.failed.md",
+          "hasReview": false,
+          "lines": 62,
+          "bytes": 1649
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 6,
+          "variant": null,
+          "source": "안찬웅/week6/벌꿀채취.java",
+          "target": "solutions/swea/2115/chanung.java",
+          "review": "reviews/swea/2115/chanung.md",
+          "hasReview": false,
+          "lines": 82,
+          "bytes": 2635
+        },
+        {
+          "author": "hongseon",
+          "authorName": "전홍선",
+          "week": 6,
+          "variant": null,
+          "source": "전홍선/week6/swea2115.cpp",
+          "target": "solutions/swea/2115/hongseon.cpp",
+          "review": "reviews/swea/2115/hongseon.md",
+          "hasReview": false,
+          "lines": 76,
+          "bytes": 1767
+        }
+      ]
+    },
+    {
+      "key": "swea/2117",
+      "platform": "swea",
+      "problemId": "2117",
+      "title": "홈 방범 서비스",
+      "url": null,
+      "verified": true,
+      "weeks": [
+        6
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 6,
+          "variant": null,
+          "source": "김준수/week6/홈 방범 서비스.java",
+          "target": "solutions/swea/2117/junsoo.java",
+          "review": "reviews/swea/2117/junsoo.md",
+          "hasReview": false,
+          "lines": 93,
+          "bytes": 2847
+        },
+        {
+          "author": "hongseon",
+          "authorName": "전홍선",
+          "week": 6,
+          "variant": null,
+          "source": "전홍선/week6/swea2117.cpp",
+          "target": "solutions/swea/2117/hongseon.cpp",
+          "review": "reviews/swea/2117/hongseon.md",
+          "hasReview": false,
+          "lines": 102,
+          "bytes": 2358
+        }
+      ]
+    },
+    {
+      "key": "swea/2382",
+      "platform": "swea",
+      "problemId": "2382",
+      "title": "미생물 격리",
+      "url": null,
+      "verified": true,
+      "weeks": [
+        6
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 6,
+          "variant": null,
+          "source": "김준수/week6/미생물 격리.java",
+          "target": "solutions/swea/2382/junsoo.java",
+          "review": "reviews/swea/2382/junsoo.md",
+          "hasReview": false,
+          "lines": 158,
+          "bytes": 4360
         }
       ]
     },
@@ -2003,6 +2240,18 @@
           "hasReview": true,
           "lines": 107,
           "bytes": 3597
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 5,
+          "variant": null,
+          "source": "안찬웅/week5/핀볼게임.java",
+          "target": "solutions/swea/5650/chanung.java",
+          "review": "reviews/swea/5650/chanung.md",
+          "hasReview": false,
+          "lines": 157,
+          "bytes": 5078
         },
         {
           "author": "seongil",
@@ -2127,6 +2376,18 @@
           "hasReview": false,
           "lines": 172,
           "bytes": 3615
+        },
+        {
+          "author": "hongseon",
+          "authorName": "전홍선",
+          "week": 5,
+          "variant": null,
+          "source": "전홍선/week5/breakthewall.cpp",
+          "target": "solutions/swea/5656/hongseon.cpp",
+          "review": "reviews/swea/5656/hongseon.md",
+          "hasReview": false,
+          "lines": 204,
+          "bytes": 4621
         }
       ]
     },

@@ -88,9 +88,14 @@ pre.code .c { color: var(--com); font-style: italic; } pre.code .n { color: var(
 .expand-btn:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
 .tabs.foc-tabs { display: flex; }
 .tabs.foc-tabs .back { margin-left: auto; }
-.focus { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 400px); gap: 16px; align-items: start; }
+.focus { display: flex; align-items: stretch; gap: 0; }
+.focus-code { flex: 1 1 0; min-width: 0; }
 .focus-code pre.code { font-size: 14.5px; }
-.focus-review { align-self: start; }
+.focus-resizer { flex: 0 0 14px; margin: 0 -3px; cursor: col-resize; position: relative; touch-action: none; align-self: stretch; }
+.focus-resizer::after { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; margin-left: -2px;
+  background: var(--line); border-radius: 2px; }
+.focus-resizer:hover::after, .focus-resizer.active::after { background: var(--accent); }
+.focus-review { flex: 0 1 var(--rev-w, 400px); min-width: 240px; max-width: 82%; align-self: start; }
 .focus-review > details.rev, .focus-review > .norev { border-top: 0; }
 .ref-note { padding: 10px 14px 0; font-size: 12.5px; color: var(--muted); }
 /* T4-3. 정석 코드 diff */
@@ -177,7 +182,9 @@ details.rev.fb, .norev.fb { background: var(--panel); border: 1px solid var(--li
   .cols.tabbed > .col { display: none; }
   .cols.tabbed > .col.on { display: block; }
   .tabs { display: flex; }
-  .focus { grid-template-columns: minmax(0, 1fr); }
+  .focus { flex-direction: column; }
+  .focus-resizer { display: none; }
+  .focus-review { flex-basis: auto; max-width: 100%; }
 }
 
 /* ---------- 모바일 (휴대폰 폭) ---------- */
@@ -253,9 +260,13 @@ document.getElementById('alumni-toggle').addEventListener('change', e => {
   route();
 });
 
-/* ---------- Java 하이라이터 ---------- */
-const KW = 'abstract|boolean|break|byte|case|catch|char|class|continue|default|do|double|else|enum|extends|final|finally|float|for|if|implements|import|instanceof|int|interface|long|new|package|private|protected|public|return|short|static|super|switch|this|throw|throws|try|void|while|var|record|true|false|null';
-const TOKEN = new RegExp('(\\/\\*[\\s\\S]*?\\*\\/|\\/\\/[^\\n]*)|("(?:\\\\.|[^"\\\\])*"|\'(?:\\\\.|[^\'\\\\])*\')|\\b(\\d[\\d_]*(?:\\.\\d+)?[fdlL]?)\\b|\\b(' + KW + ')\\b', 'g');
+/* ---------- Java/C++ 하이라이터 ---------- */
+// 언어를 엄격히 나누지 않고 두 언어 키워드를 합쳐서 쓴다 — 어차피 서로 다른 키워드는
+// 그 언어 코드에 안 나타나므로 겹쳐도 오염되지 않는다.
+const KW = 'abstract|boolean|break|byte|case|catch|char|class|continue|default|do|double|else|enum|extends|final|finally|float|for|if|implements|import|instanceof|int|interface|long|new|package|private|protected|public|return|short|static|super|switch|this|throw|throws|try|void|while|var|record|true|false|null|' +
+  'auto|bool|cin|cout|endl|namespace|using|template|typename|struct|typedef|unsigned|signed|const|constexpr|nullptr|sizeof|virtual|override|inline|friend|operator|union|goto|register|volatile|explicit|mutable|wchar_t';
+// 맨 앞 그룹은 #include/#define 같은 C++ 전처리기 지시문 한 줄 전체(주석과 같은 색으로 표시)
+const TOKEN = new RegExp('(^[ \\t]*#[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/|\\/\\/[^\\n]*)|("(?:\\\\.|[^"\\\\])*"|\'(?:\\\\.|[^\'\\\\])*\')|\\b(\\d[\\d_]*(?:\\.\\d+)?[fdlLuU]?)\\b|\\b(' + KW + ')\\b', 'gm');
 function hl(src) {
   let out = '', last = 0, m;
   TOKEN.lastIndex = 0;
@@ -272,7 +283,7 @@ function md(src) {
   const fences = [];
   src = src.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
     code = code.replace(/\n$/, '');
-    fences.push('<pre class="code">' + (lang === 'java' || !lang ? hl(code) : esc(code)) + '</pre>');
+    fences.push('<pre class="code">' + (lang === 'java' || lang === 'cpp' || !lang ? hl(code) : esc(code)) + '</pre>');
     return '' + (fences.length - 1) + '';
   });
   const inl = s => esc(s)
@@ -391,6 +402,13 @@ function altBlock(a) {
 }
 
 let focusIdx = null; // 문제 상세: 크게 보기 상태. null 이면 그리드.
+// 크게 보기의 코드/리뷰 폭 비율. 드래그로 조절하고 기기별로 기억한다(리뷰가 잘려 보이던 문제 대응).
+// file:// 로 열면 브라우저에 따라 localStorage 가 막혀 있을 수 있어 항상 try/catch로 감싼다.
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+};
+let focusRevW = Number(store.get('focusRevW')) || 400;
 
 function reviewBlock(e) {
   const r = e.review;
@@ -537,15 +555,51 @@ function viewProblem(key) {
           esc(x.authorName) + (x.variant ? ' (' + x.variant + ')' : '') + '</button>').join('') +
         '<button class="expand-btn back" id="grid-back">그리드로 보기</button>' +
       '</div>' +
-      '<div class="focus">' +
+      '<div class="focus" id="focus-split" style="--rev-w:' + focusRevW + 'px">' +
         '<div class="col focus-code"><h3>' + esc(e.authorName) +
             (e.variant ? ' <span class="tag">' + e.variant + '</span>' : '') +
             '<span class="sub">' + e.lines + '줄</span></h3>' +
           '<pre class="code">' + hl(e.code) + '</pre>' +
           (e.alts || []).map(a => altBlock(a)).join('') +
         '</div>' +
+        '<div class="focus-resizer" id="focus-resizer" title="드래그해서 폭 조절 · 더블클릭하면 기본 폭"></div>' +
         '<div class="col focus-review">' + reviewBlock(e) + '</div>' +
       '</div>';
+  }
+
+  // 크게 보기 리뷰 패널 폭 드래그. 오른쪽 가장자리에서 마우스까지 거리 = 리뷰 폭.
+  function bindFocusResizer() {
+    const resizer = document.getElementById('focus-resizer');
+    const split = document.getElementById('focus-split');
+    if (!resizer || !split) return;
+    const apply = (clientX) => {
+      const rect = split.getBoundingClientRect();
+      const min = 240, max = rect.width * 0.82;
+      const w = Math.max(min, Math.min(max, rect.right - clientX));
+      focusRevW = Math.round(w);
+      split.style.setProperty('--rev-w', focusRevW + 'px');
+    };
+    resizer.addEventListener('pointerdown', (ev) => {
+      resizer.setPointerCapture(ev.pointerId);
+      resizer.classList.add('active');
+      ev.preventDefault();
+    });
+    resizer.addEventListener('pointermove', (ev) => {
+      if (!resizer.hasPointerCapture(ev.pointerId)) return;
+      apply(ev.clientX);
+    });
+    const stop = (ev) => {
+      if (!resizer.classList.contains('active')) return;
+      resizer.classList.remove('active');
+      store.set('focusRevW', focusRevW);
+    };
+    resizer.addEventListener('pointerup', stop);
+    resizer.addEventListener('pointercancel', stop);
+    resizer.addEventListener('dblclick', () => {
+      focusRevW = 400;
+      split.style.setProperty('--rev-w', '400px');
+      store.set('focusRevW', focusRevW);
+    });
   }
 
   function render() {
@@ -587,6 +641,7 @@ function viewProblem(key) {
     app.querySelectorAll('.expand-btn[data-i]').forEach(b => b.onclick = () => {
       focusIdx = +b.dataset.i; render();
     });
+    bindFocusResizer();
     app.querySelectorAll('.foc-tabs button[data-i]').forEach(b => b.onclick = () => {
       focusIdx = +b.dataset.i; render();
     });

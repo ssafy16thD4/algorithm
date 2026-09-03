@@ -87,7 +87,7 @@ export function walkRepo(dir = ROOT, acc = []) {
 /**
  * 레포 상대경로 하나를 해석한다.
  * 성공하면 {ok:true, ...}, 실패하면 {ok:false, reason} 을 돌려준다.
- * reason: not-a-solution | unknown-author | not-java | empty | commented-out | unmapped-title | duplicate-reupload
+ * reason: not-a-solution | unknown-author | unsupported-lang | empty | commented-out | unmapped-title | duplicate-reupload
  */
 export function resolveSource(rel) {
   const segs = rel.split('/');
@@ -101,7 +101,8 @@ export function resolveSource(rel) {
   const ext = path.extname(base);
   const stemRaw = ext ? base.slice(0, -ext.length) : base;
 
-  if (ext && ext !== '.java') return { ok: false, reason: 'not-java', rel };
+  const lang = ext === '.java' ? 'java' : ext === '.cpp' ? 'cpp' : null;
+  if (ext && !lang) return { ok: false, reason: 'unsupported-lang', rel };
   if (NON_SOLUTION.some((re) => re.test(stemRaw))) return { ok: false, reason: 'not-a-solution', rel };
   if (DUPLICATE_REUPLOADS.has(rel.normalize('NFC'))) return { ok: false, reason: 'duplicate-reupload', rel };
 
@@ -161,11 +162,12 @@ export function resolveSource(rel) {
     authorName: author.displayName,
     week: parseWeek(weekSeg),
     variant,
+    lang: lang ?? 'java', // 확장자 없는 옛 파일은 기존과 동일하게 java 취급
     lines: text.split('\n').length,
     bytes: buf.length,
     crlf: buf.includes('\r\n'),
     noExtension: !ext,
-    solutionTarget: `solutions/${platform}/${problemId}/${author.id}${suffix}.java`,
+    solutionTarget: `solutions/${platform}/${problemId}/${author.id}${suffix}${lang === 'cpp' ? '.cpp' : '.java'}`,
     reviewTarget: `reviews/${platform}/${problemId}/${author.id}${suffix}.md`,
   };
 }

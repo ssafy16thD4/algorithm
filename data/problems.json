@@ -366,7 +366,8 @@
       "url": null,
       "aliases": [
         "SWEA1953",
-        "탈주범 검거"
+        "탈주범 검거",
+        "1953"
       ],
       "verified": true
     },
@@ -377,7 +378,8 @@
       "url": null,
       "aliases": [
         "SWEA2105",
-        "디저트 카페"
+        "디저트 카페",
+        "2105"
       ],
       "verified": true
     },
@@ -389,6 +391,39 @@
       "aliases": [
         "SWEA2112",
         "보호 필름"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "2115",
+      "title": "벌꿀채취",
+      "url": null,
+      "aliases": [
+        "SWEA2115",
+        "벌꿀채취"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "2117",
+      "title": "홈 방범 서비스",
+      "url": null,
+      "aliases": [
+        "SWEA2117",
+        "홈 방범 서비스"
+      ],
+      "verified": true
+    },
+    {
+      "platform": "swea",
+      "problemId": "2382",
+      "title": "미생물 격리",
+      "url": null,
+      "aliases": [
+        "SWEA2382",
+        "미생물 격리"
       ],
       "verified": true
     },
@@ -442,7 +477,8 @@
       "url": null,
       "aliases": [
         "SWEA5656",
-        "벽돌 깨기"
+        "벽돌 깨기",
+        "breakthewall"
       ],
       "verified": true
     },

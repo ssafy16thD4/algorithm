@@ -41,6 +41,13 @@
       "verified": false
     },
     {
+      "id": "hongseon",
+      "displayName": "전홍선",
+      "folders": ["전홍선"],
+      "gitIdentities": ["hpgcpy <hongsun724@gmail.com>"],
+      "verified": false
+    },
+    {
       "id": "seungjoo",
       "displayName": "이승주",
       "folders": ["이승주"],

@@ -54,9 +54,12 @@ for (const p of list) {
 }
 
 console.log('\n=== 3열 비교 가능 여부 (T2-4) ===');
-const byCount = { 1: [], 2: [], 3: [], 4: [] };
-for (const p of list) byCount[new Set(p.entries.map((e) => e.author)).size].push(p.key);
-for (const n of [4, 3, 2, 1]) console.log(`  ${n}명 제출: ${byCount[n].length}문제`);
+const byCount = {};
+for (const p of list) {
+  const n = new Set(p.entries.map((e) => e.author)).size;
+  (byCount[n] ??= []).push(p.key);
+}
+for (let n = authorIds.length; n >= 1; n--) console.log(`  ${n}명 제출: ${(byCount[n] ?? []).length}문제`);
 
 const reviewed = solutions.filter((s) => fs.existsSync(path.join(ROOT, s.reviewTarget)));
 console.log('\n=== 리뷰 진행률 (T1) ===');
@@ -65,7 +68,7 @@ console.log(`  ${reviewed.length} / ${solutions.length}개 (${Math.round((review
 console.log('\n=== 제외된 파일 ===');
 for (const [reason, label] of [
   ['unmapped-title', '매핑 없는 파일명'],
-  ['not-java', '.java 아님'],
+  ['unsupported-lang', '.java/.cpp 아님'],
   ['not-a-solution', '풀이 아님'],
   ['empty', '빈 파일'],
   ['commented-out', '전체 주석'],

@@ -1,4 +1,4 @@
-// 이번 push/PR 에서 바뀐 .java 만 골라 컴파일한다.
+// 이번 push/PR 에서 바뀐 .java/.cpp 만 골라 컴파일한다.
 //   node scripts/compile-changed.mjs <base-ref>
 //
 // 전체를 검사하지 않는 이유: 기존에 깨져 있는 파일 3건 때문에 모든 PR 이 빨간불이 된다.
@@ -53,13 +53,18 @@ function changedFiles() {
   }
 }
 
-const changed = changedFiles().filter((f) => f.endsWith('.java'));
+const COMPILERS = {
+  java: { bin: 'javac', args: (out, file) => ['-nowarn', '-encoding', 'UTF-8', '-d', out, file] },
+  cpp: { bin: 'g++', args: (out, file) => ['-std=c++17', '-O0', '-o', path.join(out, 'a.out'), file] },
+};
+
+const changed = changedFiles().filter((f) => f.endsWith('.java') || f.endsWith('.cpp'));
 if (!changed.length) {
-  console.log('바뀐 .java 없음 — 통과');
+  console.log('바뀐 .java/.cpp 없음 — 통과');
   process.exit(0);
 }
 
-console.log(`바뀐 .java ${changed.length}개\n`);
+console.log(`바뀐 .java/.cpp ${changed.length}개\n`);
 
 const outDir = fs.mkdtempSync(path.join(os.tmpdir(), 'compile-'));
 let failed = 0;
@@ -72,12 +77,18 @@ for (const rel of changed) {
     skipped++;
     continue;
   }
+  const compiler = COMPILERS[info.lang];
   try {
-    execFileSync('javac', ['-nowarn', '-encoding', 'UTF-8', '-d', outDir, path.join(ROOT, rel)], {
+    execFileSync(compiler.bin, compiler.args(outDir, path.join(ROOT, rel)), {
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     console.log(`OK    ${rel}`);
   } catch (e) {
+    if (e.code === 'ENOENT') {
+      console.log(`SKIP  ${rel}  (${compiler.bin} 없음)`);
+      skipped++;
+      continue;
+    }
     failed++;
     console.log(`FAIL  ${rel}`);
     const msg = String(e.stderr ?? '')

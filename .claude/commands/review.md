@@ -16,7 +16,9 @@ allowed-tools: Bash(node scripts/resolve.mjs:*), Bash(node scripts/scan.mjs:*), 
 node scripts/resolve.mjs "$ARGUMENTS"
 ```
 
-JSON이 나온다. 여기서 `reviewTarget`(저장 경로), `compiles`, `url`, `title`, `authorName` 을 쓴다.
+JSON이 나온다. 여기서 `reviewTarget`(저장 경로), `compiles`, `lang`(java/cpp), `url`, `title`, `authorName` 을 쓴다.
+`lang` 에 따라 컴파일러가 다르다 — `java` 는 javac, `cpp` 는 g++. `compileError` 에 `g++ 없음`처럼 컴파일러
+자체가 없다는 메시지가 있으면 `compiles: null` 로 남기고 그 사실을 리뷰에 적는다 (판정 못함이지, 컴파일 실패가 아니다).
 
 **실패하면 거기서 멈추고 이유를 사용자에게 알린다.** 대부분 `data/problems.json` 의 `aliases` 에 파일명 변형이 없어서다 — 그 경우 추가할 alias 한 줄을 제안한다. 임의로 다른 경로에 저장하지 말 것.
 
@@ -45,7 +47,8 @@ problemId: "<problemId>"
 author: <author>
 source: <source>
 week: <week>
-compiles: <true|false>
+compiles: <true|false|null>
+lang: <java|cpp>
 verdict: <good|needs-fix|wrong>
 tags: [<review-tags.json 의 id 들>]
 complexity:
