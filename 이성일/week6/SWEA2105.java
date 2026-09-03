@@ -1,17 +1,9 @@
-package com.ssafy.swb;
-
+package coding;
 import java.io.*;
 import java.util.*;
 
 public class SWEA2105 {
 	
-	/*
-	 * 배열 꼭짓점 인덱스 제외 모든 인덱스가 우상단 사각형 인덱스라 가정하고 DFS
-	 * 시작 방향은 좌하단 고정
-	 * 경계조건 , 중복 조건 발생 시 디렉션 변경
-	 * 진행을 한칸도 못했을 시, -1
-	 * 복귀 하면
-	 */
 	
 	static int[] dx = {1, 1, -1, -1};
 	static int[] dy = {-1, 1, 1, -1};
@@ -27,11 +19,30 @@ public class SWEA2105 {
 		return (x >= 0 && x < n && y >= 0 && y < n);
 	}
 	
-	static int dfs(int[][] board, int dir, int x, int y, Set<Integer> set, int cnt) {
-		int nx = x + dx[dir];
-		int ny = x + dy[dir];
+	static int startX;
+	static int startY;
+	static int answer;
+	
+	
+	
+	static void dfs(int x, int y, Set<Integer> set, int dir, int[][] board, int dessertCnt) {
 		
-		while (inRange(nx, ny, board.length) && !set.contains(board[nx][ny])) {
+		for (int i = dir; i <= dir + 1 && i < 4; i++) {
+			int nx = x + dx[i];
+			int ny = y + dy[i];
+			
+			if (!inRange(nx, ny, board.length)) continue;
+			
+			if (i == 3 && nx == startX && ny == startY) {
+				answer = Math.max(answer,  dessertCnt);
+				continue;
+			}
+			
+			if (set.contains(board[nx][ny])) continue;
+			
+			set.add(board[nx][ny]);
+			dfs(nx, ny, set, i, board, dessertCnt+1);
+			set.remove(board[nx][ny]);
 			
 		}
 	}
@@ -50,6 +61,7 @@ public class SWEA2105 {
 				StringTokenizer st = new StringTokenizer(br.readLine().trim());
 				for (int j = 0; j < N; j++) {
 					board[i][j] = Integer.parseInt(st.nextToken());
+					
 				}
 			}
 			
@@ -60,14 +72,23 @@ public class SWEA2105 {
 					{N-1, N-1}
 			};
 			
-			int answer = -1;
+			answer = -1;
 			
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < N; j++) {
 					if (inSharps(i,j,sharps)) continue;
-					answer = Math.max(answer, dfs(board, 0, i, j, new HashSet<>(), 0));
+					startX = i;
+					startY = j;
+					Set<Integer> set = new HashSet<>();
+					set.add(board[i][j]);
+					dfs(i, j, set, 0, board, 1);
 				}
 			}
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("#").append(tc).append(" ").append(answer);
+			
+			System.out.println(sb);
 		}
 	}
 }
