@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T00:55:22.590Z",
+  "generatedAt": "2026-09-03T01:49:36.960Z",
   "authors": [
     {
       "id": "junsoo",
@@ -2129,6 +2129,18 @@
           "hasReview": false,
           "lines": 158,
           "bytes": 4360
+        },
+        {
+          "author": "hongseon",
+          "authorName": "전홍선",
+          "week": 6,
+          "variant": null,
+          "source": "전홍선/week6/swea2382.cpp",
+          "target": "solutions/swea/2382/hongseon.cpp",
+          "review": "reviews/swea/2382/hongseon.md",
+          "hasReview": false,
+          "lines": 95,
+          "bytes": 2521
         }
       ]
     },
