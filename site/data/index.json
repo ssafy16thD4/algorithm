@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T03:29:25.023Z",
+  "generatedAt": "2026-09-04T16:07:28.585Z",
   "authors": [
     {
       "id": "junsoo",
@@ -28,6 +28,31 @@
     }
   ],
   "problems": [
+    {
+      "key": "boj/17472",
+      "platform": "boj",
+      "problemId": "17472",
+      "title": "다리 만들기 2",
+      "url": "https://www.acmicpc.net/problem/17472",
+      "verified": true,
+      "weeks": [
+        6
+      ],
+      "entries": [
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 6,
+          "variant": null,
+          "source": "이성일/week6/다리만들기2.java",
+          "target": "solutions/boj/17472/seongil.java",
+          "review": "reviews/boj/17472/seongil.md",
+          "hasReview": true,
+          "lines": 190,
+          "bytes": 6693
+        }
+      ]
+    },
     {
       "key": "programmers/12904",
       "platform": "programmers",
@@ -1795,7 +1820,7 @@
           "source": "이성일/week5/SWEA1952.java",
           "target": "solutions/swea/1952/seongil.java",
           "review": "reviews/swea/1952/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 45,
           "bytes": 2001
         }
@@ -1856,7 +1881,7 @@
           "source": "이성일/week5/SWEA1953.java",
           "target": "solutions/swea/1953/seongil.java",
           "review": "reviews/swea/1953/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 114,
           "bytes": 2499
         },
@@ -1868,7 +1893,7 @@
           "source": "전홍선/week5/1953.cpp",
           "target": "solutions/swea/1953/hongseon.cpp",
           "review": "reviews/swea/1953/hongseon.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 77,
           "bytes": 2015
         }
@@ -1930,7 +1955,7 @@
           "source": "이성일/week6/SWEA2105.java",
           "target": "solutions/swea/2105/seongil.java",
           "review": "reviews/swea/2105/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 95,
           "bytes": 2127
         },
@@ -1942,7 +1967,7 @@
           "source": "전홍선/week5/2105.cpp",
           "target": "solutions/swea/2105/hongseon.cpp",
           "review": "reviews/swea/2105/hongseon.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 126,
           "bytes": 3315
         }
@@ -1991,7 +2016,7 @@
           "source": "안찬웅/week6/보호 필름 실패.java",
           "target": "solutions/swea/2112/chanung.failed.java",
           "review": "reviews/swea/2112/chanung.failed.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 108,
           "bytes": 2666
         },
@@ -2015,7 +2040,7 @@
           "source": "전홍선/week6/swea2112.cpp",
           "target": "solutions/swea/2112/hongseon.cpp",
           "review": "reviews/swea/2112/hongseon.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 115,
           "bytes": 2395
         }
@@ -2040,7 +2065,7 @@
           "source": "김준수/week6/벌꿀채취.java",
           "target": "solutions/swea/2115/junsoo.java",
           "review": "reviews/swea/2115/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 109,
           "bytes": 3132
         },
@@ -2052,7 +2077,7 @@
           "source": "안찬웅/week6/벌꿀채취 실패.java",
           "target": "solutions/swea/2115/chanung.failed.java",
           "review": "reviews/swea/2115/chanung.failed.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 62,
           "bytes": 1649
         },
@@ -2064,7 +2089,7 @@
           "source": "안찬웅/week6/벌꿀채취.java",
           "target": "solutions/swea/2115/chanung.java",
           "review": "reviews/swea/2115/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 82,
           "bytes": 2635
         },
@@ -2076,7 +2101,7 @@
           "source": "전홍선/week6/swea2115.cpp",
           "target": "solutions/swea/2115/hongseon.cpp",
           "review": "reviews/swea/2115/hongseon.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 76,
           "bytes": 1767
         }
@@ -2101,7 +2126,7 @@
           "source": "김준수/week6/홈 방범 서비스.java",
           "target": "solutions/swea/2117/junsoo.java",
           "review": "reviews/swea/2117/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 93,
           "bytes": 2847
         },
@@ -2113,7 +2138,7 @@
           "source": "안찬웅/week6/홈 방범 서비스 실패.java",
           "target": "solutions/swea/2117/chanung.failed.java",
           "review": "reviews/swea/2117/chanung.failed.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 99,
           "bytes": 3156
         },
@@ -2137,7 +2162,7 @@
           "source": "전홍선/week6/swea2117.cpp",
           "target": "solutions/swea/2117/hongseon.cpp",
           "review": "reviews/swea/2117/hongseon.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 102,
           "bytes": 2358
         }
@@ -2162,7 +2187,7 @@
           "source": "김준수/week6/미생물 격리.java",
           "target": "solutions/swea/2382/junsoo.java",
           "review": "reviews/swea/2382/junsoo.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 158,
           "bytes": 4360
         },
@@ -2174,7 +2199,7 @@
           "source": "전홍선/week6/swea2382.cpp",
           "target": "solutions/swea/2382/hongseon.cpp",
           "review": "reviews/swea/2382/hongseon.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 95,
           "bytes": 2521
         }
@@ -2297,7 +2322,7 @@
           "source": "안찬웅/week5/핀볼게임.java",
           "target": "solutions/swea/5650/chanung.java",
           "review": "reviews/swea/5650/chanung.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 157,
           "bytes": 5078
         },
@@ -2433,7 +2458,7 @@
           "source": "전홍선/week5/breakthewall.cpp",
           "target": "solutions/swea/5656/hongseon.cpp",
           "review": "reviews/swea/5656/hongseon.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 204,
           "bytes": 4621
         }

@@ -119,7 +119,10 @@ export function resolveSource(rel) {
   // variant 추출 (실패/대안 풀이)
   let stem = stemRaw.normalize('NFC').trim();
   let variant = PATH_VARIANT_OVERRIDES.get(rel) ?? null;
-  if (!variant) {
+  // 파일명 그대로가 등록된 alias면 접미사 규칙을 건너뛴다. 제목 자체가 숫자로 끝나는
+  // 문제(BOJ 17472 "다리 만들기 2")를 `2` 접미사 = alt 로 오인하는 걸 막는다.
+  const exactAlias = aliasToProblem.has(normalize(stem));
+  if (!variant && !exactAlias) {
     for (const rule of VARIANT_RULES) {
       if (rule.re.test(stem)) {
         variant = rule.tag;

@@ -501,6 +501,16 @@
         "SWEA14510"
       ],
       "verified": true
+    },
+    {
+      "platform": "boj",
+      "problemId": "17472",
+      "title": "다리 만들기 2",
+      "url": "https://www.acmicpc.net/problem/17472",
+      "aliases": [
+        "다리만들기2"
+      ],
+      "verified": true
     }
   ]
 }

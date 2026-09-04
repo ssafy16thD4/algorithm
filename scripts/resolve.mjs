@@ -55,7 +55,7 @@ if (process.argv.includes('--no-compile')) {
   const compiler = COMPILERS[info.lang];
   const outDir = fs.mkdtempSync(path.join(os.tmpdir(), 'review-compile-'));
   try {
-    execFileSync(compiler.bin, compiler.args(outDir, path.join(ROOT, rel)), {
+    execFileSync(compiler.bin, compiler.args(outDir, compileInput(outDir)), {
       stdio: ['ignore', 'pipe', 'pipe'],
     });
     compiles = true;
@@ -69,6 +69,21 @@ if (process.argv.includes('--no-compile')) {
   } finally {
     fs.rmSync(outDir, { recursive: true, force: true });
   }
+}
+
+// java 는 `public class X` 가 반드시 `X.java` 안에 있어야 한다. 우리 풀이 파일명은
+// 한글 제목이라(팀 규칙, T0-1) 클래스명과 거의 안 맞고, 제자리에서 javac 를 돌리면
+// 코드가 멀쩡해도 "class X is public, should be declared in a file named X.java" 로
+// compiles:false 가 된다. 컴파일 전에 클래스명에 맞춘 임시 파일로 복사해서 그 오탐을 없앤다.
+// public class 가 없으면(=파일명 제약 없음) 원본 경로를 그대로 쓴다.
+function compileInput(outDir) {
+  const src = path.join(ROOT, rel);
+  if (info.lang !== 'java') return src;
+  const m = fs.readFileSync(src, 'utf8').match(/\bpublic\s+(?:final\s+|abstract\s+)?class\s+([A-Za-z_$][\w$]*)/);
+  if (!m) return src;
+  const copy = path.join(outDir, `${m[1]}.java`);
+  fs.copyFileSync(src, copy);
+  return copy;
 }
 
 // 컴파일러는 stderr 를 콘솔 코드페이지로 쓴다. 한글 경로가 섞이면 깨져서 나오므로
