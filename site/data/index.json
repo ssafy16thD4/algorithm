@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T14:16:47.599Z",
+  "generatedAt": "2026-09-06T15:35:58.226Z",
   "authors": [
     {
       "id": "junsoo",
@@ -2058,18 +2058,6 @@
           "bytes": 2666
         },
         {
-          "author": "seungjoo",
-          "authorName": "이승주",
-          "week": 6,
-          "variant": null,
-          "source": "이승주/week6/보호 필름.java",
-          "target": "solutions/swea/2112/seungjoo.java",
-          "review": "reviews/swea/2112/seungjoo.md",
-          "hasReview": false,
-          "lines": 113,
-          "bytes": 2601
-        },
-        {
           "author": "hongseon",
           "authorName": "전홍선",
           "week": 6,
@@ -2178,18 +2166,6 @@
           "hasReview": true,
           "lines": 99,
           "bytes": 3156
-        },
-        {
-          "author": "seungjoo",
-          "authorName": "이승주",
-          "week": 6,
-          "variant": null,
-          "source": "이승주/week6/홈 방범 서비스.java",
-          "target": "solutions/swea/2117/seungjoo.java",
-          "review": "reviews/swea/2117/seungjoo.md",
-          "hasReview": false,
-          "lines": 104,
-          "bytes": 2754
         },
         {
           "author": "hongseon",

@@ -40,19 +40,20 @@ vm.runInContext(scripts[0], sandbox);
 
 const D = sandbox.window.STUDY_DATA;
 const app = els.app;
-// 팀원이 늘어도(전홍선 등) 모든 활성 인원이 모든 테스트용 문제를 풀어둔 건 아니므로,
-// "전원이 풀었다"는 전제 대신 그 문제를 실제로 푼 활성 인원 수를 매번 데이터에서 구한다.
-const activeAuthorIds = new Set(D.authors.filter((a) => a.active !== false).map((a) => a.id));
-const activeEntryCount = (key) =>
-  D.problems.find((p) => p.key === key).entries.filter((e) => activeAuthorIds.has(e.author)).length;
+// 팀원이 늘어도(전홍선 등) 모든 인원이 모든 테스트용 문제를 풀어둔 건 아니므로,
+// "전원이 풀었다"는 전제 대신 그 문제를 실제로 푼 인원 수를 매번 데이터에서 구한다.
+// 떠난 사람(이승주)도 있던 회차의 풀이는 그냥 보이므로 현역으로 걸러내지 않는다.
+const entryCount = (key) => D.problems.find((p) => p.key === key).entries.length;
 const out = [];
 let bad = 0;
 const must = (c, m) => { out.push((c ? 'OK   ' : 'FAIL ') + m); if (!c) bad++; };
 
 // 1. 목록 화면
+must(html.includes('<a href="#/" id="home">SSAFY 16기 알고리즘</a>'), '헤더: 제목이 메인으로 가는 링크');
 must(app.innerHTML.includes('베스트앨범'), '목록: 문제 제목 렌더');
-must(app.innerHTML.includes('다 푼 문제만'), '목록: 인원수 필터 렌더');
-must(app.innerHTML.includes('리뷰 있는 문제만'), '목록: 리뷰 필터 렌더');
+// '다 푼 문제만'·'리뷰 있는 문제만' 체크박스는 2026-09-07 요청으로 뺐다
+must(!app.innerHTML.includes('다 푼 문제만') && !app.innerHTML.includes('리뷰 있는 문제만'), '목록: 인원수·리뷰 필터 없음');
+must(app.innerHTML.includes('id="f-pf"') && app.innerHTML.includes('id="f-wk"') && app.innerHTML.includes('id="f-q"'), '목록: 플랫폼·회차·검색 필터는 남아 있다');
 must((app.innerHTML.match(/class="row"/g) || []).length === D.problems.length, `목록: ${D.problems.length}행 렌더`);
 
 // 2. 문제 상세 (리뷰 있는 문제)
@@ -61,9 +62,9 @@ vm.runInContext('route()', sandbox);
 const detail = app.innerHTML;
 must(detail.includes('다단계 칫솔 판매'), '상세: 제목');
 // class="cols ..." (컨테이너) 와 구분하기 위해 닫는 따옴표까지 본다
-const act = activeEntryCount('programmers/77486');
-must((detail.match(/class="col( on)?"/g) || []).length === act, `상세: 현역 ${act}열만 렌더`);
-must(detail.includes('졸업생 1개 숨김'), '상세: 숨긴 풀이 수 표시');
+const act = entryCount('programmers/77486');
+must((detail.match(/class="col( on)?"/g) || []).length === act, `상세: ${act}열 렌더 (이승주 포함)`);
+must(!detail.includes('숨김'), '상세: 숨김 안내 없음 (졸업생 토글 제거)');
 must(detail.includes('<span class="k">class</span>'), '상세: Java 하이라이트 (keyword)');
 must(detail.includes('badge b-wrong'), '상세: verdict 배지');
 must((detail.match(/<details class="rev">/g) || []).length === act, '상세: 리뷰가 접힌 채로 렌더');
@@ -80,7 +81,7 @@ const sj = p67259.entries.filter((e) => e.author === 'seungjoo');
 must(sj.length === 1, '변형: 이승주가 열을 하나만 차지한다');
 must(sj[0].source === '이승주/week3/경주로 건설.java', '변형: 대표는 실패 버전이 아닌 쪽');
 must((sj[0].alts || []).length === 1, '변형: 실패 버전이 alts 로 붙는다');
-must(!alt.includes('실패 코드 보기'), '변형: 졸업생 변형은 기본 화면에 안 뜬다 (이승주)');
+must(alt.includes('실패 코드 보기'), '변형: 이승주 실패 버전도 버튼으로 렌더 (3주차라 보인다)');
 
 // 최근 파일이 대표가 되는지 (양과 늑대 = 이성일 양과늑대2.java 가 하루 늦다)
 const p92343 = D.problems.find((p) => p.key === 'programmers/92343');
@@ -95,8 +96,8 @@ const alt2 = app.innerHTML;
 must(alt2.includes('이전 코드 보기'), '변형: 현역 변형은 버튼으로 렌더');
 must(!alt2.includes('<details class="rev alt" open>'), '변형: 변형 코드는 접힌 채로');
 must(alt2.indexOf('양과늑대2') === -1 || true, '변형: 대표 파일명은 헤더에 노출하지 않는다');
-const act92343 = activeEntryCount('programmers/92343');
-must((alt2.match(/class="col( on)?"/g) || []).length === act92343, `변형: 변형이 있어도 현역 ${act92343}열 유지`);
+const act92343 = entryCount('programmers/92343');
+must((alt2.match(/class="col( on)?"/g) || []).length === act92343, `변형: 변형이 있어도 ${act92343}열 유지`);
 must(!detail.includes('norev">리뷰 없음'), '상세: 다 리뷰됐으면 "리뷰 없음" 안 뜸');
 
 // "리뷰 없음" 안내는 실제로 리뷰가 빠진 문제에서 확인한다 (특정 문제에 고정하지 않는다).
@@ -137,8 +138,8 @@ must(!sandbox.hl('String s = "<script>";').includes('<script>'), 'hl: HTML 이�
 sandbox.location.hash = '#/people';
 vm.runInContext('route()', sandbox);
 must(app.innerHTML.includes('반복 지적 패턴 Top 5'), '사람별: Top 5 섹션');
-for (const a of D.authors.filter(x => x.active !== false)) must(app.innerHTML.includes(a.displayName), `사람별: ${a.displayName} 카드`);
-must(!app.innerHTML.includes('이승주'), '사람별: 졸업생은 기본 숨김');
+for (const a of D.authors) must(app.innerHTML.includes(a.displayName), `사람별: ${a.displayName} 카드`);
+must(app.innerHTML.includes('<span class="tag">졸업</span>'), '사람별: 이승주 카드에 졸업 배지');
 
 // 6. 로테이션 보드
 sandbox.location.hash = '#/rotation';
@@ -155,26 +156,56 @@ const miss = D.authors.filter(a => a.active !== false)
   .map(a => D.problems.filter(p => !p.entries.some(e => e.author === a.id)).length);
 must(miss.some(c => c > 0), '로테이션: 미제출 계산 동작 (' + miss.join(' / ') + ')');
 
-// 7. 졸업생 토글 — 끄면 감추고 켜면 다시 보여야 한다 (데이터는 지워지지 않았다)
-const alumni = D.authors.filter(a => a.active === false);
-if (alumni.length) {
-  vm.runInContext('showAlumni = true;', sandbox);
-  sandbox.location.hash = '#/p/programmers/77486';
+// 7. 졸업생 토글은 없다 — 이승주는 3주차까지 그냥 보이고, 4주차 이후 파일은 인덱서(lastWeek)가 뺀다
+must(!html.includes('alumni-toggle'), '토글: 졸업생 토글 마크업 없음');
+must(vm.runInContext('typeof showAlumni', sandbox) === 'undefined', '토글: showAlumni 상태 없음');
+{
+  const sj = D.problems.flatMap(p => p.entries.filter(e => e.author === 'seungjoo'));
+  must(sj.length > 0, `데이터: 이승주 풀이가 인덱스에 있다 (${sj.length}건)`);
+  must(sj.every(e => !/\/week([4-9]|\d\d)\//.test(e.source)), '데이터: 이승주 4주차 이후 파일은 인덱스에서 빠진다');
+  // 목록 행 아바타: 이승주가 푼 문제엔 뜨고, 안 푼 문제(4주차 이후)엔 안 뜬다
+  sandbox.location.hash = '#/';
   vm.runInContext('route()', sandbox);
-  const withAlum = app.innerHTML;
-  must((withAlum.match(/class="col( on)?"/g) || []).length === act + alumni.length, '토글: 켜면 졸업생 열도 렌더');
-  must(withAlum.includes(alumni[0].displayName), `토글: 켜면 ${alumni[0].displayName} 코드 보임`);
-  must(!withAlum.includes('숨김'), '토글: 켜면 숨김 안내 사라짐');
-
-  sandbox.location.hash = '#/people';
-  vm.runInContext('route()', sandbox);
-  must(app.innerHTML.includes('졸업'), '토글: 사람별에 졸업 배지');
-
-  vm.runInContext('showAlumni = false;', sandbox);  // 원복
-} else {
-  must(true, '토글: 졸업생 없음 — 검사 생략');
+  const rows = app.innerHTML.split('<tr class="row"').slice(1);
+  const withSj = rows.filter(r => r.includes('title="이승주"')).length;
+  const solvedBySj = D.problems.filter(p => p.entries.some(e => e.author === 'seungjoo')).length;
+  must(withSj === solvedBySj, `목록: 이승주 아바타는 푼 문제(${solvedBySj})에만 (${withSj})`);
 }
 
+
+// 8. 불안한 사람 보세요 — 구석 버튼과 말풍선, 말풍선은 기본 숨김, × 로 닫힌다
+must(html.includes('id="anx-btn"') && html.includes('불안한 사람 보세요'), '불안: 구석 버튼 마크업');
+must(html.includes('<div class="bubble" id="anx-bubble" hidden>내가 더 불안하다 임마'), '불안: 말풍선은 기본 숨김');
+must(html.includes('id="anx-close"'), '불안: × 버튼');
+
+// 9. 쿠키 — 누르면 한 마디, 끝은 반드시 "냥". 대화창·예시 질문·입력창은 없다
+must(html.includes('id="cookie-btn"') && html.includes('assets/cookie.png'), '쿠키: 고양이 버튼');
+must(html.includes('id="cookie-say" role="status" hidden'), '쿠키: 말풍선은 기본 숨김');
+must(!html.includes('cookie-panel') && !html.includes('cookie-chips') && !html.includes('cookie-in'), '쿠키: 대화창·예시 질문·입력창 없음');
+must(vm.runInContext('COOKIE_LINES.length >= 5 && COOKIE_LINES.every(s => s.endsWith("냥"))', sandbox), '쿠키: 모든 대사가 냥으로 끝난다');
+must(vm.runInContext('Array.from({length: 40}, cookieLine).every(s => s.endsWith("냥"))', sandbox), '쿠키: 뽑은 말 40번 전부 냥으로 끝난다');
+
+// 10. 어려울 때 누르는 버튼 — 헤더 오른쪽, 말풍선은 기본 숨김, 문구는 정해진 그대로
+must(html.includes('id="hard-btn"') && html.includes('어려울 때 누르는 버튼'), '어려움: 헤더 버튼');
+must(html.includes('id="hard-say" role="status" hidden'), '어려움: 말풍선 기본 숨김');
+must(html.includes("'너도? 아, 나도!'"), '어려움: 문구');
+// 쿠키 걷기 — 스모크 VM 엔 rAF 가 없어 걷지 않아야 하고(canMove=false) 에러도 없어야 한다
+must(html.includes("tog(box, 'walking'"), '쿠키: 걷기 상태기계 있음');
+must(html.includes("CK_STILL_KEY = 'cookie-still'") && html.includes('dbl = now - lastClick < 400'), '쿠키: 두 번 연속 클릭이면 안 움직임 (localStorage 기억)');
+
+// 11. 재미 기능 — 왕관은 데이터에서 계산되고 1명뿐, 하늘·폭죽·잠자기·연타는 마크업/로직 존재
+{
+  const king = vm.runInContext('KING', sandbox);
+  must(king && D.authors.some(a => a.id === king.id && a.active !== false), `왕관: 최근 회차 현역 1명 (${king && king.id}, ${king && king.week}주차 good ${king && king.good}/${king && king.rev})`);
+  sandbox.location.hash = '#/people'; vm.runInContext('route()', sandbox);
+  must((app.innerHTML.match(/주차 왕관/g) || []).length === 1, '왕관: 사람별 카드에 딱 1명');
+  sandbox.location.hash = '#/'; vm.runInContext('route()', sandbox);
+  must(app.innerHTML.includes('av has rev king') || app.innerHTML.includes(' king"'), '왕관: 목록 아바타에 king 클래스');
+  must(html.includes('id="cookie-zzz" aria-hidden="true" hidden'), '잠자기: z z z 기본 숨김');
+  must(html.includes("sayText('그만 눌러라냥')") && html.includes("'…미안하면 문제나 풀어라냥'"), '연타: 대사 (냥으로 끝남)');
+  must(html.includes('data-sky="dawn"') && html.includes('data-sky="night"') && html.includes('function paintSky'), '하늘: 시간대 5개 + paintSky');
+  must(html.includes('function confettiOnce') && html.includes("'confetti-' + hit.date"), '폭죽: D-DAY 하루 한 번');
+}
 
 // 6. T4-3. 정석 코드 diff
 {
@@ -185,7 +216,7 @@ if (alumni.length) {
   vm.runInContext('route()', sandbox);
   const rv = app.innerHTML;
   must(rv.includes('정석 코드와 diff'), '정석코드: 코드 열마다 diff 버튼');
-  const act67259 = activeEntryCount('programmers/67259');
+  const act67259 = entryCount('programmers/67259');
   must((rv.match(/정석 코드와 diff/g) || []).length === act67259, `정석코드: ${act67259}열 전부에 diff 버튼`);
   must(!rv.includes('<details class="rev ref" open><summary><span class="t-open">정석 코드와 diff'),
     '정석코드: diff 는 기본 접힘 (코드 먼저 읽게)');

@@ -73,6 +73,7 @@ for (const [reason, label] of [
   ['empty', '빈 파일'],
   ['commented-out', '전체 주석'],
   ['duplicate-reupload', '중복 재업로드'],
+  ['after-left', '떠난 뒤 회차'],
   ['unknown-author', '작성자 불명'],
 ]) {
   const hits = byReason(reason);
@@ -83,7 +84,7 @@ if (noExt.length) console.log(`  ${pad('확장자 누락', 16)}: ${noExt.length}
 
 if (process.argv.includes('--reviews')) {
   // 졸업생은 앞으로 제출할 일이 없으므로 리뷰 대상에서 뺀다.
-  // 이미 붙은 리뷰와 코드는 그대로 남고 사이트에서도 '졸업생 포함' 토글로 볼 수 있다.
+  // 이미 붙은 리뷰와 코드는 그대로 남고 사이트에도 그냥 보인다 (있던 회차까지).
   const active = new Set(authors.filter((a) => a.active !== false).map((a) => a.id));
   const all = solutions.filter((s) => !fs.existsSync(path.join(ROOT, s.reviewTarget)));
   const pending = all.filter((s) => active.has(s.author));

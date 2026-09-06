@@ -87,7 +87,7 @@ export function walkRepo(dir = ROOT, acc = []) {
 /**
  * 레포 상대경로 하나를 해석한다.
  * 성공하면 {ok:true, ...}, 실패하면 {ok:false, reason} 을 돌려준다.
- * reason: not-a-solution | unknown-author | unsupported-lang | empty | commented-out | unmapped-title | duplicate-reupload
+ * reason: not-a-solution | unknown-author | after-left | unsupported-lang | empty | commented-out | unmapped-title | duplicate-reupload
  */
 export function resolveSource(rel) {
   const segs = rel.split('/');
@@ -96,6 +96,13 @@ export function resolveSource(rel) {
   const [folder, weekSeg, ...rest] = segs;
   const author = folderToAuthor.get(folder.normalize('NFC'));
   if (!author) return { ok: false, reason: 'unknown-author', rel };
+
+  // 떠난 사람의 lastWeek 이후 회차 파일은 풀이로 세지 않는다 (떠난 뒤 올라온 것).
+  // 회차 폴더가 아닌 파일(pccp 등)은 week 가 null 이라 이 규칙에 걸리지 않는다.
+  const week = parseWeek(weekSeg);
+  if (author.lastWeek != null && week != null && week > author.lastWeek) {
+    return { ok: false, reason: 'after-left', rel };
+  }
 
   const base = rest[rest.length - 1];
   const ext = path.extname(base);
@@ -163,7 +170,7 @@ export function resolveSource(rel) {
     verified,
     author: author.id,
     authorName: author.displayName,
-    week: parseWeek(weekSeg),
+    week,
     variant,
     lang: lang ?? 'java', // 확장자 없는 옛 파일은 기존과 동일하게 java 취급
     lines: text.split('\n').length,
