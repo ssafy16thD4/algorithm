@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-04T16:07:28.585Z",
+  "generatedAt": "2026-09-06T14:16:47.599Z",
   "authors": [
     {
       "id": "junsoo",
@@ -29,6 +29,31 @@
   ],
   "problems": [
     {
+      "key": "boj/17471",
+      "platform": "boj",
+      "problemId": "17471",
+      "title": "게리맨더링",
+      "url": "https://www.acmicpc.net/problem/17471",
+      "verified": true,
+      "weeks": [
+        6
+      ],
+      "entries": [
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 6,
+          "variant": null,
+          "source": "이성일/week6/게리멘더링.java",
+          "target": "solutions/boj/17471/seongil.java",
+          "review": "reviews/boj/17471/seongil.md",
+          "hasReview": true,
+          "lines": 126,
+          "bytes": 3151
+        }
+      ]
+    },
+    {
       "key": "boj/17472",
       "platform": "boj",
       "problemId": "17472",
@@ -39,6 +64,18 @@
         6
       ],
       "entries": [
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 6,
+          "variant": "failed",
+          "source": "안찬웅/week6/다리만들기2 실패.java",
+          "target": "solutions/boj/17472/chanung.failed.java",
+          "review": "reviews/boj/17472/chanung.failed.md",
+          "hasReview": true,
+          "lines": 213,
+          "bytes": 4637
+        },
         {
           "author": "seongil",
           "authorName": "이성일",

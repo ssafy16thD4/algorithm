@@ -511,6 +511,17 @@
         "다리만들기2"
       ],
       "verified": true
+    },
+    {
+      "platform": "boj",
+      "problemId": "17471",
+      "title": "게리맨더링",
+      "url": "https://www.acmicpc.net/problem/17471",
+      "aliases": [
+        "게리멘더링",
+        "게리맨더링"
+      ],
+      "verified": true
     }
   ]
 }
