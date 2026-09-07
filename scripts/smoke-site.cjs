@@ -207,6 +207,11 @@ must(html.includes("CK_STILL_KEY = 'cookie-still'") && html.includes('dbl = now 
   must(html.includes('function confettiOnce') && html.includes("'confetti-' + hit.date"), '폭죽: D-DAY 하루 한 번');
 }
 
+// 12. 치트키 — "cookie" 타이핑 → stampede(). 입력창 안에선 무시. rAF 없는 VM 에선 조용히 안 함
+must(html.includes("const CHEAT = 'cookie'") && html.includes('function stampede'), '치트키: cookie → stampede');
+must(html.includes("tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA'"), '치트키: 입력창 안에선 무시');
+must((() => { try { vm.runInContext('stampede()', sandbox); return true; } catch (e) { return false; } })(), '치트키: rAF 없는 VM 에서 에러 없이 무시');
+
 // 6. T4-3. 정석 코드 diff
 {
   const withCode = D.problems.filter(p => (p.references || []).some(r => r.code && r.code.trim()));
