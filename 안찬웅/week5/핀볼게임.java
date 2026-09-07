@@ -1,156 +1,134 @@
-package practive;
 import java.util.*;
 import java.io.*;
 /*
  * 핀볼로 얻을 수 있는 점수의 최대값 구하기
- * 
- * 알고리즘: DFS
- * 
- * 1. 출발지점을 임의로 선정합니다.
- * 2. DFS
- *  2.1 다음 칸이 블록일 경우
- *   2.1.1 수평/수직면일 경우 점수카운트++ 반대 방향으로 돌아옴 
- *   2.1.2 경사면일 경우 직각으로 방향이 꺾임 점수카운트++
- *   2.1.3 벽일 경우 다시 돌아옴 
- *  2.2 다음 칸이 웜홀일 경우 동일한 숫자를 가진 다른 웜홀로 나옴
- *  2.3 다음 칸이 블랙홀일 경우 게임 종료
- *  2.4 다음 칸이 출발 위치일 경우 게임 종료
+ *
+ * 알고리즘: 시뮬레이션 (모든 시작칸 × 4방향)
+ *
+ * 1. 빈 칸(0)마다 상하좌우 4방향으로 각각 공을 쏴 본다.
+ *    - 같은 칸이라도 발사 방향이 다르면 점수가 다르다. 한 방향만 보면 과소평가된다.
+ * 2. 한 번 쏘면 끝날 때까지 진행한다.
+ *  2.1 벽: 제자리에서 반대 방향으로, 점수 +1
+ *  2.2 블록(1~5): 그 칸으로 들어가서 모양대로 꺾이고, 점수 +1
+ *      1 = 왼/아래가 막힌 "\" , 2 = 왼/위가 막힌 "/" ,
+ *      3 = 위/오른쪽이 막힌 "\" , 4 = 오른/아래가 막힌 "/" , 5 = 사각형(항상 반대)
+ *  2.3 웜홀(6~10): 같은 숫자의 반대편 웜홀로 순간이동, 방향 유지, 점수 없음
+ *  2.4 블랙홀(-1): 종료
+ *  2.5 출발 칸으로 돌아오면: 종료
  * 3. 최대 점수 출력
  */
-class Main {
+public class Solution {
+	// 0=우, 1=하, 2=좌, 3=상
 	static int[] dx = {0, 1, 0, -1};
 	static int[] dy = {1, 0, -1, 0};
 	static int[][] graph;
-    static int n;
-    static int maxScore;
-    static int startX, startY;
-    static int indexSix;
-    static int indexSeven;
-    static int indexEight;
-    static int indexNine;
-    static int indexTen;
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer st;
-        int t = Integer.parseInt(br.readLine());
+	static int n;
+	static int[][][] hole; // 웜홀 번호(6~10) -> 좌표 2개
 
-        for(int test_case=1; test_case<=t; test_case++) {
-            n = Integer.parseInt(br.readLine().trim());
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		int t = Integer.parseInt(br.readLine().trim());
 
-            graph = new int[n][n];
-            
-            for(int i=0; i<n; i++) {
-            	st = new StringTokenizer(br.readLine());
-            	for(int j=0; j<n; j++) {
-            		graph[i][j] = Integer.parseInt(st.nextToken());
-            	}
-            }
-            
-            maxScore = 0;
-            for(int i=0; i<n; i++) {
-            	for(int j=0; j<n; j++) {
-            		if(graph[i][j] == 0) {
-	            		startX = i;
-	            		startY = j;
-	            		dfs(i, j, 0, 0);
-            		}
-            	}
-            }
-            sb.append("#").append(test_case).append(" ").append(maxScore).append("\n");
-        }
-        System.out.print(sb);
-    }
-    // 현재 내방향, 현재 내점수
-    static void dfs(int x, int y, int dir, int score) {
-    	System.out.println("x: " + x + " y: " + y + " dir: " + dir + " score: " + score);
-    	int nx = x + dx[dir];
-    	int ny = y + dy[dir];
-    	
-    	// 2.2 다음 칸이 벽일 경우 다시 돌아옴 
-    	if(nx < 0 || nx >= n || ny < 0 || ny >= n) {
-    		// 다음 칸이 벽이면 원래 왔던 방향을 바꾸고 점수카운트
-    		// 우<->좌 하<->상
-    		// 0<->2 1<->3
-    		dir = (dir + 2) % 4;
-    	}
+		for(int test_case=1; test_case<=t; test_case++) {
+			n = Integer.parseInt(br.readLine().trim());
 
-    	// 2.4 다음 칸이 블랙홀일 경우: 게임 종료
-    	else if(graph[nx][ny] == -1) {
-    		maxScore = Math.max(maxScore, score);
-    		return;
-    	}
-    	
-    	// 2.5 다음 칸이 출발 위치일 경우: 게임 종료
-    	else if(graph[nx][ny] == graph[startX][startY]) {
-    		maxScore = Math.max(maxScore, score);
-    		return;
-    	}
-    	
-    	// 2.1 다음 칸이 블록일 경우
-    	else if(1 <= graph[nx][ny] && graph[nx][ny] <= 5) {
-    		if(graph[nx][ny] == 1) {
-    			// dir이 우상일 경우 돌아옴
-    			if(dir == 0 || dir == 3) {
-    				dir = (dir+2) % 4;
-    			}
-    			else { // dir이 우상이 아닐경우
-	    			// dir이 좌일때 상으로 2->3
-    				if(dir == 2) dir = (dir + 1) % 4;
-	    			// dir이 하일때 우로 1->0
-    				if(dir == 1) dir = dir - 1;
-    			}
-    		}
-    		else if(graph[nx][ny] == 2) { 
-    			// dir이 우하일 경우 돌아옴
-    			if(dir == 0 || dir == 1) {
-    				dir = (dir + 2) % 4;
-    			}
-    			else {
-    			// dir이 우하가 아닐경우 
-	    			// dir이 좌일때 하
-    				if(dir == 2) dir = dir - 1;
-	    			// dir이 상일때 우
-    				if(dir == 3) dir = (dir + 1) % 4;
-    			}
-    		}
-    		else if(graph[nx][ny] == 3) {
-    			// dir이 좌하일 경우 돌아옴
-    			if(dir == 1 || dir == 2) {
-    				dir = (dir + 2) % 4;
-    			}
-    			// dir이 좌하가 아닐경우
-    			else {
-    				// dir이 우 -> 하 
-    				if(dir == 0) dir = (dir + 1) % 4;
-    				// dir이 상 -> 좌
-    				if(dir == 3) dir = dir - 1;
-    			}
-    		}
-    		else if(graph[nx][ny] == 4) {
-    			// dir이 좌상일 경우 돌아옴
-    			if(dir == 3 || dir == 4) {
-    				dir = (dir + 2) % 4;
-    			}
-    			// dir이 좌상이 아닐경우
-    			else {
-    				// dir이 우 -> 상
-    				if(dir == 0) dir = (dir + 3) % 4;
-    				// dir이 하 -> 좌
-    				if(dir == 1) dir = (dir + 1) % 4;
-    			}
-    		}
-    		else if(graph[nx][ny] == 5) {
-    			// 모든방향이 돌아옴
-    			dir = (dir + 2) % 4;
-    		}
-    		dfs(nx, ny, dir, score+1);
-    	}
-    	
-    	// 2.3 다음 칸이 웜홀 경우: 동일한 숫자를 가진 다른 웜홀로 나옴
-    	else if(6 <= graph[nx][ny] && graph[nx][ny] <= 10) {
-    		// 현재 웜홀에 있는 수와 같은 다른 웜홀수로 이동함
-    		return;
-    	}
-    }
+			graph = new int[n][n];
+			hole = new int[11][2][2];
+			int[] holeCnt = new int[11];
+
+			for(int i=0; i<n; i++) {
+				st = new StringTokenizer(br.readLine());
+				for(int j=0; j<n; j++) {
+					graph[i][j] = Integer.parseInt(st.nextToken());
+					int v = graph[i][j];
+					if(6 <= v && v <= 10) {
+						hole[v][holeCnt[v]][0] = i;
+						hole[v][holeCnt[v]][1] = j;
+						holeCnt[v]++;
+					}
+				}
+			}
+
+			int maxScore = 0;
+			for(int i=0; i<n; i++) {
+				for(int j=0; j<n; j++) {
+					if(graph[i][j] != 0) continue;
+					for(int dir=0; dir<4; dir++) { // 발사 방향도 4가지 전부
+						maxScore = Math.max(maxScore, play(i, j, dir));
+					}
+				}
+			}
+			sb.append("#").append(test_case).append(" ").append(maxScore).append("\n");
+		}
+		System.out.print(sb);
+	}
+
+	// (sx, sy)에서 dir 방향으로 쏜 공의 점수
+	static int play(int sx, int sy, int dir) {
+		int x = sx, y = sy;
+		int score = 0;
+
+		while(true) {
+			int nx = x + dx[dir];
+			int ny = y + dy[dir];
+
+			// 2.1 벽: 제자리에서 반대 방향, 점수 +1
+			if(nx < 0 || nx >= n || ny < 0 || ny >= n) {
+				dir = (dir + 2) % 4;
+				score++;
+				continue;
+			}
+
+			int v = graph[nx][ny];
+
+			// 2.4 블랙홀
+			if(v == -1) return score;
+
+			// 2.5 출발 칸으로 복귀
+			if(nx == sx && ny == sy) return score;
+
+			// 2.2 블록
+			if(1 <= v && v <= 5) {
+				dir = reflect(v, dir);
+				score++;
+				x = nx; y = ny;
+				continue;
+			}
+
+			// 2.3 웜홀: 같은 숫자의 반대편으로, 방향 유지
+			if(6 <= v && v <= 10) {
+				if(hole[v][0][0] == nx && hole[v][0][1] == ny) {
+					x = hole[v][1][0]; y = hole[v][1][1];
+				} else {
+					x = hole[v][0][0]; y = hole[v][0][1];
+				}
+				continue;
+			}
+
+			// 빈 칸: 그냥 지나간다
+			x = nx; y = ny;
+		}
+	}
+
+	// 블록 번호와 들어온 방향 -> 나가는 방향
+	static int reflect(int block, int dir) {
+		switch(block) {
+			case 1: // 왼/아래가 막힘 -> 우,상은 되돌아오고 좌->상, 하->우
+				if(dir == 0 || dir == 3) return (dir + 2) % 4;
+				return (dir == 2) ? 3 : 0;
+			case 2: // 왼/위가 막힘 -> 우,하는 되돌아오고 좌->하, 상->우
+				if(dir == 0 || dir == 1) return (dir + 2) % 4;
+				return (dir == 2) ? 1 : 0;
+			case 3: // 위/오른쪽이 막힘 -> 하,좌는 되돌아오고 우->하, 상->좌
+				if(dir == 1 || dir == 2) return (dir + 2) % 4;
+				return (dir == 0) ? 1 : 2;
+			case 4: // 오른/아래가 막힘 -> 좌,상은 되돌아오고 우->상, 하->좌
+				if(dir == 2 || dir == 3) return (dir + 2) % 4;
+				return (dir == 0) ? 3 : 2;
+			default: // 5 = 사각형
+				return (dir + 2) % 4;
+		}
+	}
 }

@@ -4,70 +4,82 @@ problemId: "2115"
 author: chanung
 source: 안찬웅/week6/벌꿀채취.java
 week: 6
-compiles: false
+compiles: true
 lang: java
-verdict: wrong
+verdict: good
 tags: [missing-return]
 complexity:
-  time: O(N^2 * 2^M + N^4)
+  time: O(N^2 · 2^M + N^4)
   space: O(N^2)
 generatedBy: claude-code-local
-generatedAt: 2026-09-03
+generatedAt: 2026-09-08
 ---
 
 # 벌꿀채취 (swea/2115) — chanung
 
 ## 접근
 
-두 단계로 나눈 설계가 깔끔하다: 1단계는 모든 시작 좌표에서 길이 m짜리 가로 덩어리 하나의 최대 수익(부분집합 DFS, 합이 c 이하인 것만)을 `bestArr`에 미리 저장하고, 2단계는 `bestArr` 위에서 겹치지 않는 두 덩어리 조합의 최댓값을 찾는다. 같은 행일 때만 `j1+m` 이후로 시작 열을 제한해 겹침을 막고, 다른 행이면 아무 열이나 허용한 것도 "가로로 연속한 덩어리는 같은 행 안에서만 겹칠 수 있다"는 조건을 정확히 반영한다. `dfs`의 `sum > c` 가지치기와 "채취한다/안 한다" 두 갈래 재귀도 부분집합 탐색으로 정확하다.
+두 단계로 나눈 것이 이 풀이의 좋은 점이다. 먼저 시작 좌표마다 **덩어리 하나의 최대 수익**을
+부분집합 DFS 로 구해 `bestArr` 에 저장하고(`sum > c` 가지치기 포함), 그다음 `bestArr` 에서 겹치지
+않는 두 좌표를 골라 합의 최댓값을 구한다. 두 벌꿀통이 독립이라는 사실을 이용해 문제를 반으로
+쪼갠 판단이 정확하다.
+
+겹침 판정도 깔끔하다.
+
+```java
+for(int i2=i1; i2<n; i2++) {
+    int start = (i1 == i2) ? j1 + m : 0;   // 같은 행이면 j1+m 부터, 다른 행이면 0부터
+```
+
+`i2` 를 `i1` 부터 돌려서 같은 쌍을 두 번 세지 않고, 같은 행일 때만 열 조건을 거는 한 줄로
+"겹치면 안 된다"를 전부 처리한다.
 
 ## 개선점
 
-### 1. (치명) 중괄호 개수가 안 맞아 컴파일 자체가 안 된다 — `missing-return`
+### 1. (수정 완료 / 치명) 중괄호가 모자라 컴파일이 안 됐다 — `missing-return`
 
-```java
-for(int i1=0; i1<n; i1++) {
-    for(int j1=0; j1<=n-m; j1++) {
-        for(int i2=i1; i2<n; i2++) {
-            int start = (i1 == i2) ? j1 + m : 0;
-            for(int j2=start; j2<=n-m; j2++) {
-                answer = Math.max(answer, bestArr[i1][j1] + bestArr[i2][j2]);
-            }
-        }
-
-    sb.append("#").append(test_case).append(" ").append(answer).append("\n");
-}
-System.out.print(sb);
-```
-
-`i1`, `j1`, `i2`, `j2` 4중 for문을 열어놓고 닫는 `}`는 2개(`j2`, `i2`)뿐이다. `j1`, `i1` 루프와 바깥의 `test_case` 루프를 닫는 `}`가 없어서, `sb.append(...)`가 실제로는 `j1`·`i1` 루프 안에 갇히고 `System.out.print(sb)`도 `i1` 루프 안에 갇힌다. 이 상태로 파일 끝까지 브레이스가 하나씩 밀리면서 67행의 `static void dfs(...)` 선언이 `main` 메서드(정확히는 아직 닫히지 않은 `test_case` for문) 내부의 한 "문장"처럼 취급돼 `illegal start of expression`이 난다. 실제 javac 결과:
+`i1`, `j1`, `i2`, `j2` 4중 for 를 열어놓고 닫는 `}` 가 2개뿐이었다. `sb.append(...)` 가 `j1` 루프
+안에, `System.out.print(sb)` 가 `i1` 루프 안에 갇히면서 파일 끝까지 브레이스가 밀렸고,
+`static void dfs(...)` 선언이 메서드 안의 문장처럼 취급돼 이렇게 났다.
 
 ```
 안찬웅/week6/벌꿀채취.java:67: error: illegal start of expression
 	static void dfs(int x, int y, int idx, int sum, int score) {
-	^
 ```
 
-고치려면 `j1`, `i1` 루프를 닫는 `}` 두 개를 `sb.append(...)` 앞에 추가하고, `test_case` 루프를 닫는 `}`를 `System.out.print(sb);` 뒤(현재 다른 위치에 있을 닫는 괄호)에 맞춰줘야 한다:
+`j1`·`i1` 을 닫는 `}` 두 개를 `sb.append(...)` 앞에 넣어 해결했다. 나머지 로직은 손대지 않았다.
 
-```java
-            for(int j2=start; j2<=n-m; j2++) {
-                answer = Math.max(answer, bestArr[i1][j1] + bestArr[i2][j2]);
-            }
-        }   // i2 닫기 (기존)
-    }       // j1 닫기 (추가)
-}           // i1 닫기 (추가)
+### 2. (수정 완료 / 중요) `import` 두 줄과 `public` 이 빠져 있었다
 
-sb.append("#").append(test_case).append(" ").append(answer).append("\n");
+`BufferedReader`/`StringTokenizer` 를 쓰면서 `java.io.*`, `java.util.*` import 가 없었고
+클래스도 `class Solution` 이었다. **SWEA 는 default package 의 `public class Solution` 을 요구한다** —
+로컬에서 컴파일되는 것과 제출이 되는 것은 다른 문제다.
+
+### 3. (사소) 제출 전 확인할 것
+
+이 저장소의 컴파일 검사는 `public class` 이름에 맞춘 임시 파일로 복사해 돌린다. 즉
+`compiles: true` 는 **문법이 맞다**는 뜻이지 SWEA 채점기가 받아준다는 보증이 아니다. 파일명이
+한글이어도 상관없지만, 제출할 때 붙여넣는 클래스명은 반드시 `Solution` 이어야 한다.
+
+## 검증
+
+브레이스와 import 를 고친 뒤 실제로 컴파일해서 표준 예제를 돌렸다.
+
+```
+입력  5 3 10 / 7 2 6 9 2 / 1 1 1 1 1 / 8 5 5 5 5 / 1 1 1 1 1 / 1 1 1 1 1
+출력  #1 145
+손계산 81(2행 [2,6,9]에서 9만 채취) + 64(4행 [8,5,5]에서 8만 채취) = 145 로 일치
 ```
 
-브레이스만 맞추면 나머지 로직(부분집합 DFS, 겹침 방지 조건)은 검증한 바로는 그대로 맞는 접근이라 별도 수정 없이 통과할 가능성이 높다 — 다만 실제 채점 데이터로 돌려본 것은 아니라서 "검증 안 함"으로 남긴다.
+**채점 데이터로 돌려본 것은 아니다** — 전 범위 검증은 안 했다.
 
 ## 복잡도
 
-- 시간: 1단계는 시작 좌표 O(N^2)마다 부분집합 DFS O(2^M) → `O(N^2 · 2^M)`. 2단계는 겹치지 않는 두 덩어리 조합을 4중 루프로 순회 → `O(N^4)`. 둘을 합쳐 `O(N^2 · 2^M + N^4)`.
-- 공간: `O(N^2)` — `graph`, `bestArr` 두 배열.
+- 시간: `O(N^2 · 2^M)`(덩어리별 부분집합) + `O(N^4)`(두 덩어리 조합). N ≤ 10, M ≤ 5 라 여유 있다.
+- 공간: `O(N^2)` — graph, bestArr.
 
 ## 요약
 
-알고리즘 설계(부분집합으로 덩어리 하나의 최댓값 계산 → 겹치지 않는 두 덩어리 조합)는 문제 조건과 잘 맞는다. 문제는 순수하게 중괄호 개수가 어긋난 구문 오류 하나이고, 이 때문에 컴파일 자체가 안 돼 채점 불가 상태다. 위 브레이스만 맞추면 로직상 큰 결함은 보이지 않는다.
+접근과 구조는 처음부터 맞았고 막힌 건 브레이스 하나였다. 4중 for 처럼 중첩이 깊어지면
+**안쪽 루프를 먼저 완성해 닫고 바깥으로 나오는** 순서로 쓰는 게 안전하다. 지금은
+"덩어리 최대 수익 계산 → 조합" 두 단계가 함수 경계로 갈려 있어 읽기 좋다.

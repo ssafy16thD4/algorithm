@@ -16,6 +16,7 @@ class Solution {
             
             for(int x : times) {
                 sum += mid / x;
+                if(sum >= n) break; // 넘는 순간 끊는다. 안 끊으면 sum 이 long 도 넘길 수 있다
             }
             
             if(sum >= n) {

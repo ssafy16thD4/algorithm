@@ -66,7 +66,8 @@ const act = entryCount('programmers/77486');
 must((detail.match(/class="col( on)?"/g) || []).length === act, `상세: ${act}열 렌더 (이승주 포함)`);
 must(!detail.includes('숨김'), '상세: 숨김 안내 없음 (졸업생 토글 제거)');
 must(detail.includes('<span class="k">class</span>'), '상세: Java 하이라이트 (keyword)');
-must(detail.includes('badge b-wrong'), '상세: verdict 배지');
+// verdict 값 자체는 리뷰가 갱신되면 바뀐다(코드를 고치면 wrong -> good). 배지가 렌더되는지만 본다
+must(/badge b-(good|needs-fix|wrong|unattempted)/.test(detail), '상세: verdict 배지');
 must((detail.match(/<details class="rev">/g) || []).length === act, '상세: 리뷰가 접힌 채로 렌더');
 must(!detail.includes('<details class="rev" open>'), '상세: 펼쳐진 리뷰 없음');
 must((detail.match(/리뷰 보기/g) || []).length === act, '상세: 리뷰 보기 버튼');
@@ -265,6 +266,77 @@ must((() => { try { vm.runInContext('stampede()', sandbox); return true; } catch
   must(sandbox.diffHtml(long, long).includes('줄 동일'), 'diff: 긴 동일 구간은 접는다');
 }
 
+
+
+// 12. 쿠키 메뉴 (냥 패널) — 2026-09-08
+// localStorage 가 없는 VM 에서도 죽지 않아야 하고, 이름을 알려주면 내 데이터로 채워져야 한다.
+{
+  must(html.includes('id="paw-btn"'), '쿠키메뉴: 헤더에 여는 버튼');
+  must(html.includes('id="nyang"') && html.includes('class="nyang" id="nyang" role="dialog"'), '쿠키메뉴: 패널 마크업');
+  must(/<div class="nyang" id="nyang"[^>]*hidden>/.test(html), '쿠키메뉴: 기본 닫힘');
+
+  // localStorage 없이 호출해도 예외가 안 난다 (파일 열기 / 사생활 모드)
+  let ok = true;
+  try { vm.runInContext('nyangHTML()', sandbox); } catch (e) { ok = false; }
+  must(ok, '쿠키메뉴: localStorage 없어도 렌더된다');
+
+  const anon = vm.runInContext('nyangHTML()', sandbox);
+  must(anon.includes('data-me="chanung"'), '쿠키메뉴: 이름 모르면 현역 목록으로 묻는다');
+  must(!anon.includes('data-me="seungjoo"'), '쿠키메뉴: 졸업생은 이름 후보에 없다');
+
+  // localStorage 스텁을 넣고 나를 chanung 으로
+  const store = {};
+  sandbox.localStorage = { getItem: (k) => (k in store ? store[k] : null), setItem: (k, v) => { store[k] = String(v); } };
+  vm.runInContext("localStorage.setItem('cookie-me','chanung')", sandbox);
+  const mine = vm.runInContext('nyangHTML()', sandbox);
+  must(mine.includes('안찬웅'), '쿠키메뉴: 내 이름 표시');
+  must(mine.includes('오늘의 브리핑') && mine.includes('오늘의 복습 1문제') && mine.includes('반복해서 지적받은 것'),
+    '쿠키메뉴: 공부 섹션 3종');
+  must(mine.includes('문제 룰렛') && mine.includes('뽀모도로') && mine.includes('쿠키 밥 주기') && mine.includes('냥 점괘'),
+    '쿠키메뉴: 재미 섹션 4종');
+
+  // 복습 추천은 실제로 needs-fix / wrong 인 내 풀이여야 한다 (지어내지 않는다)
+  const pick = vm.runInContext("reviewPick('chanung')", sandbox);
+  must(pick === null || ['needs-fix', 'wrong'].includes(pick.e.review.verdict), '쿠키메뉴: 복습 추천은 실제 판정에서 고른다');
+  // 같은 날엔 같은 문제를 준다 (날짜 시드)
+  const pick2 = vm.runInContext("reviewPick('chanung')", sandbox);
+  must((pick && pick.p.key) === (pick2 && pick2.p.key), '쿠키메뉴: 복습 추천은 하루 동안 고정');
+
+  // 약점 Top 은 칭찬 태그를 세지 않는다
+  const weak = vm.runInContext("weakTop('chanung')", sandbox);
+  const praise = new Set(D.tags.filter((t) => t.group === 'praise').map((t) => t.id));
+  must(weak.every(([t]) => !praise.has(t)), '쿠키메뉴: 약점 Top 에 칭찬 태그 없음');
+  must(weak.length <= 3, '쿠키메뉴: 약점은 Top 3까지');
+
+  // 안 푼 문제 수는 데이터와 일치
+  const notSolved = D.problems.filter((p) => !p.entries.some((e) => e.author === 'chanung')).length;
+  must(vm.runInContext("notSolved('chanung').length", sandbox) === notSolved, '쿠키메뉴: 안 푼 문제 수가 데이터와 일치');
+
+  // 인사말은 어느 시각이든 "냥" 으로 끝난다
+  must(/냥$/.test(vm.runInContext('greet()', sandbox)), '쿠키메뉴: 인사말도 냥으로 끝난다');
+  const fort = vm.runInContext('FORTUNE', sandbox);
+  must(fort.every((f) => f.endsWith('냥')), '쿠키메뉴: 점괘 전부 냥으로 끝난다');
+
+  // 연속 출석: 같은 날 두 번 열어도 안 늘어난다
+  const st1 = vm.runInContext('bumpStreak()', sandbox);
+  const st2 = vm.runInContext('bumpStreak()', sandbox);
+  must(st1 === st2 && st1 >= 1, '쿠키메뉴: 연속 출석은 하루에 한 번만 오른다');
+
+  // XSS — 패널에 들어가는 문제 제목은 이스케이프된다
+  must(!mine.includes('<script>'), '쿠키메뉴: XSS 없음');
+
+  // 치트키 3종 + 애니메이션 함수는 타이머 없는 VM 에서 조용히 넘어간다
+  for (const fn of ['appleRain', 'confettiBurst', 'churu', 'forceNap', 'cookieSay', 'focusMode']) {
+    must(vm.runInContext('typeof ' + fn, sandbox) === 'function', '쿠키메뉴: ' + fn + ' 정의됨');
+  }
+  let quiet = true;
+  try { vm.runInContext("appleRain(); confettiBurst(); churu('x'); forceNap(); cookieSay('테스트'); focusMode(25);", sandbox); }
+  catch (e) { quiet = false; }
+  must(quiet, '쿠키메뉴: 타이머·DOM 없는 환경에서 조용히 넘어간다');
+  must(html.includes("cheatBuf2.endsWith('apple')") && html.includes("cheatBuf2.endsWith('study')") && html.includes("cheatBuf2.endsWith('zzz')"),
+    '쿠키메뉴: 치트키 apple / study / zzz');
+  delete sandbox.localStorage;
+}
 
 console.log(out.join('\n'));
 console.log(`\n통과 ${out.filter((l) => l.startsWith('OK')).length} / 실패 ${bad}`);

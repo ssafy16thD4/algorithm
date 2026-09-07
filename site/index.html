@@ -193,6 +193,58 @@ nav a.on { background: var(--panel); color: var(--fg); box-shadow: var(--sh-1), 
 @keyframes shake { 0%,100% { transform: translateX(0) rotate(0); } 20% { transform: translateX(-5px) rotate(-4deg); } 40% { transform: translateX(5px) rotate(4deg); } 60% { transform: translateX(-4px) rotate(-3deg); } 80% { transform: translateX(4px) rotate(3deg); } }
 .cookie.sulk img { filter: grayscale(.7) drop-shadow(0 6px 10px rgba(16,24,40,.25)); transform: scaleX(-1); }
 
+/* 쿠키 메뉴(냥 패널) — 기본 닫힘. 공부를 거슬리지 않게 헤더 버튼으로만 연다 */
+.paw { position: relative; }
+.paw > button { font: inherit; font-size: 11.5px; font-weight: 700; letter-spacing: -.01em; padding: 8px 13px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--card); color: var(--muted); cursor: pointer; transition: all .18s var(--ease); }
+.paw > button:hover, .paw.on > button { color: var(--fg); border-color: color-mix(in srgb, var(--acc) 45%, var(--line)); transform: translateY(-1px); }
+.nyang { position: fixed; right: 18px; bottom: 108px; z-index: 40; width: min(340px, calc(100vw - 36px));
+  max-height: min(70vh, 620px); overflow: auto; background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+  box-shadow: var(--sh-3); padding: 14px 16px 16px; }
+.nyang[hidden] { display: none !important; }
+.nyang h3 { margin: 0 0 2px; font-size: 15px; font-weight: 800; letter-spacing: -.02em; }
+.nyang .who { font-size: 11.5px; color: var(--muted); margin-bottom: 10px; }
+.nyang .nx { position: absolute; right: 12px; top: 12px; border: 0; background: color-mix(in srgb, var(--fg) 7%, transparent);
+  color: var(--muted); width: 26px; height: 26px; border-radius: 999px; cursor: pointer; font-size: 15px; line-height: 1; }
+.nyang section { border-top: 1px solid var(--line); padding: 11px 0 3px; }
+.nyang section:first-of-type { border-top: 0; }
+.nyang .lbl { font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 800; margin-bottom: 6px; }
+.nyang .big { font-size: 13.5px; font-weight: 700; letter-spacing: -.01em; }
+.nyang p { margin: 4px 0; font-size: 12.5px; line-height: 1.55; }
+.nyang a { color: var(--acc); font-weight: 700; text-decoration: none; }
+.nyang a:hover { text-decoration: underline; }
+.nyang .mini { font: inherit; font-size: 11.5px; font-weight: 700; padding: 6px 11px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--bg); color: var(--fg); transition: all .18s var(--ease); }
+.nyang .mini:hover { border-color: color-mix(in srgb, var(--acc) 50%, var(--line)); transform: translateY(-1px); }
+.nyang .row2 { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.nyang ul { margin: 4px 0 0; padding-left: 16px; font-size: 12.5px; line-height: 1.6; }
+.nyang .chip2 { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
+  background: color-mix(in srgb, var(--acc) 12%, transparent); color: var(--acc); margin: 2px 4px 2px 0; }
+.nyang .gauge { height: 8px; border-radius: 999px; background: color-mix(in srgb, var(--fg) 8%, transparent); overflow: hidden; margin-top: 5px; }
+.nyang .gauge i { display: block; height: 100%; background: var(--grad); transition: width .4s var(--ease); }
+.nyang label.goal { display: flex; gap: 8px; align-items: center; font-size: 12.5px; padding: 3px 0; cursor: pointer; }
+.nyang label.goal input { accent-color: var(--acc); width: 15px; height: 15px; }
+.nyang label.goal.done span { text-decoration: line-through; color: var(--muted); }
+.nyang .pomo { font-variant-numeric: tabular-nums; font-size: 22px; font-weight: 800; letter-spacing: -.03em; }
+@media (max-width: 680px) { .nyang { right: 10px; left: 10px; width: auto; bottom: 92px; } }
+
+/* 츄르 주기 / 쓰다듬기 */
+.churu { position: fixed; pointer-events: none; z-index: 60; font-size: 22px; animation: churu 1.1s ease-out forwards; }
+@keyframes churu { from { opacity: 1; transform: translateY(0) scale(.7); } to { opacity: 0; transform: translateY(-70px) scale(1.25); } }
+.cookie.purr img { animation: purr .22s ease-in-out infinite alternate; }
+@keyframes purr { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+
+/* 집중 모드 (치트키 study) */
+html.focusmode body::after { content: ''; position: fixed; inset: 0; background: rgba(8,11,20,.55); z-index: 20; pointer-events: none; }
+html.focusmode header, html.focusmode .wrap { position: relative; z-index: 21; }
+.focusbar { position: fixed; left: 50%; top: 14px; transform: translateX(-50%); z-index: 70; background: var(--fg); color: var(--bg);
+  font-weight: 800; font-size: 13px; padding: 8px 16px; border-radius: 999px; box-shadow: var(--sh-3); font-variant-numeric: tabular-nums; }
+
+/* 사과비 (치트키 apple) */
+#applerain { position: fixed; inset: 0; pointer-events: none; z-index: 46; overflow: hidden; }
+#applerain span { position: absolute; font-size: 26px; will-change: transform; }
+#applerain.out { transition: opacity .5s; opacity: 0; }
+
 /* 4) D-3 부터 칩이 숨쉬듯 펄스, D-DAY 엔 폭죽 캔버스 */
 .dday.soon { animation: breathe 2.2s ease-in-out infinite; }
 @keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
@@ -486,7 +538,7 @@ details.rev.fb, .norev.fb { background: var(--panel); border: 1px solid var(--li
   <nav><a href="#/" id="nav-p">문제</a><a href="#/people" id="nav-w">사람별</a><a href="#/rotation" id="nav-r">로테이션</a></nav>
   <div class="wx" id="wx"></div>
   <div class="dday" id="dday" title="SSAFY A형 시험 2026-09-14"></div>
-  <div class="hard" id="hard"><button type="button" id="hard-btn">어려울 때 누르는 버튼</button><div class="say" id="hard-say" role="status" hidden></div></div>
+  <div class="hard" id="hard"><button type="button" id="hard-btn">어려울 때 누르는 버튼</button><div class="say" id="hard-say" role="status" hidden></div></div>  <div class="paw" id="paw"><button type="button" id="paw-btn" aria-expanded="false">🐾 쿠키 메뉴</button></div>
 </div></header>
 <div class="wrap" id="app"></div>
 <div class="anx" id="anx">
@@ -497,7 +549,7 @@ details.rev.fb, .norev.fb { background: var(--panel); border: 1px solid var(--li
   <div class="say" id="cookie-say" role="status" hidden></div>
   <div class="zzz" id="cookie-zzz" aria-hidden="true" hidden>z z z</div>
   <button type="button" id="cookie-btn" aria-label="쿠키" title="쿠키"><img src="assets/cookie.png" alt=""></button>
-</div>
+</div><div class="nyang" id="nyang" role="dialog" aria-label="쿠키 메뉴" hidden></div>
 
 <script src="data/bundle.js"></script>
 <script>
@@ -759,8 +811,389 @@ if (typeof addEventListener === 'function') addEventListener('keydown', e => {
   cheatBuf = (cheatBuf + e.key.toLowerCase()).slice(-CHEAT.length);
   if (cheatBuf === CHEAT) { cheatBuf = ''; stampede(); }
 });
+/* 치트키 3종 추가 — apple(사과비) / study(집중 모드) / zzz(재우기).
+   길이가 서로 달라서 버퍼를 하나 더 길게 잡고 endsWith 로 본다. */
+let cheatBuf2 = '';
+if (typeof addEventListener === 'function') addEventListener('keydown', e => {
+  const tag = e.target && e.target.tagName;
+  if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA' || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (typeof e.key !== 'string' || e.key.length !== 1) return;
+  cheatBuf2 = (cheatBuf2 + e.key.toLowerCase()).slice(-8);
+  if (cheatBuf2.endsWith('apple')) { cheatBuf2 = ''; appleRain(); }
+  else if (cheatBuf2.endsWith('study')) { cheatBuf2 = ''; focusMode(25); }
+  else if (cheatBuf2.endsWith('zzz')) { cheatBuf2 = ''; forceNap(); }
+});
+/* 재우기 — 시간에 상관없이 20초 동안 눕힌다 */
+function forceNap() {
+  const box = document.getElementById('cookie'), zzz = document.getElementById('cookie-zzz');
+  if (!box || !box.classList) return;
+  box.classList.add('sleeping'); if (zzz) zzz.hidden = false;
+  cookieSay('…zzz');
+  if (typeof setTimeout === 'function') setTimeout(() => { box.classList.remove('sleeping'); if (zzz) zzz.hidden = true; }, 20000);
+}
+/* 폭죽 한 번 (뽀모도로 완료·목표 달성에서 쓴다) */
+function confettiBurst() {
+  if (typeof document === 'undefined' || !document.createElement || typeof requestAnimationFrame !== 'function') return;
+  if (typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cv = document.createElement('canvas');
+  if (!cv.getContext) return;
+  cv.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:80';
+  cv.width = innerWidth; cv.height = innerHeight; document.body.appendChild(cv);
+  const ctx = cv.getContext('2d'), C = ['#4f6df5', '#7c5cf6', '#f59e6d', '#3fb27f', '#e0679a'];
+  const ps = Array.from({ length: 90 }, () => ({ x: innerWidth / 2, y: innerHeight * .65, vx: (Math.random() - .5) * 16, vy: -6 - Math.random() * 12, a: Math.random() * 6, va: (Math.random() - .5) * .3, r: 5 + Math.random() * 6, c: C[Math.floor(Math.random() * C.length)] }));
+  const t0 = Date.now();
+  (function frame() {
+    const t = (Date.now() - t0) / 1000; ctx.clearRect(0, 0, cv.width, cv.height);
+    for (const p of ps) { p.vy += .35; p.x += p.vx; p.y += p.vy; p.vx *= .99; p.a += p.va;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.globalAlpha = Math.max(0, 1 - Math.max(0, t - 2)); ctx.fillStyle = p.c; ctx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); ctx.restore(); }
+    if (t < 3.2) requestAnimationFrame(frame); else cv.remove();
+  })();
+}
+/* 쿠키에게 아무 말이나 시킨다 (다른 기능들이 부른다). 끝은 항상 "냥" */
+function cookieSay(txt) {
+  const say = document.getElementById('cookie-say');
+  if (!say) return;
+  say.className = 'say'; say.hidden = false;
+  say.textContent = /[냥…!?]$/.test(txt) ? txt : txt + '냥';
+  if (typeof setTimeout !== 'function') return;
+  setTimeout(() => { say.className = 'say out'; setTimeout(() => { say.hidden = true; }, 320); }, 3200);
+}
+/* 쓰다듬기 — 쿠키를 0.6초 이상 누르고 있으면 골골송 + 하트, 친밀도 +1 */
+(function () {
+  const btn = document.getElementById('cookie-btn'), box = document.getElementById('cookie');
+  if (!btn || !btn.addEventListener) return;
+  let t = null, petted = false;
+  const start = () => {
+    petted = false;
+    if (typeof setTimeout !== 'function') return;
+    t = setTimeout(() => {
+      petted = true;
+      if (box && box.classList) box.classList.add('purr');
+      churu('💗'); cookieSay('고롱고롱…');
+      ls.set(NY.bond, Number(ls.get(NY.bond, '0')) + 1);
+      if (typeof setTimeout === 'function') setTimeout(() => { if (box && box.classList) box.classList.remove('purr'); }, 2200);
+    }, 600);
+  };
+  const end = () => { if (t && typeof clearTimeout === 'function') clearTimeout(t); t = null; };
+  btn.addEventListener('mousedown', start);
+  btn.addEventListener('mouseup', end);
+  btn.addEventListener('mouseleave', end);
+  btn.addEventListener('touchstart', start);
+  btn.addEventListener('touchend', end);
+  // 쓰다듬은 직후의 클릭은 한 마디를 덮어쓰지 않게 막는다
+  btn.addEventListener('click', e => { if (petted) { e.stopPropagation(); petted = false; } }, true);
+})();
 
 /* 어려울 때 누르는 버튼 → "너도? 아, 나도!" 3초 뒤 사라진다 */
+/* ============================================================
+   쿠키 메뉴 (냥 패널) — 2026-09-08
+   공부용 6가지 + 재미 5가지를 한 패널에 모았다.
+   원칙은 그대로다: 기본 닫힘, 자동으로 안 열림, Esc·× 로 닫힌다.
+   데이터는 전부 bundle.js 안의 것만 쓴다 — 외부 호출 0, 지어내지 않는다.
+   ============================================================ */
+const NY = {
+  me: 'cookie-me',        // 내가 누구인지
+  goal: 'cookie-goal-',   // 날짜별 오늘의 목표 체크
+  streak: 'cookie-streak',// 연속 출석
+  feed: 'cookie-feed-',   // 날짜별 츄르 횟수
+  bond: 'cookie-bond',    // 친밀도(누적 상호작용)
+};
+const ls = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+};
+const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+
+/* 내 풀이 모으기 — bundle 데이터에서만 */
+function myEntries(id) {
+  const out = [];
+  for (const p of D.problems) for (const e of p.entries) if (e.author === id) out.push({ p, e });
+  return out;
+}
+/* 오늘의 복습 1문제: 리뷰가 needs-fix·wrong 인 내 풀이 중 하나 (날짜 시드로 하루 동안 고정) */
+function reviewPick(id) {
+  const bad = myEntries(id).filter(x => x.e.review && (x.e.review.verdict === 'needs-fix' || x.e.review.verdict === 'wrong'));
+  if (!bad.length) return null;
+  return bad[seedInt(id + today(), bad.length)];
+}
+/* 날짜+이름을 시드로 한 결정적 난수 — 새로고침해도 하루 동안 같은 걸 준다 */
+function seedInt(str, n) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return Math.abs(h) % n;
+}
+/* 반복 지적 태그 Top 3 + 어느 문제에서 그랬는지 */
+function weakTop(id) {
+  const map = {};
+  for (const { p, e } of myEntries(id)) {
+    if (!e.review) continue;
+    for (const t of (e.review.tags || [])) {
+      const meta = D.tags.find(d => d.id === t);
+      if (meta && meta.group === 'praise') continue;      // 칭찬 태그는 약점이 아니다
+      (map[t] = map[t] || []).push(p);
+    }
+  }
+  return Object.entries(map).sort((a, b) => b[1].length - a[1].length).slice(0, 3);
+}
+/* 아직 내가 안 푼 문제 */
+const notSolved = id => D.problems.filter(p => !p.entries.some(e => e.author === id));
+/* 리뷰가 아직 없는 내 풀이 */
+const noReview = id => myEntries(id).filter(x => !x.e.review);
+
+/* 오늘의 냥 점괘 — 날짜 시드 고정. 하루 동안 안 바뀐다 */
+const FORTUNE = [
+  '오늘은 반례가 먼저 보인다냥',
+  '오늘은 이분탐색이 잘 풀린다냥',
+  '오늘은 인덱스를 두 번 확인해라냥',
+  '오늘은 자료구조를 바꾸면 풀린다냥',
+  '오늘은 종이에 먼저 그려라냥',
+  '오늘은 시간복잡도부터 계산해라냥',
+  '오늘은 남의 코드를 한 번 읽어라냥',
+  '오늘은 포기하지 않으면 이긴다냥',
+];
+/* 상황별 인사 — 시간대·요일·시험 임박 */
+function greet() {
+  const h = new Date().getHours(), wd = new Date().getDay();
+  const dd = ddayLeft();
+  if (dd !== null && dd === 0) return '오늘이 시험이다냥. 손 풀고 가라냥';
+  if (dd !== null && dd <= 3) return '시험 ' + dd + '일 남았다냥. 새 문제보다 복습이다냥';
+  if (h < 6) return '이 시간에 코딩하냥… 자라냥';
+  if (h < 11) return '아침이다냥. 한 문제만 풀고 시작하자냥';
+  if (h < 14) return '밥은 먹었냥';
+  if (h < 18) return '오후엔 어려운 문제를 잡아라냥';
+  if (h < 22) return '오늘 몇 문제 풀었냥';
+  if (wd === 0 || wd === 6) return '주말에도 하는구냥. 대단하다냥';
+  return '늦었다냥. 한 문제만 더 하고 자라냥';
+}
+/* 가장 가까운 시험까지 남은 날 (없으면 null) */
+function ddayLeft() {
+  if (typeof EXAMS === 'undefined' || !EXAMS.length) return null;
+  const n = new Date(); const today0 = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  let best = null;
+  for (const x of EXAMS) {
+    const [y, m, d] = x.date.split('-').map(Number);
+    const left = Math.round((new Date(y, m - 1, d) - today0) / 86400000);
+    if (left >= 0 && (best === null || left < best)) best = left;
+  }
+  return best;
+}
+
+/* 연속 출석 스트릭 — 어제 왔으면 +1, 건너뛰었으면 1부터 */
+function bumpStreak() {
+  const t = today();
+  const raw = ls.get(NY.streak, '');
+  const [last, cntStr] = raw ? raw.split('|') : ['', '0'];
+  let cnt = Number(cntStr) || 0;
+  if (last === t) return cnt;
+  const y = new Date(); y.setDate(y.getDate() - 1);
+  const yStr = y.getFullYear() + '-' + String(y.getMonth() + 1).padStart(2, '0') + '-' + String(y.getDate()).padStart(2, '0');
+  cnt = (last === yStr) ? cnt + 1 : 1;
+  ls.set(NY.streak, t + '|' + cnt);
+  return cnt;
+}
+
+/* 츄르 이모지가 떠오른다 */
+function churu(emoji) {
+  if (typeof document === 'undefined' || !document.createElement || !document.body || !document.body.appendChild) return;
+  const el = document.createElement('div'); el.className = 'churu'; el.textContent = emoji;
+  el.style.right = (30 + Math.random() * 60) + 'px'; el.style.bottom = '90px';
+  document.body.appendChild(el);
+  if (typeof setTimeout === 'function') setTimeout(() => el.remove(), 1200);
+}
+
+/* 사과비 — 치트키 apple */
+let appling = false;
+function appleRain() {
+  if (appling || typeof document === 'undefined' || !document.createElement || typeof requestAnimationFrame !== 'function') return;
+  if (typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  appling = true;
+  const box = document.createElement('div'); box.id = 'applerain'; document.body.appendChild(box);
+  const W = innerWidth, H = innerHeight;
+  const items = Array.from({ length: 40 }, () => {
+    const el = document.createElement('span'); el.textContent = '🍎';
+    const o = { el, x: Math.random() * W, y: -60 - Math.random() * H, v: 3 + Math.random() * 5, r: Math.random() * 360, vr: (Math.random() - .5) * 8 };
+    box.appendChild(el); return o;
+  });
+  const t0 = Date.now();
+  (function frame() {
+    for (const o of items) {
+      o.y += o.v; o.r += o.vr; if (o.y > H + 60) o.y = -60;
+      o.el.style.transform = 'translate(' + o.x + 'px,' + o.y + 'px) rotate(' + o.r + 'deg)';
+    }
+    if (Date.now() - t0 < 4000) return requestAnimationFrame(frame);
+    box.classList.add('out');
+    setTimeout(() => { box.remove(); appling = false; }, 550);
+  })();
+}
+
+/* 집중 모드 — 치트키 study. 화면을 어둡게 하고 25분 카운트다운 */
+let focusTimer = null, focusBar = null;
+function focusMode(mins) {
+  if (typeof document === 'undefined' || !document.documentElement || !document.createElement || !document.body.appendChild) return;
+  if (focusTimer) { stopFocus(); return; }
+  document.documentElement.classList.add('focusmode');
+  focusBar = document.createElement('div'); focusBar.className = 'focusbar';
+  document.body.appendChild(focusBar);
+  let left = mins * 60;
+  const paint = () => { focusBar.textContent = '집중 ' + String(Math.floor(left / 60)).padStart(2, '0') + ':' + String(left % 60).padStart(2, '0'); };
+  paint();
+  if (typeof setInterval !== 'function') return;
+  focusTimer = setInterval(() => {
+    left--; paint();
+    if (left <= 0) { stopFocus(); if (typeof cookieSay === 'function') cookieSay('수고했다냥. 5분만 쉬어라냥'); }
+  }, 1000);
+}
+function stopFocus() {
+  if (focusTimer && typeof clearInterval === 'function') clearInterval(focusTimer);
+  focusTimer = null;
+  if (focusBar) { focusBar.remove(); focusBar = null; }
+  if (document.documentElement && document.documentElement.classList) document.documentElement.classList.remove('focusmode');
+}
+
+/* ---------- 패널 렌더 ---------- */
+function nyangHTML() {
+  const me = ls.get(NY.me, '');
+  const actives = D.authors.filter(a => a.active !== false);
+  const who = me ? (D.authors.find(a => a.id === me) || {}).displayName || me : null;
+  let h = '<button type="button" class="nx" id="ny-close" aria-label="닫기">×</button>';
+  h += '<h3>쿠키 메뉴</h3>';
+
+  if (!me) {
+    h += '<div class="who">' + esc(greet()) + '</div>';
+    h += '<section><div class="lbl">너 누구냥</div><p>이름을 한 번 알려주면 복습·약점을 네 것으로 보여준다냥. (이 브라우저에만 저장, 로그인 없음)</p><div class="row2">'
+      + actives.map(a => '<button type="button" class="mini" data-me="' + a.id + '">' + esc(a.displayName) + '</button>').join('') + '</div></section>';
+    return h;
+  }
+
+  const streak = bumpStreak();
+  const bond = Number(ls.get(NY.bond, '0'));
+  h += '<div class="who">' + esc(who) + ' · ' + esc(greet()) + '</div>';
+
+  // 1. 오늘의 브리핑
+  const dd = ddayLeft(), left = notSolved(me).length;
+  h += '<section><div class="lbl">오늘의 브리핑</div>';
+  h += '<p>연속 출석 <b>' + streak + '일</b> · 안 푼 문제 <b>' + left + '개</b>';
+  if (dd !== null) h += ' · 시험까지 <b>D-' + dd + '</b>';
+  h += '</p>';
+  if (dd !== null && dd > 0 && left > 0) h += '<p class="big">하루 ' + Math.ceil(left / dd) + '문제면 시험 전에 다 본다냥</p>';
+  h += '</section>';
+
+  // 2. 오늘의 복습 1문제
+  const pick = reviewPick(me);
+  h += '<section><div class="lbl">오늘의 복습 1문제</div>';
+  if (pick) h += '<p><a href="#/p/' + pick.p.key + '">' + esc(pick.p.title) + '</a> — 리뷰 판정 <b>' + esc(pick.e.review.verdict) + '</b>다냥. 여기부터 다시 보자냥</p>';
+  else h += '<p>고칠 게 남은 리뷰가 없다냥. 잘했다냥</p>';
+  h += '</section>';
+
+  // 3. 약점 Top 3 (드릴다운)
+  const weak = weakTop(me);
+  h += '<section><div class="lbl">반복해서 지적받은 것</div>';
+  if (!weak.length) h += '<p>아직 리뷰가 모자라다냥</p>';
+  else h += '<ul>' + weak.map(([t, ps]) =>
+    '<li><b>' + esc(tagLabel(t)) + '</b> ' + ps.length + '번 — ' +
+    ps.slice(0, 3).map(p => '<a href="#/p/' + p.key + '">' + esc(p.title) + '</a>').join(', ') +
+    (ps.length > 3 ? ' 외 ' + (ps.length - 3) : '') + '</li>').join('') + '</ul>';
+  h += '</section>';
+
+  // 4. 리뷰 안 붙은 내 풀이
+  const nr = noReview(me);
+  h += '<section><div class="lbl">리뷰 없는 내 풀이</div>';
+  h += nr.length
+    ? '<p>' + nr.length + '개다냥 — ' + nr.slice(0, 3).map(x => '<a href="#/p/' + x.p.key + '">' + esc(x.p.title) + '</a>').join(', ') + (nr.length > 3 ? ' 외 ' + (nr.length - 3) : '') + '</p>'
+    : '<p>전부 붙었다냥 👏</p>';
+  h += '</section>';
+
+  // 5. 랜덤 문제 룰렛
+  h += '<section><div class="lbl">문제 룰렛</div><div class="row2"><button type="button" class="mini" id="ny-roll">아무거나 하나 뽑아라냥</button><span id="ny-roll-out" class="big"></span></div></section>';
+
+  // 6. 오늘의 목표 3칸
+  const gk = NY.goal + today();
+  const g = ls.get(gk, '000');
+  h += '<section><div class="lbl">오늘의 목표</div>';
+  for (let i = 0; i < 3; i++) {
+    h += '<label class="goal' + (g[i] === '1' ? ' done' : '') + '"><input type="checkbox" data-goal="' + i + '"' + (g[i] === '1' ? ' checked' : '') + '><span>' + (i + 1) + '번째 문제 풀기</span></label>';
+  }
+  h += '</section>';
+
+  // 7. 뽀모도로
+  h += '<section><div class="lbl">뽀모도로</div><div class="row2"><span class="pomo" id="ny-pomo">25:00</span>'
+    + '<button type="button" class="mini" id="ny-pomo-go">시작</button><button type="button" class="mini" id="ny-pomo-stop">정지</button></div></section>';
+
+  // 8. 츄르 + 친밀도
+  const fk = NY.feed + today(); const fed = Number(ls.get(fk, '0'));
+  h += '<section><div class="lbl">쿠키 밥 주기</div><div class="row2"><button type="button" class="mini" id="ny-feed">🍥 츄르 (' + fed + '/3)</button>'
+    + '<span>친밀도 ' + bond + '</span></div><div class="gauge"><i style="width:' + Math.min(100, bond) + '%"></i></div></section>';
+
+  // 9. 오늘의 점괘
+  h += '<section><div class="lbl">오늘의 냥 점괘</div><p class="big">' + esc(FORTUNE[seedInt(me + today() + 'f', FORTUNE.length)]) + '</p></section>';
+
+  // 10. 치트키 안내
+  h += '<section><div class="lbl">치트키</div><p>입력창 밖에서 <b>cookie</b> 쿠키 떼 · <b>apple</b> 사과비 · <b>study</b> 집중 모드(25분) · <b>zzz</b> 재우기.<br>쿠키를 0.6초 꾹 누르면 골골송이 나온다냥.</p>'
+    + '<div class="row2"><button type="button" class="mini" id="ny-forget">이름 잊어라냥</button></div></section>';
+  return h;
+}
+
+let pomoLeft = 25 * 60, pomoTimer = null;
+function nyangBind() {
+  const box = document.getElementById('nyang');
+  if (!box || !box.querySelectorAll) return;
+  const on = (sel, fn) => box.querySelectorAll(sel).forEach(el => el.addEventListener('click', fn));
+  on('#ny-close', () => nyangOpen(false));
+  on('[data-me]', e => { ls.set(NY.me, e.currentTarget.getAttribute('data-me')); nyangPaint(); });
+  on('#ny-forget', () => { ls.set(NY.me, ''); nyangPaint(); });
+  on('#ny-roll', () => {
+    const p = D.problems[Math.floor(Math.random() * D.problems.length)];
+    const out = document.getElementById('ny-roll-out');
+    if (out) out.innerHTML = '<a href="#/p/' + p.key + '">' + esc(p.title) + '</a>';
+  });
+  on('#ny-feed', () => {
+    const fk = NY.feed + today(); const fed = Number(ls.get(fk, '0'));
+    if (fed >= 3) { cookieSay('배부르다냥'); return; }
+    ls.set(fk, fed + 1); ls.set(NY.bond, Number(ls.get(NY.bond, '0')) + 5);
+    churu('🍥'); cookieSay('맛있다냥');
+    nyangPaint();
+  });
+  on('#ny-pomo-go', () => {
+    if (pomoTimer || typeof setInterval !== 'function') return;
+    pomoTimer = setInterval(() => {
+      pomoLeft--; const el = document.getElementById('ny-pomo');
+      if (el) el.textContent = String(Math.floor(pomoLeft / 60)).padStart(2, '0') + ':' + String(pomoLeft % 60).padStart(2, '0');
+      if (pomoLeft <= 0) { clearInterval(pomoTimer); pomoTimer = null; pomoLeft = 25 * 60; cookieSay('25분 했다냥. 일어나서 물 마셔라냥'); confettiBurst(); }
+    }, 1000);
+  });
+  on('#ny-pomo-stop', () => { if (pomoTimer && typeof clearInterval === 'function') clearInterval(pomoTimer); pomoTimer = null; pomoLeft = 25 * 60; const el = document.getElementById('ny-pomo'); if (el) el.textContent = '25:00'; });
+  box.querySelectorAll('[data-goal]').forEach(el => el.addEventListener('change', () => {
+    const gk = NY.goal + today(); const g = ls.get(gk, '000').split('');
+    g[Number(el.getAttribute('data-goal'))] = el.checked ? '1' : '0';
+    ls.set(gk, g.join(''));
+    ls.set(NY.bond, Number(ls.get(NY.bond, '0')) + (el.checked ? 3 : 0));
+    if (g.join('') === '111') { confettiBurst(); cookieSay('오늘 목표 다 했다냥. 최고다냥'); }
+    nyangPaint();
+  }));
+}
+function nyangPaint() {
+  const box = document.getElementById('nyang');
+  if (!box) return;
+  box.innerHTML = nyangHTML();
+  nyangBind();
+}
+function nyangOpen(open) {
+  const box = document.getElementById('nyang'), paw = document.getElementById('paw'), btn = document.getElementById('paw-btn');
+  if (!box) return;
+  if (open) nyangPaint();
+  box.hidden = !open;
+  if (paw && paw.classList) tog(paw, 'on', open);
+  if (btn && btn.setAttribute) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+(function () {
+  const btn = document.getElementById('paw-btn');
+  if (btn) btn.addEventListener('click', () => {
+    const box = document.getElementById('nyang');
+    nyangOpen(box ? box.hidden !== false : true);
+  });
+  if (typeof addEventListener === 'function') addEventListener('keydown', e => { if (e.key === 'Escape') nyangOpen(false); });
+})();
+
 (function () {
   const btn = document.getElementById('hard-btn'), say = document.getElementById('hard-say');
   if (!btn || !say) return;

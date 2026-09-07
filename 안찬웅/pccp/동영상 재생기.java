@@ -42,13 +42,15 @@ class Solution {
             }
             if(commands[i].equals("prev")) {
                 curTime -= 10;
-                if(curTime < 10) {
+                // 남은 시간이 10초 미만이면 처음(0초)으로 -> 빼고 나서 음수인지 본다
+                if(curTime < 0) {
                     curTime = 0;
                 }
                 
             } else if(commands[i].equals("next")) {
                 curTime += 10;
-                if(curTime < 10) {
+                // 남은 시간이 10초 미만이면 영상 끝으로 -> 더하고 나서 길이를 넘었는지 본다
+                if(curTime > videlTime) {
                     curTime = videlTime;
                 }
             }

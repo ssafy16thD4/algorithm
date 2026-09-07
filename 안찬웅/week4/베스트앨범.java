@@ -18,7 +18,7 @@ import java.util.*;
     2. 많이 재생된 장르, 많이재싱된 노래, 고유번호가 낮은 노래 순으로 정렬합니다.
 */
 class Solution {
-    class Node implements Comparable<Node> {
+    static class Node implements Comparable<Node> {
         int genresCount; // 장르별 노래횟수
         int playsCount; // 노래별 횟수
         int idx; // 인덱스=고유번호
@@ -70,30 +70,16 @@ class Solution {
             pq.add(new Node(singCnt, plays[i], i, genres[i]));
         }
         
-        int cnt = 0;
-        String str = "";
+        // 장르마다 2곡까지만 담는다.
+        // 장르 총합이 동점이면 pq 에서 두 장르가 번갈아 나오는데,
+        // "직전 장르 이름 하나"만 들고 세면 그때 3곡 이상 담긴다. 장르별 카운터가 필요하다.
+        Map<String, Integer> picked = new HashMap<>();
         while(!pq.isEmpty()) {
             Node n = pq.poll();
-            // 처음일때
-            if(str.equals("")) {
-                str = n.genres;
-                cnt++;
-                list.add(n.idx);
-                continue;
-            }
-            
-            // 문자열이 같고 한번 이하일 때
-            if(str.equals(n.genres) && cnt <= 1) {
-                cnt++;
-                list.add(n.idx);
-            // 문자열이 같고 두번 이상일 때
-            } else if (str.equals(n.genres) && cnt >= 2) {
-                cnt++;
-            } else { // 문자열이 다를때
-                str = n.genres;
-                list.add(n.idx);
-                cnt = 1;
-            }
+            int c = picked.getOrDefault(n.genres, 0);
+            if(c >= 2) continue;
+            picked.put(n.genres, c + 1);
+            list.add(n.idx);
         }
         
         int[] res = new int[list.size()];

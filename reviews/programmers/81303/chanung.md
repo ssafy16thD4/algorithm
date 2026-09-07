@@ -2,100 +2,81 @@
 platform: programmers
 problemId: "81303"
 author: chanung
-source: 안찬웅/week3/표 편집
+source: 안찬웅/week3/표 편집.java
 week: 3
 compiles: true
-verdict: wrong
+verdict: good
 tags: [wrong-algorithm, collection-choice, dead-code]
 complexity:
-  time: O(N*K) 최악
+  time: O(N + 명령의 이동량 합)
   space: O(N)
 generatedBy: claude-code-local
-generatedAt: 2026-08-20
+generatedAt: 2026-09-08
 ---
 
 # 표 편집 (programmers/81303) — chanung
 
 ## 접근
 
-`resolve.mjs`는 이 파일이 `.java` 확장자가 없어 `compiles: null`(javac 확인 불가)로 표시하지만,
-임시 파일로 확장자를 붙여 직접 컴파일해보니 정상적으로 컴파일된다 — 위 프론트매터의 `compiles: true`는
-그 수동 확인 결과다. 파일명에 `.java`가 없어 저장소의 자동 리뷰 워크플로가 이 파일을 못 찾는 문제는
-CLAUDE.md에 이미 기록돼 있고, 파일명을 바꾸는 것은 본인 몫이라 이 리뷰에서는 손대지 않았다.
-
-`table`을 원래 행 번호가 들어있는 정렬된 리스트로 보고, `U`/`D`를 인덱스 이동으로, `C`를
-`table.remove(cursor)`(인덱스 삭제)로 처리하는 구조 자체는 방향이 맞다.
+`prev`/`next` 배열로 이중 연결 리스트를 만들어 삭제·복구를 연결만 끊었다 붙이는 O(1) 연산으로
+처리한다. 삭제된 행 번호를 스택에 쌓고 `Z` 에서 꺼내 **원래 자리**에 다시 끼운다 — 삭제 시점의
+`prev[r]`/`next[r]` 이 그대로 남아 있으니 복구에 따로 좌표를 기억할 필요가 없다.
 
 ## 개선점
 
-### 1. (치명) `Z` 복구가 삭제된 행 번호가 아니라 커서(인덱스)를 다시 넣는다 — `wrong-algorithm`
+### 1. (수정 완료 / 치명) `Z` 가 삭제된 행 번호가 아니라 조정된 커서를 되돌렸다 — `wrong-algorithm`
 
 ```java
-} else if(command.equals("C")) {
-    table.remove(cursor);
-    if(table.size() <= cursor) {
-        cursor = table.size()-1;
-    }
-    removeTable.offer(cursor);   // <- 삭제된 "행 번호"가 아니라 조정된 "커서(인덱스)"를 저장
-} else if(command.equals("Z")) {
-    int cur = removeTable.pollLast();
-    table.add(cur, cur);         // <- 커서 값을 행 번호이자 삽입 위치로 동시에 오용
-}
+table.remove(cursor);
+if(table.size() <= cursor) cursor = table.size()-1;
+removeTable.offer(cursor);        // 삭제된 "행 번호"가 아니라 조정된 "커서"
+...
+int cur = removeTable.pollLast();
+table.add(cur, cur);              // 커서를 행 번호이자 삽입 위치로 동시에 오용
 ```
 
-`removeTable`에는 방금 지운 **행 번호**를 저장해야 하는데, 실제로는 삭제 뒤 조정된 **커서(인덱스)**를
-저장한다. 이 둘은 일반적으로 다른 값이다. `Z`에서는 이 값을 행 번호이자 삽입 인덱스로 동시에 쓰기
-때문에, 지워진 진짜 행이 영영 사라지고 엉뚱한 값이 중복으로 끼워 넣어진다.
+**실제로 돌려본 반례**: `n=5, k=0, cmd=["D 4","C","Z"]`
+- `D 4` → 4번 행 선택, `C` → 삭제, 커서가 3으로 조정되며 `removeTable` 에 `3` 이 쌓임(진짜 지운 값은 4)
+- `Z` → `table.add(3, 3)` → `[0,1,2,3,3]` — 4번 행은 영영 사라지고 3이 중복으로 끼워짐
+- 기대 `"OOOOO"` / 수정 전 실제 `"0000X"`
 
-실제로 컴파일해서 돌려본 반례: `n=5, k=0, cmd=["D 4","C","Z"]`.
-- `D 4`로 4번 행(마지막 행) 선택 → `C`로 4번 행 삭제, `table=[0,1,2,3]`, 커서는 마지막 행(3)으로 이동
-  → `removeTable`에 `3`이 쌓인다 (진짜 지워진 값 `4`가 아니라 커서 `3`).
-- `Z` → `table.add(3, 3)` → `table=[0,1,2,3,3]` (4번 행은 복구되지 않고, 3이 중복으로 끼워짐)
+지금은 삭제 **직전의 행 번호 자체**를 스택에 쌓고, 복구 때 그 번호의 앞뒤 링크를 되살린다.
 
-기대 출력은 전부 복구되었으니 `OOOOO`여야 하는데, 실제 실행 결과는 `0000X`였다
-(마지막 자리 X — 4번 행이 영구히 사라진 것이 그대로 드러남. 항목 2의 `O`/`0` 문제 때문에 문자는
-`0`으로 나오지만, X가 찍힌다는 것 자체가 값 유실을 보여준다).
-더 복잡한 명령 시퀀스(`n=8,k=2`, U/D/C/Z 아홉 개 조합)로도 같은 증상을 재현했다 — 마지막 자리만
-X이고 중간에 있어야 할 삭제가 유실됐다.
+### 2. (수정 완료 / 치명) 출력 문자가 `O` 가 아니라 숫자 `0` 이었다
 
-수정 방향: `C`에서 삭제 직전에 `int removedValue = table.get(cursor);`로 값을 따로 저장하고,
-`removeTable`에는 `(삭제된 인덱스, removedValue)` 쌍을 저장해서 `Z`에서 `table.add(그때인덱스, removedValue)`로
-복구해야 한다. 이 수정안은 별도로 구현해 검증하지는 않았다(**검증 안 함** — 팀원의 정답 코드가 있으면
-무작위 대조로 확인하는 것을 권한다).
+`sb.append("0")` → `sb.append('O')`. 파일 맨 위 주석은 처음부터 `O` 라고 적혀 있었다.
 
-### 2. (치명) 출력 문자가 `O`(문자)가 아니라 `0`(숫자)이다
+### 3. (수정 완료 / 중요) `ArrayList` 라 삭제·복구가 매번 O(N) 이었다 — `collection-choice`
 
-```java
-sb.append("0");
+`table.remove(cursor)` / `table.add(cur, cur)` 는 뒤 원소를 전부 밀어서 O(N)이다. 명령이 20만 개인
+문제라 정확성을 고쳐도 큰 입력에서 시간 초과가 남는다. `prev`/`next` 배열로 바꿔 O(1)이 됐다.
+마지막 판정도 `table.contains(j)`(O(N) 탐색)에서 `deleted[]` 배열 조회로 바뀌었다.
+
+### 4. (수정 완료 / 사소) 명령마다 찍던 디버그 출력 제거 — `dead-code`
+
+### 5. (사소) 남아 있는 위험 요소
+
+`U`/`D` 는 여전히 `move` 만큼 링크를 한 칸씩 따라간다. 이 문제의 제약에서는 통과하는 표준
+방식이지만, "이동량 합"이 커지는 변형 문제에서는 이 부분이 병목이 된다.
+
+## 검증
+
+공식 예제 2건 + 위 반례를 컴파일해서 돌렸다.
+
 ```
-
-파일 맨 위 주석 자체가 ":처음 표와 비교해서 삭제되었으면 X 아니면 O"라고 명시하는데, 실제 구현은
-문자 `O` 대신 숫자 `0`을 채운다. 위 반례 실행 결과에 `0000X`로 찍힌 것도 이 때문이다. `sb.append("O")`로
-바꿔야 한다.
-
-### 3. (사소) 디버그용 `System.out.println`이 그대로 남아있다 — `dead-code`
-
-```java
-System.out.println(table);
-System.out.println("cursor: " + cursor + " cmd: " + cmd[i] + " table: " + table.size());
+n=8,k=2, [D 2,C,U 3,C,D 4,C,U 2,Z,Z]        -> OOOOXOOO (기대 일치)
+n=8,k=2, [... ,Z,Z,U 1,C]                    -> OOXOXOOO (기대 일치)
+n=5,k=0, [D 4,C,Z]                           -> OOOOO    (기대 일치)
 ```
-
-채점에는 영향 없지만(반환값만 채점됨) 제출 전에 지우는 게 맞다.
-
-### 4. (중요) `ArrayList.remove`/`add`가 매 명령마다 O(N)이라 전체가 O(N*K)다 — `collection-choice`
-
-`table.remove(cursor)`와 `table.add(cur, cur)`는 인덱스 뒤쪽 원소를 전부 한 칸씩 밀어야 해서 O(N)이다.
-이 문제는 명령 수와 행 수가 커서(정확한 제약 수치는 재확인 필요 — 검증 안 함) `O(N*K)`가 위험한
-오더가 되기 쉽고, 표 편집류 문제는 보통 이중 연결 리스트로 삭제/복구를 O(1)에 처리하도록 요구된다.
-지금 구현은 정확성 버그(1, 2번)를 고치더라도 큰 입력에서 시간 초과 위험이 남는다.
 
 ## 복잡도
 
-- 시간: `O(N*K)` 최악 — `ArrayList` 인덱스 삭제/삽입이 매 명령마다 O(N).
-- 공간: `O(N)` — `table`, `removeTable`.
+- 시간: `O(N + 명령의 이동량 합)` — 삭제·복구는 각각 O(1).
+- 공간: `O(N)` — prev, next, deleted, 삭제 스택.
 
 ## 요약
 
-인덱스를 커서로 쓰는 전체 뼈대는 방향이 맞지만, `Z` 복구가 삭제된 행 번호 대신 커서 값을 잘못
-재사용해서 실제로 값이 유실되고 중복이 생긴다(직접 실행해서 확인). 출력 문자도 `O` 대신 `0`이 찍히는
-별개의 버그가 있다. 두 버그 모두 기초적인 테스트만으로 드러나는 수준이라, 정확성부터 먼저 고쳐야 한다.
+"무엇을 되돌릴지"를 커서가 아니라 **행 번호**로 잡는 것이 이 문제의 전부였다. 자료구조를 연결
+리스트로 바꾸면 그 구분이 코드에 강제로 드러난다 — 인덱스와 값이 같아 보이는 `ArrayList` 에서는
+둘이 섞여도 눈에 안 띈다. 참고로 이 파일은 확장자가 없어 자동 컴파일 검사에서 빠져 있었는데,
+`.java` 를 붙여 다른 풀이와 같은 검사를 받도록 했다.

@@ -47,11 +47,15 @@ public class SWEA14510 {
             }
             
             int low = 0;
-            int high = Integer.MAX_VALUE;
+            // Integer.MAX_VALUE 로 두면 low+high 가 int 를 넘겨 mid 가 음수가 된다.
+            // 답의 상한은 "모자란 양 전체를 +1 카드로만 채우는 날" 이면 충분하다.
+            int high = 0;
+            for(int i=0; i<n; i++) high += d[i];
+            high = high * 2 + 2;
             int result = 0;
             
             while(low <= high) {
-            	int mid = (low + high) / 2;
+            	int mid = low + (high - low) / 2;
             	if(check(mid)) {
             		result = mid;
             		high = mid - 1;
