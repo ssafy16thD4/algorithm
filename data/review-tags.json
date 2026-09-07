@@ -25,11 +25,10 @@
     { "id": "magic-number", "group": "structure", "label": "설명 없는 상수" },
     { "id": "duplicate-code", "group": "structure", "label": "복붙된 중복 코드" },
     { "id": "long-method", "group": "structure", "label": "한 메서드가 너무 많은 일을 함" },
-    { "id": "dead-code", "group": "structure", "label": "쓰이지 않는 코드 / 주석 처리된 코드" },
+    { "id": "dead-code", "group": "structure", "label": "쓰이지 않는 변수·함수" },
     { "id": "nonstatic-inner-class", "group": "structure", "label": "static 이어야 할 중첩 클래스" },
 
     { "id": "naming", "group": "style", "label": "이름이 값을 설명하지 못함" },
-    { "id": "comment-noise", "group": "style", "label": "코드를 그대로 옮긴 주석 / 오래된 주석" },
 
     { "id": "good-decomposition", "group": "praise", "label": "역할 분리가 좋음" },
     { "id": "good-complexity", "group": "praise", "label": "복잡도 선택이 정확함" },

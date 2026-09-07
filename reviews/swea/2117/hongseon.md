@@ -7,7 +7,7 @@ week: 6
 compiles: null
 lang: cpp
 verdict: needs-fix
-tags: [missing-return, redundant-collection, dead-code, good-complexity]
+tags: [missing-return, redundant-collection, good-complexity]
 complexity:
   time: O(T·N²·H)
   space: O(H + N)
@@ -102,17 +102,12 @@ for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) {
 
 **검증 안 함** — g++ 가 없어 돌려보지 못했다. 반영하면 원본과 같은 답을 내는지 확인이 필요하다.
 
-### 3. (사소) 주석 처리된 디버그 출력 5덩이 — <dead-code>
-
-`findmax` 안에 2줄, `main` 에 `// cout << sum` 과 반복자 출력 블록 두 덩이(10줄 남짓)가 남아 있다.
-지우는 게 맞다. 필요하면 git 이력에 있다.
-
-### 4. (사소) `v1[42]` 의 42 — <magic-number>
+### 3. (사소) `v1[42]` 의 42 — <magic-number>
 
 거리 최댓값은 `(n-1) + (n-1) + 1 = 2n - 1` 이고 `n ≤ 20` 이라 39다. `42` 는 그 여유값인데
 근거가 코드에 없다. `const int MAXD = 2 * 20;` 처럼 이름을 주면 `n` 이 커지는 문제에 복사해 쓸 때 걸린다.
 
-### 5. (사소) `cin >> T` 가 `ios::sync_with_stdio(0)` 보다 먼저 온다
+### 4. (사소) `cin >> T` 가 `ios::sync_with_stdio(0)` 보다 먼저 온다
 
 ```cpp
 int T;

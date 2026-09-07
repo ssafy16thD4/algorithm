@@ -6,7 +6,7 @@ source: 안찬웅/week4/보석 쇼핑.java
 week: 4
 compiles: true
 verdict: good
-tags: [good-readability, comment-noise]
+tags: [good-readability]
 complexity:
   time: O(N)
   space: O(K) — K는 보석 종류 수
@@ -24,9 +24,7 @@ generatedAt: 2026-08-25
 
 ## 개선점
 
-### 1. (사소) 주석의 시간복잡도가 실제 구현과 다름 — `comment-noise`
-
-파일 상단 주석엔 "시간복잡도: NlogN"이라고 적혀 있지만, 실제 구현은 정렬이나 로그 요소 없는 순수 투 포인터 + HashMap이라 `O(N)`이다. 채점 결과엔 영향 없지만, 나중에 이 주석만 보고 복잡도를 다시 판단하면 헷갈릴 수 있다.
+코딩테스트 관점에서 지적할 결함이 없다.
 
 ## 복잡도
 
@@ -35,4 +33,4 @@ generatedAt: 2026-08-25
 
 ## 요약
 
-정확하고 깔끔한 슬라이딩 윈도우 구현. 실측 테스트 4건 전부 통과했고, 지적할 만한 로직 결함은 없다. 상단 주석의 시간복잡도 표기만 실제 구현과 어긋나 있다.
+정확하고 깔끔한 슬라이딩 윈도우 구현. 실측 테스트 4건 전부 통과했고, 지적할 만한 로직 결함은 없다.

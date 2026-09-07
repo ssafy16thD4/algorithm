@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T15:35:58.226Z",
+  "generatedAt": "2026-09-07T03:39:44.851Z",
   "authors": [
     {
       "id": "junsoo",
@@ -2117,6 +2117,18 @@
           "hasReview": true,
           "lines": 82,
           "bytes": 2635
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 6,
+          "variant": null,
+          "source": "이성일/week6/SWEA2115.java",
+          "target": "solutions/swea/2115/seongil.java",
+          "review": "reviews/swea/2115/seongil.md",
+          "hasReview": false,
+          "lines": 108,
+          "bytes": 2953
         },
         {
           "author": "hongseon",

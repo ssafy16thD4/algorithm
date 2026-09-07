@@ -84,18 +84,7 @@ edges[i][target] = Math.min(edges[i][target], cost);
 break;
 ```
 
-### 3. (사소) 주석 처리된 코드 두 곳 — <dead-code>
-
-```java
-//        if (answer == 0) answer = -1;
-...
-//            System.out.println("edge n " + edgeCnt + ...);
-```
-
-앞엣것은 `mst()` 안의 `if (edgeCnt != islandSize - 1) return -1;` 로 이미 해결돼서 필요 없어진 코드고,
-뒤엣것은 디버그 출력이다. 남겨두면 나중에 읽을 때 "이게 왜 꺼져 있지" 를 한 번 더 생각하게 된다. 지우는 게 낫다.
-
-### 4. (사소) `edges` 인접 행렬을 큐로 옮기는 이중 루프 — <redundant-loop>
+### 3. (사소) `edges` 인접 행렬을 큐로 옮기는 이중 루프 — <redundant-loop>
 
 ```java
 int[][] edges = new int[islandSize + 1][islandSize + 1];   // 최소 길이 갱신용

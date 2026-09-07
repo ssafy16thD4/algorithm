@@ -6,8 +6,8 @@ source: 전홍선/week5/2105.cpp
 week: 5
 compiles: null
 lang: cpp
-verdict: needs-fix
-tags: [dead-code, naming, good-complexity]
+verdict: good
+tags: [naming, good-complexity]
 complexity:
   time: O(T·N⁴)
   space: O(N)
@@ -48,16 +48,7 @@ if (dir == 2) { if (zero_cnt > 0) backtrack(nx, ny, dir, ...); else backtrack(nx
 
 ## 개선점
 
-### 1. (중요) 주석 처리된 디버그 출력 3덩이 — <dead-code>
-
-`backtrack` 안에 `if (startx == 3 && starty == 0)` 로 시작하는 디버그 블록이 두 곳, 그 밖에도
-`// cout << " " << board[nx][ny] ...` 가 남아 있다. **전부 특정 케이스(3,0)를 추적하려고 넣은 임시 코드**라
-지금은 읽는 사람에게 "이 좌표가 특별한가?" 하는 잘못된 신호만 준다.
-
-디버깅이 끝났으면 지우는 게 맞다. 다시 필요하면 git 이력에서 꺼내면 된다.
-같은 문제가 `week5/breakthewall.cpp` 에서는 훨씬 심하다 — 그쪽은 203줄 중 60줄 가까이가 주석 처리된 코드다.
-
-### 2. (사소) `zero_cnt` 는 이름이 값을 설명하지 못한다 — <naming>
+### 1. (사소) `zero_cnt` 는 이름이 값을 설명하지 못한다 — <naming>
 
 이 변수가 실제로 담는 건 "0번 방향으로 이동한 칸 수" 이자 "2번 방향으로 더 가야 할 칸 수" 다.
 `zero_cnt` 는 "0의 개수" 로도 읽혀서 주석 없이는 뜻이 안 잡힌다.
@@ -68,7 +59,7 @@ int remain_side;   // 2번 방향으로 남은 이동 수 (= 0번 방향 변의 
 
 이 풀이에서 제일 영리한 부분인데 이름 때문에 그게 안 드러난다.
 
-### 3. (사소) 시작 칸 복귀 시 `used` 를 되돌리지 않고 return 한다
+### 2. (사소) 시작 칸 복귀 시 `used` 를 되돌리지 않고 return 한다
 
 ```cpp
 used[board[x][y]] = true;
@@ -92,5 +83,4 @@ if (x == startx && y == starty && dir == 3) { answer = max(answer, curcnt - 1); 
 
 "마주보는 변의 길이가 같다" 는 제약 하나만 상태로 들고 나머지는 기하에 맡긴 설계가 좋다.
 그 덕에 종료 조건이 한 줄이고, `bool[101]` 로 중복 검사까지 상수 시간이라 안쪽 루프에 군더더기가 없다.
-실제로 손볼 건 알고리즘이 아니라 정리다 — 특정 좌표를 추적하던 디버그 블록 세 덩이를 지우고,
-`zero_cnt` 에 제 뜻을 담은 이름을 주면 이 풀이의 영리한 부분이 코드에 그대로 드러난다.
+알고리즘에는 손댈 곳이 없다. `zero_cnt` 에 제 뜻을 담은 이름을 주면 이 풀이의 영리한 부분이 코드에 그대로 드러난다.

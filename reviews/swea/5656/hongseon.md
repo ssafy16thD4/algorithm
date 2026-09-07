@@ -6,8 +6,8 @@ source: 전홍선/week5/breakthewall.cpp
 week: 5
 compiles: null
 lang: cpp
-verdict: needs-fix
-tags: [dead-code, good-decomposition, redundant-collection]
+verdict: good
+tags: [good-decomposition, redundant-collection]
 complexity:
   time: O(T·W^N·H·W)
   space: O(N·H·W)
@@ -46,20 +46,7 @@ for (int step = 1; step < range; step++) {
 
 ## 개선점
 
-### 1. (중요) 203줄 중 60줄 가까이가 주석 처리된 코드다 — <dead-code>
-
-`draw()` 오버로드 두 개(28줄), `history[10]` / `flag1,2,3` 전역, `solution()` 맨 위의 중첩 디버그
-블록(22줄), `// vector<vector<bool>> visited(...)`, 중간중간 `// cout << ...` 여러 줄.
-**파일의 30% 가까이가 죽은 코드다.**
-
-디버깅 흔적이 이 정도로 남아 있으면 실제 로직이 어디서 시작하는지 찾는 데만 시간이 든다.
-특히 `history` / `flag` 는 전역 선언까지 남아 있어서, 읽는 사람이 "이게 지금 쓰이나?" 를
-한 번 확인해야 한다. 지우는 게 맞다 — 필요하면 git 이력에 있다.
-
-`week5/2105.cpp` 에도 같은 패턴이 있다. 이번 주차에서 반복되는 유일한 문제라, 제출·커밋 전에
-`cout` 과 `//` 를 한 번 훑는 것만으로 정리된다.
-
-### 2. (중요) `gravity()` 가 열마다 `vector` 를 새로 할당한다 — <redundant-collection>
+### 1. (중요) `gravity()` 가 열마다 `vector` 를 새로 할당한다 — <redundant-collection>
 
 ```cpp
 for (int col = 0; col < w; col++) {
@@ -85,7 +72,7 @@ for (int col = 0; col < w; col++) {
 
 **검증 안 함** — g++ 가 없어 돌려보지 못했다. 반영하면 원본과 같은 답을 내는지 확인이 필요하다.
 
-### 3. (사소) 탐색 가지에서 보드를 통째로 복사한다 — <space-complexity>
+### 2. (사소) 탐색 가지에서 보드를 통째로 복사한다 — <space-complexity>
 
 ```cpp
 vector<vector<int>> next_board = cur;   // H×W 복사
@@ -97,7 +84,7 @@ int broken = shoot(next_board, col);
 지금 규모에서는 **바꾸지 않아도 되는 지점**이고, 굳이 고친다면 되돌리기(undo) 로그를 쌓는 쪽인데
 연쇄 폭발이라 로그가 복잡해진다. 지금 선택이 합리적이다.
 
-### 4. (사소) 파일명이 문제 번호와 연결되지 않는다
+### 3. (사소) 파일명이 문제 번호와 연결되지 않는다
 
 `breakthewall.cpp` 는 `week6` 의 `swea2112.cpp` 식 규칙과 다르다. 저장소 alias 매핑이 흡수해서
 사이트에는 `swea/5656` 으로 정상 인식되지만, `swea5656.cpp` 로 통일하면 번호로 파일을 찾을 수 있다.
@@ -112,5 +99,5 @@ int broken = shoot(next_board, col);
 
 연쇄 폭발을 BFS + 즉시 0으로 지우기로 처리하고, 빈 칸에서 `break` 대신 `continue` 를 쓴 것 —
 이 문제에서 제일 자주 틀리는 두 곳을 정확히 짚었다. `shoot`/`gravity`/`solution` 의 역할 분리도 좋다.
-알고리즘에는 손댈 곳이 없고, 실제 문제는 **파일의 30%를 차지하는 주석 처리된 디버그 코드**다.
-`gravity` 의 열별 `vector` 할당까지 두 포인터로 걷어내면 훨씬 읽기 좋아진다.
+알고리즘에는 손댈 곳이 없다.
+`gravity` 의 열별 `vector` 할당을 두 포인터로 걷어내면 훨씬 읽기 좋아진다.

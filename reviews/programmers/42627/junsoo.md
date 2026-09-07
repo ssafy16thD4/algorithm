@@ -6,7 +6,7 @@ source: 김준수/week2/디스크 컨트롤러.java
 week: 2
 compiles: true
 verdict: needs-fix
-tags: [magic-branch, redundant-collection, nonstatic-inner-class, comment-noise]
+tags: [magic-branch, redundant-collection, nonstatic-inner-class]
 complexity:
   time: O(N² log N + T)
   space: O(N)
@@ -115,16 +115,6 @@ class Solution {
 
 `Task` 는 `Solution` 의 상태를 쓰지 않으므로 `static class Task` 가 맞다.
 안찬웅은 같은 문제에서 `static class Node` 로 선언했다.
-
-### 5. (사소) 주석이 코드와 다르다 — `comment-noise`
-
-```java
-- 최초 실행 시간을 모든 작업에서 가장 작은 호출 시간으로 시작하면 무의미한 스킵을 막을 수 있음
-```
-
-좋은 최적화인데 **실제 코드는 `int time = 0;` 으로 시작한다.** 적용하지 않았다.
-"할 수 있다"로 적어둔 메모라면 `TODO` 로 표시하거나, 적용하고 나서 남기는 게 좋다.
-읽는 사람은 주석대로 되어 있다고 믿는다.
 
 ## 복잡도
 

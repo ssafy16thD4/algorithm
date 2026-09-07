@@ -138,11 +138,10 @@ for (int i = 0; i < enroll.length; i++) parent.put(enroll[i], referral[i]);
 
 이러면 `enroll`/`referral` 배열을 재귀 인자로 넘길 필요도 없어진다.
 
-### 7. (사소) 디버그 출력과 주석 처리된 코드가 남아 있다 — `dead-code`
+### 7. (사소) 디버그 출력이 남아 있다 — `dead-code`
 
 43행 `System.out.println("최종답: " + totalMoney)`, 52행의 호출별 출력이 그대로 있다.
 재귀 호출마다 문자열을 만들어 찍기 때문에 시간 초과의 직접적인 원인이 될 수 있다.
-54~57행, 65행의 주석 처리된 코드도 함께 지우는 게 좋다.
 
 ## 복잡도
 

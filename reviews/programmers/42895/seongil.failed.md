@@ -6,7 +6,7 @@ source: 이성일/week3/N으로표현FailVersion.java
 week: 3
 compiles: true
 verdict: good
-tags: [dead-code, comment-noise, good-decomposition]
+tags: [dead-code, good-decomposition]
 complexity:
   time: O(8^2 * |dp|^2)
   space: O(32001 + sum |list[i]|)
@@ -60,14 +60,6 @@ static boolean amplify(int left, int right, int len, int number) {
 
 `left + right` 를 `len` 으로 통일하면 "이게 같은 값인가?" 를 되짚을 일이 없어진다.
 `<` 와 `<=` 중 어느 쪽이 맞는지 판단할 때도 훨씬 빨리 보인다.
-
-### 3. (사소) 번호 매긴 주석이 코드와 어긋나 있다 — `comment-noise`
-
-`// 2.1 2개부터 시작` 처럼 계획 단계의 번호가 그대로 남아 있는데,
-`// 2.3 새로운 수가 number이면 answer값 저장 및 종료` 는 `return answer;` 바로 위에 붙어 있다.
-정작 그 자리는 **아무것도 못 찾았을 때 `-1` 을 돌려주는 곳**이다.
-
-계획 주석은 구현이 끝나면 지우거나, 실제 동작을 설명하는 문장으로 바꾸는 게 낫다.
 
 ## 복잡도
 

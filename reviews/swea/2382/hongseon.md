@@ -7,7 +7,7 @@ week: 6
 compiles: null
 lang: cpp
 verdict: needs-fix
-tags: [logic-edge-case, good-complexity, dead-code]
+tags: [logic-edge-case, good-complexity]
 complexity:
   time: O(T·M·K log K)
   space: O(N² + K)
@@ -92,17 +92,12 @@ for (int i = 0; i < used_loc.size(); i++) {
 
 **확인 못 함** — 위 도달 불가 논증은 코드와 문제 조건을 읽고 세운 것이고, 실행으로 확인하지 않았다.
 
-### 3. (사소) `// Unit &cur = v[i];` — <dead-code>
-
-쓰다 만 참조 선언이 주석으로 남아 있다. 실제로 이 참조를 살리면 아래의
-`v[i].x`, `v[i].y`, `v[i].size`, `v[i].dir` 반복이 전부 `cur.x` 로 짧아진다. 지우거나 살리거나 둘 중 하나다.
-
-### 4. (사소) `cin` 가속 설정이 없다
+### 3. (사소) `cin` 가속 설정이 없다
 
 `main` 에 `ios::sync_with_stdio(0); cin.tie(0);` 가 빠져 있다. `K ≤ 1000`, `T` 가 여러 개면
 입력이 수천 줄이라 체감이 될 수 있다. 같은 주차의 `swea2112.cpp` 에는 들어가 있다.
 
-### 5. (사소) `v.resize(k)` 는 이전 케이스의 값을 남긴다
+### 4. (사소) `v.resize(k)` 는 이전 케이스의 값을 남긴다
 
 `v.clear()` 없이 `resize(k)` 라 이전 케이스가 더 컸으면 앞쪽 원소가 남는다.
 바로 아래 루프가 `k` 개를 전부 덮어쓰므로 **지금은 문제가 없지만**, 케이스 간 상태를 남기는 형태다.

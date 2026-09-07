@@ -6,7 +6,7 @@ source: 김준수/week6/보호 필름 실패.java
 week: 6
 compiles: false
 verdict: needs-fix
-tags: [time-complexity, redundant-loop, dead-code]
+tags: [time-complexity, redundant-loop]
 complexity:
   time: O(D! × ...) 사실상 순열 중복 탐색
   space: O(D × W)
@@ -60,10 +60,6 @@ useMed(row, 1); ... dfs(row + 1, count + 1);   // B약
 ### 2. (중요) 리프에서만 판정해서 조기 확정 기회를 놓친다 — `redundant-loop`
 
 이 버전은 재귀 끝에서 `isOK()` 를 확인하는 구조라, 약을 넣은 직후 이미 조건을 만족했더라도 더 깊이 들어간다. 통과 버전은 약을 넣자마자 검사해서 만족하면 그 자리에서 `result` 를 확정하고 재귀를 끊는다 — 약을 더 넣어봐야 개수만 늘기 때문이다. 1번을 고치더라도 이건 따로 챙겨야 하는 가지치기다.
-
-### 3. (사소) 주석 처리된 `visited[i] = false;` — `dead-code`
-
-위에서 짚은 그 줄이다. 복원을 하려다 만 흔적이 남아 있는데, 통과 버전에서는 `visited` 자체가 사라졌다.
 
 ## 복잡도
 
