@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T06:18:31.077Z",
+  "generatedAt": "2026-09-08T07:07:03.093Z",
   "authors": [
     {
       "id": "junsoo",
@@ -40,6 +40,30 @@
       ],
       "entries": [
         {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 6,
+          "variant": null,
+          "source": "김준수/week6/게리맨더링.java",
+          "target": "solutions/boj/17471/junsoo.java",
+          "review": "reviews/boj/17471/junsoo.md",
+          "hasReview": true,
+          "lines": 132,
+          "bytes": 3262
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 6,
+          "variant": "failed",
+          "source": "안찬웅/week6/게리맨더링 실패.java",
+          "target": "solutions/boj/17471/chanung.failed.java",
+          "review": "reviews/boj/17471/chanung.failed.md",
+          "hasReview": true,
+          "lines": 41,
+          "bytes": 1161
+        },
+        {
           "author": "seongil",
           "authorName": "이성일",
           "week": 6,
@@ -64,6 +88,18 @@
         6
       ],
       "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 6,
+          "variant": null,
+          "source": "김준수/week6/다리만들기2.java",
+          "target": "solutions/boj/17472/junsoo.java",
+          "review": "reviews/boj/17472/junsoo.md",
+          "hasReview": true,
+          "lines": 294,
+          "bytes": 7666
+        },
         {
           "author": "chanung",
           "authorName": "안찬웅",
