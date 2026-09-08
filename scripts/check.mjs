@@ -175,7 +175,12 @@ if (fs.existsSync(indexPath)) {
   const idxSolutions = idx.problems.reduce((a, p) => a + p.entries.length, 0);
   check(idxSolutions === solutions.length, `index.json 풀이 수 일치 (${idxSolutions} = ${solutions.length})`);
   check(idx.problems.every((p) => p.title), 'index.json 제목 누락 0건');
-  check(idx.problems.every((p) => p.verified), 'index.json 미검증 문제 0건');
+  // ssafy 는 공개 문제 페이지가 없는 사내 시험 문제라 URL 로 확인할 수단이 없다.
+  // 대신 note 로 문제 내용을 남기는 것을 의무화한다 (추측으로 번호를 박지 않는다는 원칙은 그대로).
+  const unverified = idx.problems.filter((p) => !p.verified && p.platform !== 'ssafy');
+  check(unverified.length === 0, 'index.json 미검증 문제 0건 (ssafy 사내 문제 제외)');
+  const ssafyNoNote = problems.filter((p) => p.platform === 'ssafy' && !p.note);
+  check(ssafyNoNote.length === 0, 'ssafy 문제는 note 필수 (' + ssafyNoNote.map((p) => p.problemId).join(', ') + ')');
 } else {
   warn.push('site/data/index.json 없음 — node scripts/scan.mjs 를 먼저 실행하세요');
 }

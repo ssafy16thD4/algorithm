@@ -79,7 +79,9 @@ if (process.argv.includes('--no-compile')) {
 function compileInput(outDir) {
   const src = path.join(ROOT, rel);
   if (info.lang !== 'java') return src;
-  const m = fs.readFileSync(src, 'utf8').match(/\bpublic\s+(?:final\s+|abstract\s+)?class\s+([A-Za-z_$][\w$]*)/);
+  // 클래스명이 한글인 파일이 있다(`public class 풍선사격게임`). JS 의 \w 는 ASCII 전용이라
+  // 그런 이름을 못 잡고 원본 경로에서 컴파일해 "파일명이 클래스명과 다르다" 오탐이 났다 — 유니코드로 잡는다.
+  const m = fs.readFileSync(src, 'utf8').match(/\bpublic\s+(?:final\s+|abstract\s+)?class\s+([\p{L}_$][\p{L}\p{N}_$]*)/u);
   if (!m) return src;
   const copy = path.join(outDir, `${m[1]}.java`);
   fs.copyFileSync(src, copy);

@@ -522,6 +522,54 @@
         "게리맨더링"
       ],
       "verified": true
+    },
+    {
+      "platform": "ssafy",
+      "problemId": "14-3-1",
+      "title": "최대 부분 수열 (14기 3차 1번)",
+      "url": null,
+      "aliases": [
+        "최대부분수열",
+        "14기 3차 1번",
+        "14기3차1번"
+      ],
+      "verified": false,
+      "note": "SSAFY 14기 3차 A형 시험 1번. 공개 문제 페이지가 없어 사내 문제로 등록. 길이 K 연속 부분 수열 두 개를 겹치지 않게 골라 합 최대."
+    },
+    {
+      "platform": "ssafy",
+      "problemId": "apple-game",
+      "title": "사과 먹기 게임",
+      "url": null,
+      "aliases": [
+        "사과 먹기 게임",
+        "사과먹기게임"
+      ],
+      "verified": false,
+      "note": "SSAFY 사내 문제. 격자에서 1번부터 순서대로 사과를 밟으며 회전 횟수 최소화."
+    },
+    {
+      "platform": "ssafy",
+      "problemId": "interview",
+      "title": "면접",
+      "url": null,
+      "aliases": [
+        "면접"
+      ],
+      "verified": false,
+      "note": "SSAFY 사내 문제. N문제 중 M개 정답, K연속 정답이면 점수 2배일 때 최소 점수."
+    },
+    {
+      "platform": "ssafy",
+      "problemId": "balloon-shooting",
+      "title": "풍선 사격 게임",
+      "url": null,
+      "aliases": [
+        "풍선 사격 게임",
+        "풍선사격게임"
+      ],
+      "verified": false,
+      "note": "SSAFY 사내 문제. 풍선을 하나씩 터뜨리며 이웃 값 곱을 점수로 얻어 총점 최대화."
     }
   ]
 }

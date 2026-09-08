@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T07:24:43.102Z",
+  "generatedAt": "2026-09-08T07:40:50.164Z",
   "authors": [
     {
       "id": "junsoo",
@@ -1603,6 +1603,178 @@
           "hasReview": true,
           "lines": 89,
           "bytes": 3683
+        }
+      ]
+    },
+    {
+      "key": "ssafy/interview",
+      "platform": "ssafy",
+      "problemId": "interview",
+      "title": "면접",
+      "url": null,
+      "verified": false,
+      "weeks": [
+        6
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 6,
+          "variant": "failed",
+          "source": "김준수/week6/면접 실패.java",
+          "target": "solutions/ssafy/interview/junsoo.failed.java",
+          "review": "reviews/ssafy/interview/junsoo.failed.md",
+          "hasReview": true,
+          "lines": 90,
+          "bytes": 1944
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 6,
+          "variant": "failed",
+          "source": "안찬웅/week6/면접 실패.java",
+          "target": "solutions/ssafy/interview/chanung.failed.java",
+          "review": "reviews/ssafy/interview/chanung.failed.md",
+          "hasReview": true,
+          "lines": 94,
+          "bytes": 2671
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 6,
+          "variant": null,
+          "source": "이성일/week6/면접.java",
+          "target": "solutions/ssafy/interview/seongil.java",
+          "review": "reviews/ssafy/interview/seongil.md",
+          "hasReview": true,
+          "lines": 62,
+          "bytes": 1345
+        }
+      ]
+    },
+    {
+      "key": "ssafy/apple-game",
+      "platform": "ssafy",
+      "problemId": "apple-game",
+      "title": "사과 먹기 게임",
+      "url": null,
+      "verified": false,
+      "weeks": [
+        6
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 6,
+          "variant": "failed",
+          "source": "김준수/week6/사과 먹기 게임 실패.java",
+          "target": "solutions/ssafy/apple-game/junsoo.failed.java",
+          "review": "reviews/ssafy/apple-game/junsoo.failed.md",
+          "hasReview": true,
+          "lines": 121,
+          "bytes": 3858
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 6,
+          "variant": "failed",
+          "source": "안찬웅/week6/사과 먹기 게임 실패.java",
+          "target": "solutions/ssafy/apple-game/chanung.failed.java",
+          "review": "reviews/ssafy/apple-game/chanung.failed.md",
+          "hasReview": true,
+          "lines": 84,
+          "bytes": 2127
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 6,
+          "variant": null,
+          "source": "안찬웅/week6/사과 먹기 게임.java",
+          "target": "solutions/ssafy/apple-game/chanung.java",
+          "review": "reviews/ssafy/apple-game/chanung.md",
+          "hasReview": true,
+          "lines": 109,
+          "bytes": 2828
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 6,
+          "variant": null,
+          "source": "이성일/week6/사과먹기게임.java",
+          "target": "solutions/ssafy/apple-game/seongil.java",
+          "review": "reviews/ssafy/apple-game/seongil.md",
+          "hasReview": true,
+          "lines": 138,
+          "bytes": 3864
+        }
+      ]
+    },
+    {
+      "key": "ssafy/14-3-1",
+      "platform": "ssafy",
+      "problemId": "14-3-1",
+      "title": "최대 부분 수열 (14기 3차 1번)",
+      "url": null,
+      "verified": false,
+      "weeks": [
+        6
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 6,
+          "variant": null,
+          "source": "김준수/week6/최대부분수열.java",
+          "target": "solutions/ssafy/14-3-1/junsoo.java",
+          "review": "reviews/ssafy/14-3-1/junsoo.md",
+          "hasReview": true,
+          "lines": 69,
+          "bytes": 1808
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 6,
+          "variant": null,
+          "source": "안찬웅/week6/14기 3차 1번.java",
+          "target": "solutions/ssafy/14-3-1/chanung.java",
+          "review": "reviews/ssafy/14-3-1/chanung.md",
+          "hasReview": true,
+          "lines": 54,
+          "bytes": 1416
+        }
+      ]
+    },
+    {
+      "key": "ssafy/balloon-shooting",
+      "platform": "ssafy",
+      "problemId": "balloon-shooting",
+      "title": "풍선 사격 게임",
+      "url": null,
+      "verified": false,
+      "weeks": [
+        6
+      ],
+      "entries": [
+        {
+          "author": "junsoo",
+          "authorName": "김준수",
+          "week": 6,
+          "variant": null,
+          "source": "김준수/week6/풍선 사격 게임.java",
+          "target": "solutions/ssafy/balloon-shooting/junsoo.java",
+          "review": "reviews/ssafy/balloon-shooting/junsoo.md",
+          "hasReview": true,
+          "lines": 108,
+          "bytes": 3001
         }
       ]
     },

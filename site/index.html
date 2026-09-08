@@ -1397,7 +1397,7 @@ function viewList() {
   app.innerHTML =
     '<div class="bar">' +
       '<select id="f-pf"><option value="">전체 플랫폼</option>' +
-        ['programmers', 'swea'].map(v => '<option value="' + v + '"' + (filt.platform === v ? ' selected' : '') + '>' + v + '</option>').join('') +
+        [...new Set(D.problems.map(p => p.platform))].sort().map(v => '<option value="' + v + '"' + (filt.platform === v ? ' selected' : '') + '>' + v + '</option>').join('') +
       '</select>' +
       '<select id="f-wk"><option value="">전체 회차</option>' +
         weeks.map(w => '<option value="' + w + '"' + (filt.week == w ? ' selected' : '') + '>' + w + '주차</option>').join('') +
