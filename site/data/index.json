@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T15:14:00.746Z",
+  "generatedAt": "2026-09-08T06:18:31.077Z",
   "authors": [
     {
       "id": "junsoo",
@@ -221,7 +221,7 @@
           "review": "reviews/programmers/42579/chanung.md",
           "hasReview": true,
           "lines": 93,
-          "bytes": 3478
+          "bytes": 3490
         }
       ]
     },
@@ -430,7 +430,7 @@
           "review": "reviews/programmers/42895/chanung.md",
           "hasReview": true,
           "lines": 60,
-          "bytes": 1936
+          "bytes": 1995
         },
         {
           "author": "seongil",
@@ -857,7 +857,7 @@
           "review": "reviews/programmers/64064/chanung.md",
           "hasReview": true,
           "lines": 66,
-          "bytes": 2239
+          "bytes": 2304
         },
         {
           "author": "seongil",
@@ -1114,7 +1114,7 @@
           "review": "reviews/programmers/77486/chanung.md",
           "hasReview": true,
           "lines": 60,
-          "bytes": 2250
+          "bytes": 2309
         },
         {
           "author": "seongil",
@@ -1187,7 +1187,7 @@
           "review": "reviews/programmers/81303/chanung.md",
           "hasReview": true,
           "lines": 76,
-          "bytes": 2910
+          "bytes": 2985
         },
         {
           "author": "seongil",
@@ -1236,7 +1236,7 @@
           "review": "reviews/programmers/87694/chanung.md",
           "hasReview": true,
           "lines": 77,
-          "bytes": 2927
+          "bytes": 3003
         },
         {
           "author": "seongil",
@@ -1379,7 +1379,7 @@
           "review": "reviews/programmers/250136/chanung.md",
           "hasReview": true,
           "lines": 82,
-          "bytes": 2734
+          "bytes": 2815
         },
         {
           "author": "seungjoo",
@@ -1496,7 +1496,7 @@
           "review": "reviews/programmers/340211/chanung.md",
           "hasReview": true,
           "lines": 58,
-          "bytes": 2237
+          "bytes": 2294
         }
       ]
     },
@@ -1531,7 +1531,7 @@
           "review": "reviews/programmers/340212/chanung.md",
           "hasReview": true,
           "lines": 65,
-          "bytes": 2317
+          "bytes": 2381
         }
       ]
     },
@@ -2116,7 +2116,7 @@
           "review": "reviews/swea/2115/chanung.md",
           "hasReview": true,
           "lines": 86,
-          "bytes": 2610
+          "bytes": 2695
         },
         {
           "author": "seongil",
@@ -2126,7 +2126,7 @@
           "source": "이성일/week6/SWEA2115.java",
           "target": "solutions/swea/2115/seongil.java",
           "review": "reviews/swea/2115/seongil.md",
-          "hasReview": false,
+          "hasReview": true,
           "lines": 108,
           "bytes": 2953
         },
@@ -2349,7 +2349,7 @@
           "review": "reviews/swea/5650/chanung.md",
           "hasReview": true,
           "lines": 135,
-          "bytes": 4112
+          "bytes": 4246
         },
         {
           "author": "seongil",
