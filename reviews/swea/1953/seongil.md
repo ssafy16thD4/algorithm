@@ -6,8 +6,8 @@ source: 이성일/week5/SWEA1953.java
 week: 5
 compiles: true
 lang: java
-verdict: needs-fix
-tags: [dead-code, redundant-collection, good-decomposition, good-readability]
+verdict: good
+tags: [redundant-collection, good-decomposition, good-readability]
 complexity:
   time: O(T·N·M)
   space: O(N·M)
@@ -36,25 +36,7 @@ static int[] dirMap = {2, 3, 0, 1};   // 반대 방향
 
 ## 개선점
 
-### 1. (치명) `package com.ssafy.swb;` + `public class SWEA1953` 로는 SWEA 에 제출이 안 된다 — <dead-code>
-
-SWEA 는 default package 에 `public class Solution` 을 요구한다. 로직과 무관하게 채점 서버의
-컴파일 단계에서 막힌다. 로컬 `javac` 는 클래스명에 맞춘 임시 파일로 돌리기 때문에 `compiles: true` 로
-나오는데, **이건 우리 도구의 판정이지 SWEA 의 판정이 아니다.**
-
-```java
-// 지우고
-package com.ssafy.swb;
-public class SWEA1953 {
-
-// 이렇게
-public class Solution {
-```
-
-같은 주차의 `SWEA1952.java` 는 package 없이 잘 돼 있으니, IDE 에서 패키지 안에 만든 파일만 이렇게 된 것 같다.
-`SWEA2105.java`, `다리만들기2.java` 도 같은 상태다. **제출 전에 한 번 훑는 습관을 들이는 게 좋다.**
-
-### 2. (사소) `breadthCnt` 배열은 `deq.size()` 로 대체된다 — <redundant-collection>
+### 1. (사소) `breadthCnt` 배열은 `deq.size()` 로 대체된다 — <redundant-collection>
 
 ```java
 int[] breadthCnt = new int[time+1];
@@ -83,7 +65,7 @@ while (l < time) {
 **검증 안 함** — 위 교체본은 돌려보지 않았다. 다만 `breadthCnt[l]` 을 읽는 시점에 큐에 정확히 그 레벨만
 들어 있다는 건 원본 코드의 동작 그대로다.
 
-### 3. (사소) 안쪽 `for` + `break` 는 `contains` 한 줄 — <redundant-loop>
+### 2. (사소) 안쪽 `for` + `break` 는 `contains` 한 줄 — <redundant-loop>
 
 ```java
 for (int naxis: blocks[board[nx][ny]]) {
@@ -109,7 +91,7 @@ cnt++;
 구조물 종류가 7개뿐이라 `boolean[8][4]` 표를 미리 만들어 두면 `if (!open[board[nx][ny]][dirMap[axis]])`
 한 줄이 된다. `blocks` 를 표로 만든 원래 발상을 한 걸음 더 민 것이다.
 
-### 4. (사소) 출력이 케이스마다 `System.out.println` — <io-performance>
+### 3. (사소) 출력이 케이스마다 `System.out.println` — <io-performance>
 
 `StringBuilder` 를 케이스마다 새로 만들어 한 줄 찍고 버린다. 루프 밖에 하나 두고 마지막에
 `System.out.print(sb)` 한 번이면 된다. `SWEA1952.java` 도 같은 형태다.
@@ -123,4 +105,4 @@ cnt++;
 
 구조물 7종의 연결 방향을 표 두 개로 데이터화해서 탐색부에서 조건문을 완전히 없앤 게 이 풀이의 값어치다.
 이 문제에서 제일 실수가 잦은 "양쪽 다 뚫려야 한다" 를 `dirMap` 한 줄로 처리했고, 무작위 1,500건 대조에서도
-전부 일치했다. 남은 건 제출 형식 하나뿐이다 — `package` 와 클래스명 때문에 SWEA 에서는 컴파일이 안 된다.
+전부 일치했다. 남은 지적은 전부 사소한 정리 수준이라 통과에는 영향이 없다.

@@ -7,7 +7,7 @@ week: 6
 compiles: true
 lang: java
 verdict: needs-fix
-tags: [time-complexity, dead-code, good-decomposition]
+tags: [time-complexity, good-decomposition]
 complexity:
   time: O(M·K²)
   space: O(K + N²)
@@ -32,27 +32,7 @@ generatedAt: 2026-09-05
 
 ## 개선점
 
-### 1. (치명) `package algorithm;` + `public class SWEA2382` 로는 SWEA 에 제출이 안 된다 — <dead-code>
-
-SWEA 는 default package 에 `public class Solution` 을 요구한다. 지금 파일은 둘 다 어긋나 있어서
-로직과 무관하게 채점 서버에서 컴파일 단계에서 막힌다. 같은 주차의 `벌꿀채취.java` 는
-`public class Solution` 에 package 없이 제출 가능한 형태라, 이 파일만 실수로 IDE 설정이 남은 것으로 보인다.
-
-```java
-// 지우고
-package algorithm;
-public class SWEA2382 {
-
-// 이렇게
-public class Solution {
-```
-
-`홈 방범 서비스.java` 도 같은 상태다.
-
-> 참고: 로컬 `javac` 는 클래스명에 맞춘 임시 파일로 복사해서 돌리기 때문에 `compiles: true` 로 나온다.
-> 이건 **우리 도구의 판정이지 SWEA 채점 서버의 판정이 아니다.**
-
-### 2. (중요) `doCombine()` 이 매 초 O(K²) — K, M 이 최대일 때 10⁹ — <time-complexity>
+### 1. (중요) `doCombine()` 이 매 초 O(K²) — K, M 이 최대일 때 10⁹ — <time-complexity>
 
 제약은 `5 ≤ N ≤ 100`, `1 ≤ M ≤ 1000`, `5 ≤ K ≤ 1000` 이다.
 `doCombine()` 은 군집 쌍을 전부 비교하므로 초당 K²/2 ≈ 5×10⁵, M 초면 **5×10⁸ 회 비교**다.
@@ -86,7 +66,7 @@ private static void doCombine() {
 
 **검증 안 함** — 위 교체본은 돌려보지 않았다. 반영하면 무작위 대조를 한 번 돌려보길 권한다.
 
-### 3. (사소) 같은 크기 군집이 만나면 방향이 갈린다 — 문제 정의가 모호한 지점
+### 2. (사소) 같은 크기 군집이 만나면 방향이 갈린다 — 문제 정의가 모호한 지점
 
 `N=8, M=3, 군집 (4,3,80,좌) / (4,1,160,좌)` 에서 이 코드는 `160`, 방향을 배열 순서로 정하지 않는
 레퍼런스는 `80` 이 나온다. 2초째에 두 군집이 **똑같이 80** 인 채로 한 칸에 모이는데, 문제의
@@ -94,11 +74,6 @@ private static void doCombine() {
 
 **이 코드가 틀렸다는 뜻이 아니다.** 무작위 4,000건 중 타이가 난 10건에서만 갈렸고 나머지는 전부 같았다.
 채점에서 틀린다면 여기를 의심해볼 값어치가 있다는 기록으로만 남긴다.
-
-### 4. (사소) 안 쓰는 `combine()` 메서드 — <dead-code>
-
-`Cluster.combine(Cluster c)` 는 아무 데서도 호출되지 않는다. `doCombine()` 이 같은 일을 인라인으로 한다.
-둘 중 하나로 합치는 게 좋다 — 2번 수정안을 적용한다면 `combine()` 쪽을 살리고 인라인을 지우는 편이 읽기 좋다.
 
 ## 복잡도
 
@@ -109,5 +84,5 @@ private static void doCombine() {
 
 뼈대는 좋다. 방향 결정이라는 까다로운 조건을 정렬 불변식으로 바꿔서 다중 충돌을 특별 케이스 없이 처리했고,
 정석 순서와 무작위 4,000건 대조에서 타이 케이스를 뺀 전부가 일치했다. 실제 문제는 로직이 아니라 두 가지다 —
-`package` + 클래스명 때문에 SWEA 제출 자체가 막히고, 쌍 비교 합체가 최대 입력에서 10⁹ 에 닿는다.
+쌍 비교 합체가 최대 입력에서 10⁹ 에 닿는다.
 이미 선언해 둔 `board` 로 버킷을 만들면 둘째는 그대로 해결된다.

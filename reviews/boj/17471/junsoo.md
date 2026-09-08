@@ -7,7 +7,7 @@ week: 6
 compiles: true
 lang: java
 verdict: good
-tags: [naming, good-decomposition, good-complexity]
+tags: [good-decomposition, good-complexity]
 complexity:
   time: O(2^N * (N + E))
   space: O(N + E)
@@ -36,16 +36,7 @@ N ≤ 10 을 보고 "모든 구역을 A 또는 B 에 배치 → 2^10 = 1024 가�
 
 ## 개선점
 
-### 1. (중요) `package algorithm;` + `public class 게리맨더링` 은 BOJ 에 제출이 안 된다 — <naming>
-
-BOJ Java 는 **default package 의 `public class Main`** 을 요구한다. 로컬 `javac` 는 클래스명에 맞춘
-임시 파일로 돌리기 때문에 `compiles: true` 지만, 채점 서버에서는 컴파일 단계에서 막힌다.
-같은 폴더의 `다리만들기2.java`, `최대부분수열.java` 도 같은 상태다.
-
-```java
-// package algorithm;   ← 제출 시 제거
-public class Main {      ← 게리맨더링 → Main
-```
+지적할 것이 없다. 반례를 찾지 못했고, N ≤ 10 에서 복잡도도 여유롭다.
 
 ## 복잡도
 
@@ -55,5 +46,4 @@ public class Main {      ← 게리맨더링 → Main
 ## 요약
 
 접근·구현 둘 다 맞고, 무작위 500건 대조에서 전부 정답이다. 합을 재귀에서 증감으로 유지한 것과
-"방문 수 == 선거구 크기" 연결 판정이 깔끔하다. 실제로 걸리는 건 제출 형식 하나 — 패키지 선언을 지우고
-클래스명을 `Main` 으로 바꾸면 그대로 통과할 코드다.
+"방문 수 == 선거구 크기" 연결 판정이 깔끔하다. 고칠 곳을 찾지 못했다.

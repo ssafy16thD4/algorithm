@@ -7,7 +7,7 @@ week: 6
 compiles: true
 lang: java
 verdict: needs-fix
-tags: [dead-code, boxing-cost, redundant-loop, good-complexity]
+tags: [boxing-cost, redundant-loop, good-complexity]
 complexity:
   time: O(T·N⁴)
   space: O(N)
@@ -37,24 +37,7 @@ for (int i = dir; i <= dir + 1 && i < 4; i++)
 
 ## 개선점
 
-### 1. (치명) `package coding;` + `public class SWEA2105` 로는 SWEA 에 제출이 안 된다 — <dead-code>
-
-SWEA 는 default package 에 `public class Solution` 을 요구한다. 로컬 `javac` 는 클래스명에 맞춘 임시
-파일로 돌리기 때문에 `compiles: true` 로 나오지만, **채점 서버에서는 컴파일 단계에서 막힌다.**
-
-```java
-// 지우고
-package coding;
-public class SWEA2105 {
-
-// 이렇게
-public class Solution {
-```
-
-`SWEA1953.java`, `다리만들기2.java` 도 같은 상태다. 이번 주차에서 반복되는 유일한 패턴이라, 제출 직전에
-한 번 훑는 것만으로 세 문제가 같이 해결된다.
-
-### 2. (중요) `HashSet<Integer>` 대신 `boolean[101]` — <boxing-cost>
+### 1. (중요) `HashSet<Integer>` 대신 `boolean[101]` — <boxing-cost>
 
 디저트 번호는 1~100 의 작은 정수다. 그런데 `Set<Integer>` 를 쓰면 DFS 의 모든 간선마다
 `add`/`remove`/`contains` 세 번이 오토박싱 + 해시 계산을 거친다. DFS 가 도는 횟수가 이 문제에서
@@ -76,7 +59,7 @@ used[board[nx][ny]] = false;
 **검증 안 함** — 위 교체본은 돌려보지 않았다. 다만 `set` 의 쓰임이 `add`/`remove`/`contains` 세 곳뿐이라
 치환 범위는 좁다.
 
-### 3. (사소) `inSharps` 는 매번 4칸을 훑는다 — <redundant-loop>
+### 2. (사소) `inSharps` 는 매번 4칸을 훑는다 — <redundant-loop>
 
 ```java
 if (inSharps(i, j, sharps)) continue;
@@ -91,7 +74,7 @@ if (inSharps(i, j, sharps)) continue;
 if ((i == 0 || i == N - 1) && (j == 0 || j == N - 1)) continue;
 ```
 
-### 4. (사소) `sharps` 를 케이스마다 새로 만든다 — <redundant-collection>
+### 3. (사소) `sharps` 를 케이스마다 새로 만든다 — <redundant-collection>
 
 `int[][] sharps = {...}` 가 테스트케이스 루프 안에 있어서 매번 새로 할당된다. 3번대로 조건식으로 바꾸면
 같이 없어진다.

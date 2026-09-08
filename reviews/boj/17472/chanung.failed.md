@@ -7,7 +7,7 @@ week: 6
 compiles: true
 lang: java
 verdict: good
-tags: [good-decomposition, naming]
+tags: [good-decomposition]
 complexity:
   time: O(N*M*(N+M) + E log E)
   space: O(N*M + K^2)
@@ -31,18 +31,7 @@ generatedAt: 2026-09-06
 
 ## 개선점
 
-### 1. (중요) 클래스 이름이 `Solution`, 패키지가 `algorithm` 이라 BOJ 제출이 안 된다 — <naming>
-
-BOJ 는 public 클래스가 `Main` 이어야 하고 패키지 선언을 허용하지 않는다.
-SWEA 습관(`package algorithm` + `public class Solution`)이 그대로 넘어왔다.
-로컬 javac 는 통과하지만 채점 서버에서는 컴파일 단계에서 막힌다.
-
-```java
-// package algorithm;      ← 제거
-public class Main {         ← Solution → Main
-```
-
-### 2. (사소) 섬 라벨을 2부터 시작해서 배열 크기가 전부 `islandCnt + 2` 가 됐다 — <magic-number>
+### 1. (사소) 섬 라벨을 2부터 시작해서 배열 크기가 전부 `islandCnt + 2` 가 됐다 — <magic-number>
 
 `bfs(i, j, islandCnt + 1)` 로 첫 섬이 2번이 되는 바람에 `p`, `s`, `lens` 가 모두
 `islandCnt + 2` 크기이고 반복문도 `for (int i = 2; i <= islandCnt + 1; i++)` 로 어긋난다.
@@ -56,7 +45,7 @@ static int lastLabel() { return islandCnt + FIRST_LABEL - 1; }
 // for (int i = FIRST_LABEL; i <= lastLabel(); i++)
 ```
 
-### 3. (참고) 섬이 1개일 때 `-1` 을 반환하지만 이 문제에서는 걸리지 않는다
+### 2. (참고) 섬이 1개일 때 `-1` 을 반환하지만 이 문제에서는 걸리지 않는다
 
 `kruskal()` 은 `usedEdges == islandCnt - 1` 일 때만 `mstCost` 를 반환하므로
 섬이 1개면 간선이 없어 `-1` 로 떨어진다(정답은 0). 다만 **BOJ 17472 는 섬이 2개 이상 6개 이하**로
@@ -72,7 +61,6 @@ static int lastLabel() { return islandCnt + FIRST_LABEL - 1; }
 **"실패" 라는 파일명과 달리 이 코드는 정답이다.** 무작위 지도 496건을 독립 구현
 (행·열을 한 줄씩 훑어 후보를 만들고 프림으로 MST)과 대조해 불일치 0건,
 같은 문제를 푼 `이성일/week6/다리만들기2.java` 와도 435건 대조해 불일치 0건이었다.
-실제로 막히는 건 알고리즘이 아니라 제출 형식(`Solution`/`package algorithm`) 하나뿐이다.
 
 주석의 "어떻게 만들면 좋을지 까진 생각 ok / 구현 전혀 실패" 가 정확한 자기 진단이다.
 설계는 이미 맞았으니 다음엔 **`buildingEdges` 한 함수만 직접 써보는 것**을 권한다.

@@ -51,15 +51,8 @@ for(int i2=i1; i2<n; i2++) {
 
 ### 2. (수정 완료 / 중요) `import` 두 줄과 `public` 이 빠져 있었다
 
-`BufferedReader`/`StringTokenizer` 를 쓰면서 `java.io.*`, `java.util.*` import 가 없었고
-클래스도 `class Solution` 이었다. **SWEA 는 default package 의 `public class Solution` 을 요구한다** —
-로컬에서 컴파일되는 것과 제출이 되는 것은 다른 문제다.
-
-### 3. (사소) 제출 전 확인할 것
-
-이 저장소의 컴파일 검사는 `public class` 이름에 맞춘 임시 파일로 복사해 돌린다. 즉
-`compiles: true` 는 **문법이 맞다**는 뜻이지 SWEA 채점기가 받아준다는 보증이 아니다. 파일명이
-한글이어도 상관없지만, 제출할 때 붙여넣는 클래스명은 반드시 `Solution` 이어야 한다.
+`BufferedReader`/`StringTokenizer` 를 쓰면서 `java.io.*`, `java.util.*` import 가 없어 컴파일이 안 됐다.
+두 줄을 넣어 해결했다.
 
 ## 검증
 

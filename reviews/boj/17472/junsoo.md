@@ -7,7 +7,7 @@ week: 6
 compiles: true
 lang: java
 verdict: wrong
-tags: [logic-edge-case, naming, dead-code, good-decomposition]
+tags: [logic-edge-case, good-decomposition]
 complexity:
   time: O(I^2 * (N*M)^2)
   space: O(N*M + I^2)
@@ -69,22 +69,6 @@ if (dist >= 2 && dist < minDist) minDist = dist;
 **검증함** — 이 한 줄만 바꿔 같은 800건을 다시 돌리니 **불일치 0건**, 위 반례도 `2`.
 (`kruskal()` 의 `e.cost < 2` 검사는 그대로 둬도 무해하다.)
 
-### 2. (중요) `package algorithm;` + `public class 다리만들기2` 로는 BOJ 에 제출이 안 된다 — <naming>
-
-BOJ Java 는 default package 의 `public class Main` 을 요구한다. 로컬 `javac` 는 클래스명에 맞춘 임시 파일로
-돌려서 `compiles: true` 지만 채점 서버는 컴파일 단계에서 막는다. `게리맨더링.java` 와 같은 지적이다.
-
-```java
-// package algorithm;
-public class Main {
-```
-
-### 3. (사소) `getDistBfs()` 는 어디서도 호출되지 않는다 — <dead-code>
-
-주석에 "실패 코드" 라고 적힌 60줄이 살아 있는 메서드로 남아 있다. 컴파일·실행에는 영향이 없지만,
-읽는 사람이 이 함수도 로직의 일부인지 한 번 추적하게 만든다. 기록으로 남기려면 주석 처리하거나
-별도 파일로 빼는 편이 낫다.
-
 ## 복잡도
 
 - 시간: `O(I^2 * (N*M)^2)` — 섬 쌍(≤ 15) × 시작칸(≤ 100) × 4방향마다 `getDist` 가 `new int[N][M]` 을
@@ -95,4 +79,4 @@ public class Main {
 
 번역(섬 → 노드, 다리 → 간선 → MST)과 구조는 맞고, 십자가 섬 함정도 스스로 잡았다. 틀린 건 딱 하나 —
 **길이 1 인 직선이 그 섬 쌍의 유효한 다리까지 덮어쓴다.** `dist >= 2` 필터를 최솟값 갱신 자리에 넣으면
-무작위 800건 전부 정답이다. 제출하려면 `Main` 클래스명도 같이 고쳐야 한다.
+무작위 800건 전부 정답이다.

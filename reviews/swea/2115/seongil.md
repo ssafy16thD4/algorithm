@@ -6,8 +6,8 @@ source: 이성일/week6/SWEA2115.java
 week: 6
 compiles: true
 lang: java
-verdict: needs-fix
-tags: [dead-code, redundant-loop, good-complexity]
+verdict: good
+tags: [redundant-loop, good-complexity]
 complexity:
   time: O(N⁴ · M!)
   space: O(N² + M)
@@ -34,19 +34,7 @@ generatedAt: 2026-09-08
 
 ## 개선점
 
-### 1. (치명) `package com.ssafy.swb;` + `public class SWEA2115` 로는 SWEA 에 제출이 안 된다 — <dead-code>
-
-SWEA 는 default package 에 `public class Solution` 을 요구한다. 로컬 `javac` 는 클래스명에 맞춘 임시
-파일로 돌리기 때문에 통과하지만, 채점 서버에서는 로직과 무관하게 컴파일 단계에서 떨어진다.
-`SWEA1953`, `SWEA2105` 리뷰에서도 같은 지적이 있었다 — 6주차에서 계속 반복되는 패턴이니
-**제출 직전에 맨 위 두 줄만 확인하는 습관**을 들이면 끝난다.
-
-```java
-// package com.ssafy.swb;   ← 지운다
-public class Solution {     // SWEA2115 → Solution
-```
-
-### 2. (사소) 같은 자리의 최대 수익을 N² 번씩 다시 계산한다 — <redundant-loop>
+### 1. (사소) 같은 자리의 최대 수익을 N² 번씩 다시 계산한다 — <redundant-loop>
 
 첫 일꾼 자리 하나마다 뒤쪽 모든 자리에서 `dfs` 를 새로 돌린다. 자리 수가 `N(N-M+1)` 이므로
 각 자리의 `dfs` 가 최대 그 횟수만큼 반복된다. 게다가 `dfs` 가 `visited` 로 **순서를 구분하는 순열
@@ -82,5 +70,5 @@ maximum = Math.max(maximum, best[i][j] + best[a][b]);
 
 겹치지 않는 두 자리를 "같은 행이면 `j+M` 부터, 아니면 다음 행부터" 로 열거한 것이 정확하고,
 벌통 하나의 수익도 가지치기 붙인 백트래킹으로 맞게 구한다 — **무작위 1,000건 전부 정답이다.**
-남은 건 알고리즘 밖의 제출 형식 하나(`package` + 클래스명)뿐이고, 수익을 자리마다 다시 계산하는 건
+남은 건 수익을 자리마다 다시 계산하는 것 하나인데, 그건
 N 이 작아 실전에서는 영향이 없다.

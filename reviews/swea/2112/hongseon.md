@@ -7,7 +7,7 @@ week: 6
 compiles: null
 lang: cpp
 verdict: needs-fix
-tags: [dead-code, redundant-collection, good-complexity]
+tags: [redundant-collection, good-complexity]
 complexity:
   time: O(T·3^D·D·W)
   space: O(D·W·K)
@@ -44,20 +44,7 @@ if (n + 1 == ans) return;          // 한 발 더 넣어봐야 동점이다
 
 ## 개선점
 
-### 1. (사소) `is_used` 배열은 아무 데서도 읽히지 않는다 — <dead-code>
-
-```cpp
-int is_used[20];
-...
-is_used[i] = true;
-... backtrack ...
-is_used[i] = false;
-```
-
-값을 쓰기만 하고 읽는 곳이 없다. 지금은 탐색 노드마다 대입 두 번을 헛돌고 있고, 읽는 사람에게는 "이 배열이 탐색에 쓰이나?" 하는
-잘못된 신호를 준다. 전역 선언과 `fill` 까지 같이 지우면 된다.
-
-### 2. (중요) 가지마다 보드를 통째로 복사한다 — <redundant-collection>
+### 1. (중요) 가지마다 보드를 통째로 복사한다 — <redundant-collection>
 
 ```cpp
 vector<vector<int>> next_board;
@@ -97,14 +84,14 @@ void backtrack(int n, int last) {
 
 **검증 안 함** — g++ 가 없어 돌려보지 못했다. 반영하면 원본과 같은 답을 내는지 확인이 필요하다.
 
-### 3. (사소) `if (n + 1 == ans) return;` 이 세 곳에 흩어져 있다 — <duplicate-code>
+### 2. (사소) `if (n + 1 == ans) return;` 이 세 곳에 흩어져 있다 — <duplicate-code>
 
 `check` 직후에 한 번, `for` 루프 안에 한 번, 합쳐서 같은 조건이 세 번 나온다.
 루프 안의 것은 재귀 도중 `ans` 가 줄어들 수 있어서 **의미가 있지만**, `check` 직후의 것은
 바로 위 `if (n >= ans) return;` 과 합쳐서 `if (n + 1 >= ans) return;` 한 줄로 정리된다.
 가지치기 조건이 흩어져 있으면 나중에 하나만 고치고 나머지를 놓치기 쉽다.
 
-### 4. (사소) `check()` 가 `d < k` 인 경우를 매번 다시 확인한다
+### 3. (사소) `check()` 가 `d < k` 인 경우를 매번 다시 확인한다
 
 `k > d` 면 어떤 열도 `k` 연속을 만들 수 없다. 문제 제약이 `K ≤ D` 라 실제로는 안 생기지만,
 `check` 는 그걸 모르고 매번 전체를 훑는다. 지금 코드로 문제가 되지는 않는다.

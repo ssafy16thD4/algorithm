@@ -7,7 +7,7 @@ week: 6
 compiles: true
 lang: java
 verdict: needs-fix
-tags: [redundant-loop, dead-code, good-complexity]
+tags: [redundant-loop, long-method, good-complexity]
 complexity:
   time: O(T·N⁵)
   space: O(N²)
@@ -33,25 +33,7 @@ K = 1..2N 을 전부 훑는 완전탐색이고, 세 가지 판단이 정확하�
 
 ## 개선점
 
-### 1. (치명) `package algorithm;` + `public class SWEA2117` 로는 SWEA 에 제출이 안 된다 — <dead-code>
-
-SWEA 는 default package 에 `public class Solution` 을 요구한다. 로직과 무관하게 채점 서버의 컴파일 단계에서
-막힌다. 같은 주차의 `벌꿀채취.java` 는 `public class Solution` + package 없음으로 제대로 돼 있으니,
-이 파일만 IDE 설정이 남은 것으로 보인다. `미생물 격리.java` 도 같은 상태다.
-
-```java
-// 지우고
-package algorithm;
-public class SWEA2117 {
-
-// 이렇게
-public class Solution {
-```
-
-> 로컬 `javac` 는 클래스명에 맞춘 임시 파일로 복사해 돌리므로 `compiles: true` 로 나온다.
-> 우리 도구의 판정이지 SWEA 채점 서버의 판정이 아니다.
-
-### 2. (중요) 중심을 한 칸 옮길 때마다 마름모를 처음부터 다시 센다 — <redundant-loop>
+### 1. (중요) 중심을 한 칸 옮길 때마다 마름모를 처음부터 다시 센다 — <redundant-loop>
 
 `find` 는 열을 하나 옮길 때마다 `getHouseCnt(k, r, c+1)` 로 **마름모 전체를 다시 훑는다.**
 칸 수가 `2k²-2k+1` 이므로, 한 테스트케이스에서 세는 칸의 총합은
@@ -83,7 +65,7 @@ private static int shift(int k, int r, int c, int cnt) {
 **검증 안 함** — 위 차분 갱신은 돌려보지 않았다. 반영한다면 원본과 무작위 대조를 한 번 돌리는 게 안전하다.
 N ≤ 20 이라 지금도 통과할 가능성이 높으니, 시간 초과가 실제로 났을 때만 손대도 된다.
 
-### 3. (사소) `find` 는 재귀일 이유가 없다 — <long-method>
+### 2. (사소) `find` 는 재귀일 이유가 없다 — <long-method>
 
 `find` 가 하는 일은 "c 를 0부터 N+1 까지 늘리면서 검사" 뿐이다. 분기도 없고 되돌아오지도 않는다.
 그런데 재귀라서 `houseNum` 을 인자로 받았다가 안에서 다시 대입하는 등 흐름이 한 번 꼬여 있다.
@@ -101,7 +83,7 @@ for (int k = 1; k <= 2 * N; k++) {
 
 이렇게 펴면 `find` 가 통째로 없어지고, 2번의 차분 갱신도 이 루프에 바로 얹을 수 있다.
 
-### 4. (사소) `getHouseCnt` 의 `k--` — <naming>
+### 3. (사소) `getHouseCnt` 의 `k--` — <naming>
 
 ```java
 k--; // 밑 for문을 k + 1기준으로 만들어버려서 사후처리
@@ -119,5 +101,5 @@ k--; // 밑 for문을 k + 1기준으로 만들어버려서 사후처리
 
 운영비 점화식, 지도 밖 중심 허용, 마름모를 `remain` 으로 접은 것 — 이 문제에서 틀리기 쉬운 세 곳을
 전부 맞게 짚었고 무작위 200건 대조에서도 전부 일치했다. 남은 건 제출 형식과 성능이다.
-`package` + 클래스명 때문에 SWEA 에서는 컴파일조차 안 되고, 중심을 옮길 때마다 마름모를 다시 세는 탓에
+중심을 옮길 때마다 마름모를 다시 세는 탓에
 최대 입력에서 여유가 없다. 전자는 반드시, 후자는 시간 초과가 나면 고치면 된다.

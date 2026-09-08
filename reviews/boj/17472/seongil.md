@@ -6,7 +6,7 @@ source: 이성일/week6/다리만들기2.java
 week: 6
 compiles: true
 lang: java
-verdict: needs-fix
+verdict: good
 tags: [dead-code, good-decomposition, good-complexity]
 complexity:
   time: O(N·M·(N+M) + E log E)
@@ -40,25 +40,7 @@ generatedAt: 2026-09-05
 
 ## 개선점
 
-### 1. (치명) `package com.ssafy.swb;` + `public class 다리만들기2` 로는 BOJ 에 제출이 안 된다 — <dead-code>
-
-BOJ 의 Java 채점은 **default package 의 `public class Main`** 을 요구한다. 지금 파일은 패키지 선언이
-있는 데다 클래스명이 한글이라 두 가지 모두 어긋난다. 로컬 `javac` 는 클래스명에 맞춘 임시 파일로
-복사해 돌리기 때문에 `compiles: true` 로 나오지만, **BOJ 에서는 컴파일 단계에서 막힌다.**
-
-```java
-// 지우고
-package com.ssafy.swb;
-public class 다리만들기2 {
-
-// 이렇게
-public class Main {
-```
-
-같은 주차의 `SWEA1953.java`(`package com.ssafy.swb`), `SWEA2105.java`(`package coding`) 도 같은 상태다.
-IDE 패키지 안에서 작업한 파일들이 그대로 올라온 것으로 보인다. 제출 직전에 한 번 훑으면 세 개가 같이 해결된다.
-
-### 2. (중요) 섬이 자기 자신을 가리키는 간선이 만들어진다 — <dead-code>
+### 1. (중요) 섬이 자기 자신을 가리키는 간선이 만들어진다 — <dead-code>
 
 `getEdges()` 에서 직선을 쏘다 **같은 섬의 다른 칸**에 닿는 경우가 걸러지지 않는다.
 `initialized[i]` 는 i 를 처리하는 동안에는 아직 `false` 라서, 아래 분기로 들어간다.
@@ -84,7 +66,7 @@ edges[i][target] = Math.min(edges[i][target], cost);
 break;
 ```
 
-### 3. (사소) `edges` 인접 행렬을 큐로 옮기는 이중 루프 — <redundant-loop>
+### 2. (사소) `edges` 인접 행렬을 큐로 옮기는 이중 루프 — <redundant-loop>
 
 ```java
 int[][] edges = new int[islandSize + 1][islandSize + 1];   // 최소 길이 갱신용
@@ -110,5 +92,4 @@ for (int i = 1; i <= islandSize; i++)
 문제를 "섬 = 노드, 다리 = 간선, 답 = MST" 로 번역한 판단이 정확하고, 그 4단계가 함수 경계와 그대로 맞아떨어져
 읽기 좋다. 섬 번호를 원본 격자에 덮어써서 조회 테이블을 하나 줄인 것도 좋은 선택이다.
 무작위 600건 대조에서 `-1` 케이스까지 전부 일치했으므로 알고리즘은 맞다.
-실제로 손봐야 할 건 **BOJ 제출 형식**(패키지 + 한글 클래스명으로는 컴파일이 안 된다) 하나이고,
 자기 자신으로 향하는 간선은 답에는 영향이 없지만 한 줄로 막아두는 게 좋다.

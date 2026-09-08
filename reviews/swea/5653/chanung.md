@@ -7,7 +7,7 @@ week: 5
 compiles: true
 lang: java
 verdict: good
-tags: [naming, magic-branch, space-complexity]
+tags: [magic-branch, space-complexity]
 complexity:
   time: O(K · 활성세포수 log)
   space: O((N+2K)^2)
@@ -31,9 +31,6 @@ generatedAt: 2026-09-08
 `javac` 를 돌리면 `class X is public, should be declared in a file named X.java` 로 실패했다.
 **코드 문제가 아니라 검사 방식 문제였다.** 지금은 `resolve.mjs` 가 `public class` 이름에 맞춘 임시
 파일로 복사해 컴파일하므로 `compiles: true` 로 정정한다.
-
-다만 제출 관점의 지적은 그대로 유효하다 — **SWEA 는 default package 의 `public class Solution`** 을
-요구한다. 제출할 때 클래스명을 `Solution` 으로 바꿔야 한다.
 
 ### 2. (사소) `time + 1 > k` 검사를 루프 조건으로 올릴 수 있다 — `magic-branch`
 

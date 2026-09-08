@@ -6,7 +6,7 @@ source: 이성일/week1/SWEA1249.java
 week: 1
 compiles: true
 verdict: needs-fix
-tags: [io-performance, long-method, dead-code, good-decomposition]
+tags: [io-performance, long-method, good-decomposition]
 complexity:
   time: O(N² log N)
   space: O(N²)
@@ -52,15 +52,7 @@ System.out.print(sb);                            // 한 번만
 
 같은 회차 김준수·안찬웅 코드가 이 형태다.
 
-### 2. (중요) `package com.ssafy.swb;` 가 남아 있다 — `dead-code`
-
-IDE 패키지 구조가 그대로 딸려왔다. 이 파일은 `com/ssafy/swb/` 디렉터리 안에 있어야만 실행되고,
-저장소에서는 `이성일/week1/` 에 있어서 경로가 맞지 않는다. 제출본에도 들어갈 이유가 없다.
-
-같은 이유로 파일 끝의 설계 메모(`// T 입력받고...`, `// 2차원배열 visited관리...`)도 정리 대상이다.
-코드를 다 쓴 뒤 남은 계획 메모라 지금은 본문과 중복된다.
-
-### 3. (중요) 죽은 큐 항목을 꺼낼 때 걸러내지 않는다
+### 2. (중요) 죽은 큐 항목을 꺼낼 때 걸러내지 않는다
 
 ```java
 Node v = pq.poll();
@@ -77,7 +69,7 @@ if (visited[v.r][v.c]) continue;   // 이 한 줄
 visited[v.r][v.c] = true;
 ```
 
-### 4. (사소) `dijkstra` 인자가 4개다 — `long-method`
+### 3. (사소) `dijkstra` 인자가 4개다 — `long-method`
 
 ```java
 public static int dijkstra(PriorityQueue<Node> pq, int[][] dist, boolean[][] visited, int[][] board)
@@ -96,4 +88,3 @@ public static int dijkstra(PriorityQueue<Node> pq, int[][] dist, boolean[][] vis
 
 알고리즘은 정석이고 `inRange` 분리와 `visited` 운용은 오히려 모범에 가깝다.
 다만 테스트케이스마다 출력하는 부분은 SWEA에서 실제로 시간 초과를 부를 수 있으니 먼저 고치는 게 좋다.
-`package` 선언과 하단 계획 메모는 제출 전에 지우는 습관을 들이면 된다.

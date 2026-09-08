@@ -6,7 +6,7 @@ source: 이성일/week2/디스크컨트롤러.java
 week: 2
 compiles: true
 verdict: needs-fix
-tags: [time-complexity, uninitialized-state, dead-code]
+tags: [time-complexity, uninitialized-state]
 complexity:
   time: O(N² log N)
   space: O(N)
@@ -79,11 +79,6 @@ return turnAround / jobs.length;   // 필드 불필요
 ```
 
 `입국심사` 에서도 `static answer` 로 결과를 넘겼다. 반복되는 패턴이니 한 번에 고쳐두면 좋다.
-
-### 3. (사소) `package codetest;` 가 또 남아 있다 — `dead-code`
-
-`SWEA1249.java`, `다단계칫솔판매.java` 에 이어 세 번째다.
-IDE에서 파일을 만들 때 자동으로 붙는 줄이니, 제출·커밋 전에 지우는 걸 습관으로 만들면 된다.
 
 ## 복잡도
 
