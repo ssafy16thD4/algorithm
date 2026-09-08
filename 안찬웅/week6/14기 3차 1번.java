@@ -40,7 +40,7 @@ public class Solution1 {
 			
 			int maxSum = Integer.MIN_VALUE;
 			for(int i=0; i<n-k+1; i++) {
-				for(int j=i+1; j<n-k+1; j++) {
+				for(int j=i+k; j<n-k+1; j++) {
 					int twoSum = arrSum[i] + arrSum[j];
 					maxSum = Math.max(maxSum, twoSum);
 				}
