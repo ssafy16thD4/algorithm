@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T14:28:48.530Z",
+  "generatedAt": "2026-09-09T14:30:55.645Z",
   "authors": [
     {
       "id": "junsoo",
@@ -1797,8 +1797,8 @@
           "target": "solutions/ssafy/balloon-shooting/chanung.java",
           "review": "reviews/ssafy/balloon-shooting/chanung.md",
           "hasReview": true,
-          "lines": 100,
-          "bytes": 2507
+          "lines": 96,
+          "bytes": 2473
         }
       ]
     },
