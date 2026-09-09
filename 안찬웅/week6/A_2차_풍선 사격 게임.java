@@ -46,18 +46,17 @@ public class Solution {
 	}
 
 	private static void dfs(int depth, int score) {
-		if(depth >= n) {
+		if(depth == n) {
 			maxScore = Math.max(maxScore, score);
 			return;
 		}
 		for(int i=0; i<n; i++) {
 			if(vis[i]) continue;
+			vis[i] = true;
 			boolean leftFlag = false;
 			boolean rightFlag = false;
 			int leftIndex = -1;
 			int rightIndex = -1;
-			
-			vis[i] = true;
 			
 			int curScore = 0;
 			for(int j=i-1; j>=0; j--) {
@@ -77,19 +76,16 @@ public class Solution {
 			}
 			
 			if(leftFlag && rightFlag) {
-				curScore += arr[leftIndex] * arr[rightIndex];
+				curScore = arr[leftIndex] * arr[rightIndex];
 			}
-
-			if(leftFlag && !rightFlag) {
-				curScore += arr[leftIndex];
+			else if(leftFlag && !rightFlag) {
+				curScore = arr[leftIndex];
 			}
-			
-			if(!leftFlag && rightFlag) {
-				curScore += arr[rightIndex];
+			else if(!leftFlag && rightFlag) {
+				curScore = arr[rightIndex];
 			}
-			
-			if(!leftFlag && !rightFlag) {
-				curScore += arr[i];
+			else {
+				curScore = arr[i];
 			}
 
 			dfs(depth+1, score + curScore);
