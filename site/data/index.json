@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T07:47:55.052Z",
+  "generatedAt": "2026-09-09T14:28:48.530Z",
   "authors": [
     {
       "id": "junsoo",
@@ -257,7 +257,7 @@
           "review": "reviews/programmers/42579/chanung.md",
           "hasReview": true,
           "lines": 93,
-          "bytes": 3490
+          "bytes": 3478
         }
       ]
     },
@@ -466,7 +466,7 @@
           "review": "reviews/programmers/42895/chanung.md",
           "hasReview": true,
           "lines": 60,
-          "bytes": 1995
+          "bytes": 1936
         },
         {
           "author": "seongil",
@@ -893,7 +893,7 @@
           "review": "reviews/programmers/64064/chanung.md",
           "hasReview": true,
           "lines": 66,
-          "bytes": 2304
+          "bytes": 2239
         },
         {
           "author": "seongil",
@@ -1150,7 +1150,7 @@
           "review": "reviews/programmers/77486/chanung.md",
           "hasReview": true,
           "lines": 60,
-          "bytes": 2309
+          "bytes": 2250
         },
         {
           "author": "seongil",
@@ -1223,7 +1223,7 @@
           "review": "reviews/programmers/81303/chanung.md",
           "hasReview": true,
           "lines": 76,
-          "bytes": 2985
+          "bytes": 2910
         },
         {
           "author": "seongil",
@@ -1272,7 +1272,7 @@
           "review": "reviews/programmers/87694/chanung.md",
           "hasReview": true,
           "lines": 77,
-          "bytes": 3003
+          "bytes": 2927
         },
         {
           "author": "seongil",
@@ -1415,7 +1415,7 @@
           "review": "reviews/programmers/250136/chanung.md",
           "hasReview": true,
           "lines": 82,
-          "bytes": 2815
+          "bytes": 2734
         },
         {
           "author": "seungjoo",
@@ -1532,7 +1532,7 @@
           "review": "reviews/programmers/340211/chanung.md",
           "hasReview": true,
           "lines": 58,
-          "bytes": 2294
+          "bytes": 2237
         }
       ]
     },
@@ -1567,7 +1567,7 @@
           "review": "reviews/programmers/340212/chanung.md",
           "hasReview": true,
           "lines": 65,
-          "bytes": 2381
+          "bytes": 2317
         }
       ]
     },
@@ -1652,6 +1652,18 @@
           "hasReview": true,
           "lines": 62,
           "bytes": 1345
+        },
+        {
+          "author": "hongseon",
+          "authorName": "전홍선",
+          "week": 6,
+          "variant": null,
+          "source": "전홍선/week6/면접.cpp",
+          "target": "solutions/ssafy/interview/hongseon.cpp",
+          "review": "reviews/ssafy/interview/hongseon.md",
+          "hasReview": true,
+          "lines": 22,
+          "bytes": 369
         }
       ]
     },
@@ -1775,6 +1787,18 @@
           "hasReview": true,
           "lines": 108,
           "bytes": 3001
+        },
+        {
+          "author": "chanung",
+          "authorName": "안찬웅",
+          "week": 6,
+          "variant": null,
+          "source": "안찬웅/week6/A_2차_풍선 사격 게임.java",
+          "target": "solutions/ssafy/balloon-shooting/chanung.java",
+          "review": "reviews/ssafy/balloon-shooting/chanung.md",
+          "hasReview": true,
+          "lines": 100,
+          "bytes": 2507
         }
       ]
     },
@@ -1908,7 +1932,8 @@
       "url": null,
       "verified": true,
       "weeks": [
-        1
+        1,
+        6
       ],
       "entries": [
         {
@@ -1946,6 +1971,18 @@
           "hasReview": true,
           "lines": 133,
           "bytes": 3999
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 6,
+          "variant": "alt",
+          "source": "이성일/week6/SWEA1767.java",
+          "target": "solutions/swea/1767/seongil.alt.java",
+          "review": "reviews/swea/1767/seongil.alt.md",
+          "hasReview": true,
+          "lines": 149,
+          "bytes": 4920
         },
         {
           "author": "seungjoo",
@@ -2324,7 +2361,7 @@
           "review": "reviews/swea/2115/chanung.md",
           "hasReview": true,
           "lines": 86,
-          "bytes": 2695
+          "bytes": 2610
         },
         {
           "author": "seongil",
@@ -2435,6 +2472,18 @@
           "hasReview": true,
           "lines": 158,
           "bytes": 4360
+        },
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 6,
+          "variant": null,
+          "source": "이성일/week6/SWEA2382.java",
+          "target": "solutions/swea/2382/seongil.java",
+          "review": "reviews/swea/2382/seongil.md",
+          "hasReview": true,
+          "lines": 130,
+          "bytes": 4072
         },
         {
           "author": "hongseon",
@@ -2569,7 +2618,7 @@
           "review": "reviews/swea/5650/chanung.md",
           "hasReview": true,
           "lines": 135,
-          "bytes": 4246
+          "bytes": 4112
         },
         {
           "author": "seongil",
