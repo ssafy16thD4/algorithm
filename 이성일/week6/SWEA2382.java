@@ -87,6 +87,11 @@ public class SWEA2382 {
                         newBoard[3][nx][ny] = d;
                     }
                 } else if (isPoison(nx, ny)) {
+                    int val = currVal / 2;
+                    if (val <= 0) {
+                        breadthCnt++;
+                        continue;
+                    }
                     newBoard[0][nx][ny] = currVal / 2;
                     newBoard[1][nx][ny] = t;
                     newBoard[2][nx][ny] = currVal / 2;
