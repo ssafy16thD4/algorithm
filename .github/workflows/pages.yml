@@ -25,7 +25,13 @@ jobs:
       pages: write
       id-token: write
     steps:
+      # fetch-depth: 0 이 반드시 필요하다. 기본값(1)로 얕게 받으면 git log 가 커밋 하나만 보고
+      # 그 커밋이 모든 파일을 담고 있는 것처럼 나와, build-site.mjs 의 파일별 마지막 커밋일이
+      # 전부 "배포한 날" 로 뭉개진다. 그러면 "같은 사람의 여러 풀이 중 최근 것이 대표" 규칙이
+      # 날짜 동점으로 무너져서 대표/alts 가 로컬 빌드와 뒤바뀐다 (2026-09-09 실측).
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v7
         with:
