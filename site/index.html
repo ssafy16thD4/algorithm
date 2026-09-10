@@ -379,6 +379,13 @@ pre.code .c { color: var(--com); font-style: italic; } pre.code .n { color: var(
 /* ---------- 익명 댓글 (크게 보기 전용) ----------
    풀이 하나(문제 × 작성자)에 스레드 하나. Supabase REST 로 저장한다 — SDK 없이 fetch 만.
    CMT 가 비어 있거나 fetch 가 없는 환경(스모크 VM·file://)에서는 안내만 띄우고 조용히 넘어간다. */
+/* 팀 피드백 바로 적기 버튼 */
+.fb-edit { display: inline-block; font-size: 12.5px; font-weight: 700; text-decoration: none;
+  padding: 6px 14px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-strong);
+  border: 1px solid transparent; transition: all .18s var(--ease); white-space: nowrap; }
+.fb-edit:hover { background: var(--accent); color: #fff; }
+.norev.fb .fb-edit { margin-left: 8px; }
+.fb-act { padding: 4px 18px 16px; }
 .cmt { margin-top: 14px; border-top: 1px solid var(--line-soft); padding-top: 14px; }
 .focus-review > .cmt { margin-top: 18px; }
 .cmt h4 { margin: 0 0 10px; font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
@@ -1463,6 +1470,25 @@ function viewList() {
   });
 }
 
+/* ---------- 팀 피드백을 GitHub 웹 편집기로 바로 적기 ----------
+   목적은 "코드 피드백을 남기고 서로 본다" 다. 그건 저장소 파일이 제일 확실하다 —
+   git 에 영구히 남고, 모든 사람 화면에 뜨고, 마크다운·코드블록이 된다.
+   팀원은 이미 이 저장소에 push 권한이 있으니 새 서비스도 계정도 필요 없다.
+   파일이 없으면 템플릿을 채운 새 파일 화면(new), 있으면 편집 화면(edit)으로 보낸다.
+   클론 없이 브라우저에서 타이핑 → Commit → Pages 가 다시 빌드하면 사이트에 뜬다. */
+const REPO = 'ssafy16thD4/algorithm';
+function fbEditUrl(p) {
+  const file = 'reviews/' + p.key + '/team-feedback.md';
+  if (p.teamFeedback) return 'https://github.com/' + REPO + '/edit/main/' + file;
+  const tpl = '# ' + p.title + ' — 팀 피드백\n\n'
+    + '> 발표·리뷰에서 나온 이야기를 여기에 적습니다. 이 파일은 문제 페이지 맨 위에 그대로 렌더됩니다.\n\n'
+    + '## 이 문제의 핵심\n\n- \n\n## 코드에서 나온 이야기\n\n- \n\n## 다음에 비슷한 문제를 만나면\n\n- \n';
+  return 'https://github.com/' + REPO + '/new/main?filename=' + encodeURIComponent(file)
+    + '&value=' + encodeURIComponent(tpl);
+}
+const fbEditBtn = p => '<a class="fb-edit" href="' + fbEditUrl(p) + '" target="_blank" rel="noopener">'
+  + (p.teamFeedback ? '✏️ 팀 피드백 고치기' : '✏️ 팀 피드백 적기') + '</a>';
+
 /* ---------- 문제 상세 (3열 비교) ---------- */
 /* 같은 사람의 이전/실패 버전. 대표 코드 아래에 접어서 붙인다. */
 function altBlock(a) {
@@ -1816,8 +1842,9 @@ function viewProblem(key) {
       (p.teamFeedback
         ? '<details class="rev fb"><summary><span class="t-open">발표 후 팀 피드백 보기</span>' +
           '<span class="t-close">팀 피드백 접기</span></summary>' +
-          '<div class="rev-body">' + md(p.teamFeedback) + '</div></details>'
-        : '<div class="norev fb">팀 피드백 없음 · <code>reviews/' + p.key + '/team-feedback.md</code> 에 적으면 여기 표시됩니다</div>') +
+          '<div class="rev-body">' + md(p.teamFeedback) + '<div class="fb-act">' + fbEditBtn(p) + '</div></div></details>'
+        : '<div class="norev fb">팀 피드백 없음 — 이 문제에서 나온 이야기를 남기면 모두에게 보입니다 ' +
+          fbEditBtn(p) + '</div>') +
       (focusIdx === null
         ? '<div class="tabs">' + entries.map((e, i) =>
             '<button data-i="' + i + '"' + (i === 0 ? ' class="on"' : '') + '>' + esc(e.authorName) +

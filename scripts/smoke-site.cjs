@@ -399,6 +399,28 @@ must((() => { try { vm.runInContext('stampede()', sandbox); return true; } catch
   delete sandbox.fetch;
 }
 
+// 13. 팀 피드백 바로 적기 (GitHub 웹 편집기)
+{
+  sandbox.location.hash = '#/p/programmers/77486';
+  vm.runInContext('route()', sandbox);
+  const h = app.innerHTML;
+  must(h.includes('fb-edit'), '팀 피드백: 문제 상세에 적기 버튼');
+  const noFb = D.problems.find((x) => !x.teamFeedback);
+  const url = vm.runInContext('fbEditUrl(D.problems.find(function(x){return x.key===' + JSON.stringify(noFb.key) + ';}))', sandbox);
+  must(url.startsWith('https://github.com/ssafy16thD4/algorithm/new/main?filename='),
+    '팀 피드백: 파일이 없으면 새 파일 화면으로');
+  must(url.includes(encodeURIComponent('reviews/' + noFb.key + '/team-feedback.md')),
+    '팀 피드백: 경로가 규칙대로 채워진다');
+  must(/[?&]value=/.test(url) && decodeURIComponent(url.split('value=')[1]).includes(noFb.title),
+    '팀 피드백: 템플릿에 문제 제목이 들어간다');
+  const withFb = D.problems.find((x) => x.teamFeedback);
+  if (withFb) {
+    const u2 = vm.runInContext('fbEditUrl(D.problems.find(function(x){return x.key===' + JSON.stringify(withFb.key) + ';}))', sandbox);
+    must(u2 === 'https://github.com/ssafy16thD4/algorithm/edit/main/reviews/' + withFb.key + '/team-feedback.md',
+      '팀 피드백: 이미 있으면 편집 화면으로');
+  }
+}
+
 console.log(out.join('\n'));
 console.log(`\n통과 ${out.filter((l) => l.startsWith('OK')).length} / 실패 ${bad}`);
 process.exit(bad ? 1 : 0);
