@@ -1540,29 +1540,41 @@ function cmtItems(rows) {
       '<span>' + esc(cmtWhen(c.created_at)) + '</span></div>' +
       '<div class="body">' + esc(c.body) + '</div></div>').join('');
 }
+/* 저장소 두 갈래.
+   CMT 가 채워져 있으면 Supabase(팀 전체가 같이 본다), 비어 있으면 이 브라우저의 localStorage.
+   로컬 모드는 "지금 당장 쓸 수 있게" 하는 임시 저장이다 — 팀원에게는 안 보인다.
+   나중에 CMT 만 채우면 이 아래는 그대로 서버 모드로 넘어간다. */
+const cmtLocal = {
+  read(key) { try { return JSON.parse(localStorage.getItem('cmt:' + key) || '[]'); } catch { return []; } },
+  write(key, rows) { try { localStorage.setItem('cmt:' + key, JSON.stringify(rows)); return true; } catch { return false; } },
+};
+const cmtFetchAll = key => cmtOn() ? cmtList(key) : Promise.resolve(cmtLocal.read(key));
+function cmtPost(key, nick, body) {
+  if (cmtOn()) return cmtAdd(key, nick, body);
+  const rows = cmtLocal.read(key);
+  rows.push({ id: Date.now(), nick: nick || null, body, created_at: new Date().toISOString() });
+  return cmtLocal.write(key, rows)
+    ? Promise.resolve()
+    : Promise.reject(new Error('이 브라우저에 저장할 수 없습니다'));
+}
 function cmtBlock(key) {
-  const off = !cmtOn();
-  const d = off ? ' disabled' : '';
-  // 서버가 안 붙어 있어도 입력 칸은 비활성 상태로 보여준다 — "댓글이 어디 있냐" 가 안 나오게.
-  return '<div class="cmt"' + (off ? '' : ' data-ck="' + esc(key) + '"') +
-    '><h4>댓글 <span class="n" id="cmt-n"></span></h4>' +
-    (off
-      ? '<div class="cmt-off">아직 댓글 서버가 연결되지 않아 등록할 수 없습니다 · ' +
-        '<code>site/index.html</code> 의 <code>CMT</code> 상수에 Supabase URL 과 anon key 를 넣으면 켜집니다 ' +
-        '(테이블 SQL: <code>docs/comments-supabase.sql</code>).</div>'
-      : '<div class="cmt-list" id="cmt-list"><div class="cmt-empty">불러오는 중…</div></div>') +
+  const local = !cmtOn();
+  return '<div class="cmt" data-ck="' + esc(key) + '"><h4>댓글 <span class="n" id="cmt-n"></span></h4>' +
+    (local ? '<div class="cmt-off">지금은 <b>이 브라우저에만</b> 저장됩니다 · ' +
+      '팀원에게도 보이게 하려면 <code>site/index.html</code> 의 <code>CMT</code> 에 ' +
+      'Supabase URL·anon key 를 넣으세요.</div>' : '') +
+    '<div class="cmt-list" id="cmt-list"><div class="cmt-empty">불러오는 중…</div></div>' +
     '<div class="cmt-form">' +
-      '<input id="cmt-nick" maxlength="' + CMT.maxNick + '"' + d + ' placeholder="닉네임 (비우면 익명)">' +
-      '<textarea id="cmt-body" maxlength="' + CMT.maxBody + '"' + d +
-        ' placeholder="' + (off ? '댓글 서버 연결 전에는 쓸 수 없습니다.' : '이 풀이에 대한 의견을 남겨주세요. 익명입니다.') + '"></textarea>' +
-      '<div class="act"><button class="cmt-send" id="cmt-send"' + d + '>등록</button>' +
+      '<input id="cmt-nick" maxlength="' + CMT.maxNick + '" placeholder="닉네임 (비우면 익명)">' +
+      '<textarea id="cmt-body" maxlength="' + CMT.maxBody + '" placeholder="이 풀이에 대한 의견을 남겨주세요. 익명입니다."></textarea>' +
+      '<div class="act"><button class="cmt-send" id="cmt-send">등록</button>' +
         '<span class="hint">익명 · 등록하면 지울 수 없습니다</span>' +
         '<span class="cmt-msg" id="cmt-msg"></span></div>' +
     '</div></div>';
 }
-/* 크게 보기를 그릴 때마다 한 번 건다. 서버가 안 붙어 있으면 아무것도 하지 않는다. */
+/* 크게 보기를 그릴 때마다 한 번 건다. */
 function bindComments(root) {
-  if (!cmtOn() || !root || typeof root.querySelector !== 'function') return;
+  if (!root || typeof root.querySelector !== 'function') return;
   const box = root.querySelector('.cmt[data-ck]');
   if (!box) return;
   const key = box.dataset.ck; // esc 된 값을 브라우저가 되돌려 준다
@@ -1573,7 +1585,7 @@ function bindComments(root) {
   const nickEl = document.getElementById('cmt-nick');
   const bodyEl = document.getElementById('cmt-body');
   const draw = rows => { list.innerHTML = cmtItems(rows); if (cnt) cnt.textContent = rows.length ? String(rows.length) : ''; };
-  const load = () => cmtList(key).then(draw).catch(e => {
+  const load = () => cmtFetchAll(key).then(draw).catch(e => {
     list.innerHTML = '<div class="cmt-empty">댓글을 불러오지 못했습니다 (' + esc(e.message) + ')</div>';
   });
   load();
@@ -1587,7 +1599,7 @@ function bindComments(root) {
     if (!body) { msg.textContent = '내용을 입력하세요.'; return; }
     if (body.length > CMT.maxBody) { msg.textContent = CMT.maxBody + '자까지 쓸 수 있습니다.'; return; }
     send.disabled = true;
-    cmtAdd(key, nick, body)
+    cmtPost(key, nick, body)
       .then(() => { bodyEl.value = ''; store.set('cmtNick', nick); return load(); })
       .catch(e => { msg.textContent = '등록하지 못했습니다 (' + e.message + ')'; })
       .then(() => { send.disabled = false; });

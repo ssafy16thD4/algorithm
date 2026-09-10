@@ -342,10 +342,27 @@ must((() => { try { vm.runInContext('stampede()', sandbox); return true; } catch
 {
   must(!vm.runInContext('cmtOn()', sandbox), '댓글: URL/키가 없으면 꺼진 상태');
   const off = vm.runInContext("cmtBlock('programmers/42579#chanung')", sandbox);
-  must(off.includes('댓글 서버가 연결되지 않아'), '댓글: 미설정이면 안내가 뜬다');
-  must(/id="cmt-send" ?disabled/.test(off) && /id="cmt-body"[^>]*disabled/.test(off),
-    '댓글: 미설정이면 입력 칸은 보이되 비활성');
-  must(!off.includes('data-ck='), '댓글: 미설정이면 스레드를 붙지 않는다(요청도 안 나간다)');
+  must(off.includes('이 브라우저에만'), '댓글: 서버가 없으면 로컬 저장이라고 알린다');
+  must(!/disabled/.test(off) && off.includes('id="cmt-send"'), '댓글: 서버가 없어도 바로 쓸 수 있다');
+  must(off.includes('data-ck='), '댓글: 로컬 모드에서도 스레드가 붙는다');
+
+  // 로컬 모드 왕복: 등록 -> 다시 읽으면 그 댓글이 있다
+  {
+    const mem = {};
+    sandbox.localStorage = { getItem: k => (k in mem ? mem[k] : null), setItem: (k, v) => { mem[k] = String(v); }, removeItem: k => { delete mem[k]; } };
+    const key = 'programmers/42579#chanung';
+    vm.runInContext("cmtPost('" + key + "', '', '로컬 테스트')", sandbox);
+    const rows = vm.runInContext("cmtLocal.read('" + key + "')", sandbox);
+    must(rows.length === 1 && rows[0].body === '로컬 테스트' && rows[0].nick === null,
+      '댓글: 서버 없이 등록하면 이 브라우저에 남는다');
+    must(mem['cmt:' + key] !== undefined, '댓글: 로컬 저장 키는 풀이별로 갈린다');
+    // 저장이 막힌 브라우저(사생활 보호 모드 등)에서도 터지지 않는다
+    sandbox.localStorage.setItem = () => { throw new Error('blocked'); };
+    let quiet = true;
+    try { vm.runInContext("cmtPost('x#y', '', 'z').catch(function(){})", sandbox); } catch (e) { quiet = false; }
+    must(quiet, '댓글: 저장이 막힌 브라우저에서도 조용히 실패한다');
+    delete sandbox.localStorage;
+  }
   must(vm.runInContext("cmtKey({key:'swea/1767'},{author:'seongil',variant:'alt'})", sandbox) === 'swea/1767#seongil.alt',
     '댓글: 스레드 키 = 문제 × 작성자 × 변형');
   must(!detail.includes('class="cmt"'), '댓글: 그리드 뷰에는 안 붙는다 (크게 보기 전용)');
