@@ -1,4 +1,4 @@
-package coding;
+package week6;
 
 import java.io.*;
 import java.util.*;
@@ -63,7 +63,6 @@ public class 헌터 {
             answer = Math.min(answer, distCnt);
             return;
         }
-        System.out.println(" distCnt : " + distCnt);
         // 탐색이 남았는데 이미 최솟값이 아니면 가지치기
         if (distCnt > answer)
             return;
@@ -79,20 +78,20 @@ public class 헌터 {
 
             if (vertex < 0) {
                 if (isHunted[-1 * vertex]) {
-                    visited[idx] = true;
+                    visited[i] = true;
                     int dist = Math.abs(r - x) + Math.abs(c - y);
                     dfs(idx + 1, x, y, distCnt + dist);
-                    visited[idx] = false;
+                    visited[i] = false;
                 } else {
                     continue;
                 }
             }
             if (vertex > 0) {
-                visited[idx] = true;
+                visited[i] = true;
                 isHunted[vertex] = true;
                 int dist = Math.abs(r - x) + Math.abs(c - y);
                 dfs(idx + 1, x, y, distCnt + dist);
-                visited[idx] = false;
+                visited[i] = false;
                 isHunted[vertex] = false;
             }
         }

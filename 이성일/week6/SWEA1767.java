@@ -1,4 +1,4 @@
-package coding;
+package week6;
 
 import java.io.*;
 import java.util.*;
@@ -24,6 +24,8 @@ public class SWEA1767 {
     static int[][] maxinos;
     static List<int[]> idxs;
     static boolean[][] visited;
+
+    static int maxCell;
 
     static int[] dx = { -1, 1, 0, 0 };
     static int[] dy = { 0, 0, -1, 1 };
@@ -53,6 +55,7 @@ public class SWEA1767 {
             answer = new int[idxs.size() + 1];
             Arrays.fill(answer, Integer.MAX_VALUE);
 
+            maxCell = 0;
             dfs(0, 0, 0);
 
             int minCost = Integer.MAX_VALUE;
@@ -60,19 +63,6 @@ public class SWEA1767 {
                 if (answer[i] != Integer.MAX_VALUE) {
                     minCost = answer[i];
                 }
-                System.out.print(" cell: " + i + " answer[cellCnt]: " + answer[i]);
-                System.out.println();
-            }
-            System.out.println();
-
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < N; j++) {
-                    if (visited[i][j])
-                        System.out.print(1);
-                    else
-                        System.out.print(0);
-                }
-                System.out.println();
             }
 
             System.out.println("#" + tc + " " + minCost);
@@ -88,10 +78,10 @@ public class SWEA1767 {
     static void dfs(int depth, int cellCnt, int sum) {
         if (depth == idxs.size()) {
             answer[cellCnt] = Math.min(answer[cellCnt], sum);
+            maxCell = Math.max(maxCell, cellCnt);
             return;
         }
-
-        answer[cellCnt] = Math.min(answer[cellCnt], sum);
+        if (cellCnt + idxs.size() - depth < maxCell) return;
 
         int[] idx = idxs.get(depth);
         int x = idx[0];
@@ -128,17 +118,20 @@ public class SWEA1767 {
             }
 
             if (flag)
-                dfs(depth + 1, cellCnt, sum);
+                continue;
             else {
                 dfs(depth + 1, cellCnt + 1, sum + dirSum);
+                nx -= dx[i];
+                ny -= dy[i];
                 backward(i, nx, ny, x, y);
             }
         }
+        dfs(depth+1, cellCnt, sum);
 
     }
 
     static void backward(int dir, int nx, int ny, int x, int y) {
-        while (nx != x && ny != y) {
+        while (nx != x || ny != y) {
             visited[nx][ny] = false;
             nx -= dx[dir];
             ny -= dy[dir];
