@@ -342,7 +342,10 @@ must((() => { try { vm.runInContext('stampede()', sandbox); return true; } catch
 {
   must(!vm.runInContext('cmtOn()', sandbox), '댓글: URL/키가 없으면 꺼진 상태');
   const off = vm.runInContext("cmtBlock('programmers/42579#chanung')", sandbox);
-  must(off.includes('연결되지 않았습니다') && !off.includes('cmt-send'), '댓글: 미설정이면 안내만, 입력창 없음');
+  must(off.includes('댓글 서버가 연결되지 않아'), '댓글: 미설정이면 안내가 뜬다');
+  must(/id="cmt-send" ?disabled/.test(off) && /id="cmt-body"[^>]*disabled/.test(off),
+    '댓글: 미설정이면 입력 칸은 보이되 비활성');
+  must(!off.includes('data-ck='), '댓글: 미설정이면 스레드를 붙지 않는다(요청도 안 나간다)');
   must(vm.runInContext("cmtKey({key:'swea/1767'},{author:'seongil',variant:'alt'})", sandbox) === 'swea/1767#seongil.alt',
     '댓글: 스레드 키 = 문제 × 작성자 × 변형');
   must(!detail.includes('class="cmt"'), '댓글: 그리드 뷰에는 안 붙는다 (크게 보기 전용)');

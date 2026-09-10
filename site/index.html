@@ -379,7 +379,8 @@ pre.code .c { color: var(--com); font-style: italic; } pre.code .n { color: var(
 /* ---------- 익명 댓글 (크게 보기 전용) ----------
    풀이 하나(문제 × 작성자)에 스레드 하나. Supabase REST 로 저장한다 — SDK 없이 fetch 만.
    CMT 가 비어 있거나 fetch 가 없는 환경(스모크 VM·file://)에서는 안내만 띄우고 조용히 넘어간다. */
-.cmt { margin-top: 18px; border-top: 1px solid var(--line-soft); padding-top: 16px; }
+.cmt { margin-top: 14px; border-top: 1px solid var(--line-soft); padding-top: 14px; }
+.focus-review > .cmt { margin-top: 18px; }
 .cmt h4 { margin: 0 0 10px; font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
 .cmt h4 .n { color: var(--accent); font-variant-numeric: tabular-nums; }
 .cmt-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
@@ -1540,16 +1541,21 @@ function cmtItems(rows) {
       '<div class="body">' + esc(c.body) + '</div></div>').join('');
 }
 function cmtBlock(key) {
-  if (!cmtOn())
-    return '<div class="cmt"><h4>댓글</h4><div class="cmt-off">댓글 서버가 연결되지 않았습니다 · ' +
-      '<code>site/index.html</code> 의 <code>CMT</code> 상수에 Supabase URL 과 anon key 를 넣으면 켜집니다 ' +
-      '(테이블 SQL: <code>docs/comments-supabase.sql</code>).</div></div>';
-  return '<div class="cmt" data-ck="' + esc(key) + '"><h4>댓글 <span class="n" id="cmt-n"></span></h4>' +
-    '<div class="cmt-list" id="cmt-list"><div class="cmt-empty">불러오는 중…</div></div>' +
+  const off = !cmtOn();
+  const d = off ? ' disabled' : '';
+  // 서버가 안 붙어 있어도 입력 칸은 비활성 상태로 보여준다 — "댓글이 어디 있냐" 가 안 나오게.
+  return '<div class="cmt"' + (off ? '' : ' data-ck="' + esc(key) + '"') +
+    '><h4>댓글 <span class="n" id="cmt-n"></span></h4>' +
+    (off
+      ? '<div class="cmt-off">아직 댓글 서버가 연결되지 않아 등록할 수 없습니다 · ' +
+        '<code>site/index.html</code> 의 <code>CMT</code> 상수에 Supabase URL 과 anon key 를 넣으면 켜집니다 ' +
+        '(테이블 SQL: <code>docs/comments-supabase.sql</code>).</div>'
+      : '<div class="cmt-list" id="cmt-list"><div class="cmt-empty">불러오는 중…</div></div>') +
     '<div class="cmt-form">' +
-      '<input id="cmt-nick" maxlength="' + CMT.maxNick + '" placeholder="닉네임 (비우면 익명)">' +
-      '<textarea id="cmt-body" maxlength="' + CMT.maxBody + '" placeholder="이 풀이에 대한 의견을 남겨주세요. 익명입니다."></textarea>' +
-      '<div class="act"><button class="cmt-send" id="cmt-send">등록</button>' +
+      '<input id="cmt-nick" maxlength="' + CMT.maxNick + '"' + d + ' placeholder="닉네임 (비우면 익명)">' +
+      '<textarea id="cmt-body" maxlength="' + CMT.maxBody + '"' + d +
+        ' placeholder="' + (off ? '댓글 서버 연결 전에는 쓸 수 없습니다.' : '이 풀이에 대한 의견을 남겨주세요. 익명입니다.') + '"></textarea>' +
+      '<div class="act"><button class="cmt-send" id="cmt-send"' + d + '>등록</button>' +
         '<span class="hint">익명 · 등록하면 지울 수 없습니다</span>' +
         '<span class="cmt-msg" id="cmt-msg"></span></div>' +
     '</div></div>';
@@ -1740,9 +1746,8 @@ function viewProblem(key) {
           (e.alts || []).map(a => altBlock(a)).join('') +
         '</div>' +
         '<div class="focus-resizer" id="focus-resizer" title="드래그해서 폭 조절 · 더블클릭하면 기본 폭"></div>' +
-        '<div class="col focus-review">' + reviewBlock(e) + '</div>' +
-      '</div>' +
-      cmtBlock(cmtKey(p, e));
+        '<div class="col focus-review">' + reviewBlock(e) + cmtBlock(cmtKey(p, e)) + '</div>' +
+      '</div>';
   }
 
   // 크게 보기 리뷰 패널 폭 드래그. 오른쪽 가장자리에서 마우스까지 거리 = 리뷰 폭.
