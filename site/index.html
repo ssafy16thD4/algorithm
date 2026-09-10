@@ -375,6 +375,34 @@ pre.code .c { color: var(--com); font-style: italic; } pre.code .n { color: var(
 .focus-resizer:hover::after, .focus-resizer.active::after { background: var(--accent); }
 .focus-review { flex: 0 1 var(--rev-w, 400px); min-width: 240px; max-width: 82%; align-self: start; }
 .focus-review > details.rev, .focus-review > .norev { border-top: 0; }
+
+/* ---------- 익명 댓글 (크게 보기 전용) ----------
+   풀이 하나(문제 × 작성자)에 스레드 하나. Supabase REST 로 저장한다 — SDK 없이 fetch 만.
+   CMT 가 비어 있거나 fetch 가 없는 환경(스모크 VM·file://)에서는 안내만 띄우고 조용히 넘어간다. */
+.cmt { margin-top: 18px; border-top: 1px solid var(--line-soft); padding-top: 16px; }
+.cmt h4 { margin: 0 0 10px; font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.cmt h4 .n { color: var(--accent); font-variant-numeric: tabular-nums; }
+.cmt-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.cmt-item { background: var(--panel-2); border: 1px solid var(--line-soft); border-radius: 12px; padding: 10px 13px; }
+.cmt-item .who { display: flex; align-items: baseline; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.cmt-item .who b { font-size: 12.5px; color: var(--sub); font-weight: 700; }
+.cmt-item .body { font-size: 14px; line-height: 1.6; color: var(--fg); white-space: pre-wrap; word-break: break-word; }
+.cmt-empty { font-size: 13px; color: var(--muted); padding: 10px 0 4px; }
+.cmt-form { display: flex; flex-direction: column; gap: 8px; }
+.cmt-form input, .cmt-form textarea { font: inherit; font-size: 14px; color: var(--fg); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; }
+.cmt-form input { width: 220px; max-width: 60%; }
+.cmt-form textarea { resize: vertical; min-height: 74px; line-height: 1.6; }
+.cmt-form input:focus, .cmt-form textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-ring); }
+.cmt-form .act { display: flex; align-items: center; gap: 10px; }
+.cmt-form .act .hint { font-size: 12px; color: var(--faint); }
+.cmt-send { font: inherit; font-size: 13px; font-weight: 700; padding: 8px 18px; border-radius: 999px; border: 0;
+  background: var(--accent); color: #fff; cursor: pointer; transition: filter .18s var(--ease); }
+.cmt-send:hover { filter: brightness(1.06); }
+.cmt-send[disabled] { opacity: .5; cursor: default; }
+.cmt-msg { font-size: 12.5px; color: var(--bad); }
+.cmt-off { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.cmt-off code { font-size: 12px; background: var(--code-bg); border: 1px solid var(--line-soft); border-radius: 6px; padding: 1px 5px; }
 .ref-note { padding: 12px 18px 0; font-size: 12.5px; color: var(--muted); }
 
 /* T4-3. 정석 코드 diff */
@@ -1467,6 +1495,99 @@ const store = {
 };
 let focusRevW = Number(store.get('focusRevW')) || 400;
 
+/* ---------- 익명 댓글 (크게 보기 전용) ----------
+   풀이 하나(문제 × 작성자)에 스레드 하나. 로그인 없음 — 닉네임을 비우면 "익명" 으로 남는다.
+   저장소는 Supabase(Postgres). SDK 를 싣지 않고 REST 를 fetch 로 직접 부른다(외부 의존성 0 유지).
+   아래 두 줄만 채우면 켜진다. anon key 는 브라우저에 노출되는 공개 키다 —
+   service_role 키는 절대 넣지 말 것. 테이블·정책 SQL 은 docs/comments-supabase.sql 에 있다.
+   비어 있거나 fetch 가 없는 환경(스모크 VM 등)에서는 안내만 띄우고 조용히 넘어간다. */
+const CMT = {
+  url: '',   // 예: 'https://abcdefgh.supabase.co'
+  key: '',   // Supabase anon (publishable) key
+  table: 'comments', limit: 200, maxBody: 1000, maxNick: 20,
+};
+const cmtOn = () => !!(CMT.url && CMT.key && typeof fetch === 'function');
+const cmtKey = (p, e) => p.key + '#' + e.author + (e.variant ? '.' + e.variant : '');
+const cmtBase = () => CMT.url.replace(/\/+$/, '') + '/rest/v1/' + CMT.table;
+const cmtHeaders = () => ({ apikey: CMT.key, Authorization: 'Bearer ' + CMT.key, 'Content-Type': 'application/json' });
+
+function cmtList(key) {
+  const q = cmtBase() + '?select=id,nick,body,created_at&solution=eq.' + encodeURIComponent(key)
+    + '&order=created_at.asc&limit=' + CMT.limit;
+  return fetch(q, { headers: cmtHeaders() })
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+}
+function cmtAdd(key, nick, body) {
+  return fetch(cmtBase(), {
+    method: 'POST',
+    headers: Object.assign(cmtHeaders(), { Prefer: 'return=minimal' }),
+    body: JSON.stringify({ solution: key, nick: nick || null, body }),
+  }).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); });
+}
+function cmtWhen(iso) {
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return '';
+  const p2 = n => String(n).padStart(2, '0');
+  return d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate())
+    + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes());
+}
+/* 본문은 esc 로만 넣는다 — 마크다운을 돌리지 않는다. 익명 입력이라 HTML 을 허용할 이유가 없다. */
+function cmtItems(rows) {
+  if (!rows.length) return '<div class="cmt-empty">아직 댓글이 없습니다. 첫 댓글을 남겨보세요.</div>';
+  return rows.map(c =>
+    '<div class="cmt-item"><div class="who"><b>' + esc(c.nick || '익명') + '</b>' +
+      '<span>' + esc(cmtWhen(c.created_at)) + '</span></div>' +
+      '<div class="body">' + esc(c.body) + '</div></div>').join('');
+}
+function cmtBlock(key) {
+  if (!cmtOn())
+    return '<div class="cmt"><h4>댓글</h4><div class="cmt-off">댓글 서버가 연결되지 않았습니다 · ' +
+      '<code>site/index.html</code> 의 <code>CMT</code> 상수에 Supabase URL 과 anon key 를 넣으면 켜집니다 ' +
+      '(테이블 SQL: <code>docs/comments-supabase.sql</code>).</div></div>';
+  return '<div class="cmt" data-ck="' + esc(key) + '"><h4>댓글 <span class="n" id="cmt-n"></span></h4>' +
+    '<div class="cmt-list" id="cmt-list"><div class="cmt-empty">불러오는 중…</div></div>' +
+    '<div class="cmt-form">' +
+      '<input id="cmt-nick" maxlength="' + CMT.maxNick + '" placeholder="닉네임 (비우면 익명)">' +
+      '<textarea id="cmt-body" maxlength="' + CMT.maxBody + '" placeholder="이 풀이에 대한 의견을 남겨주세요. 익명입니다."></textarea>' +
+      '<div class="act"><button class="cmt-send" id="cmt-send">등록</button>' +
+        '<span class="hint">익명 · 등록하면 지울 수 없습니다</span>' +
+        '<span class="cmt-msg" id="cmt-msg"></span></div>' +
+    '</div></div>';
+}
+/* 크게 보기를 그릴 때마다 한 번 건다. 서버가 안 붙어 있으면 아무것도 하지 않는다. */
+function bindComments(root) {
+  if (!cmtOn() || !root || typeof root.querySelector !== 'function') return;
+  const box = root.querySelector('.cmt[data-ck]');
+  if (!box) return;
+  const key = box.dataset.ck; // esc 된 값을 브라우저가 되돌려 준다
+  const list = document.getElementById('cmt-list');
+  const cnt = document.getElementById('cmt-n');
+  const msg = document.getElementById('cmt-msg');
+  const send = document.getElementById('cmt-send');
+  const nickEl = document.getElementById('cmt-nick');
+  const bodyEl = document.getElementById('cmt-body');
+  const draw = rows => { list.innerHTML = cmtItems(rows); if (cnt) cnt.textContent = rows.length ? String(rows.length) : ''; };
+  const load = () => cmtList(key).then(draw).catch(e => {
+    list.innerHTML = '<div class="cmt-empty">댓글을 불러오지 못했습니다 (' + esc(e.message) + ')</div>';
+  });
+  load();
+  const saved = store.get('cmtNick', '');
+  if (saved && nickEl && !nickEl.value) nickEl.value = saved;
+  if (!send) return;
+  send.onclick = () => {
+    const body = (bodyEl.value || '').trim();
+    const nick = (nickEl.value || '').trim().slice(0, CMT.maxNick);
+    msg.textContent = '';
+    if (!body) { msg.textContent = '내용을 입력하세요.'; return; }
+    if (body.length > CMT.maxBody) { msg.textContent = CMT.maxBody + '자까지 쓸 수 있습니다.'; return; }
+    send.disabled = true;
+    cmtAdd(key, nick, body)
+      .then(() => { bodyEl.value = ''; store.set('cmtNick', nick); return load(); })
+      .catch(e => { msg.textContent = '등록하지 못했습니다 (' + e.message + ')'; })
+      .then(() => { send.disabled = false; });
+  };
+}
+
 function reviewBlock(e) {
   const r = e.review;
   const verdict = r ? r.verdict : null;
@@ -1620,7 +1741,8 @@ function viewProblem(key) {
         '</div>' +
         '<div class="focus-resizer" id="focus-resizer" title="드래그해서 폭 조절 · 더블클릭하면 기본 폭"></div>' +
         '<div class="col focus-review">' + reviewBlock(e) + '</div>' +
-      '</div>';
+      '</div>' +
+      cmtBlock(cmtKey(p, e));
   }
 
   // 크게 보기 리뷰 패널 폭 드래그. 오른쪽 가장자리에서 마우스까지 거리 = 리뷰 폭.
@@ -1691,6 +1813,7 @@ function viewProblem(key) {
 
   function bind() {
     bindRefDiff(app);
+    bindComments(app);
     const back = document.getElementById('grid-back');
     if (back) back.onclick = () => { focusIdx = null; render(); };
 

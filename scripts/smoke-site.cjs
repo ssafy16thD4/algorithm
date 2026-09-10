@@ -338,6 +338,47 @@ must((() => { try { vm.runInContext('stampede()', sandbox); return true; } catch
   delete sandbox.localStorage;
 }
 
+// 12. 익명 댓글 (크게 보기 전용)
+{
+  must(!vm.runInContext('cmtOn()', sandbox), '댓글: URL/키가 없으면 꺼진 상태');
+  const off = vm.runInContext("cmtBlock('programmers/42579#chanung')", sandbox);
+  must(off.includes('연결되지 않았습니다') && !off.includes('cmt-send'), '댓글: 미설정이면 안내만, 입력창 없음');
+  must(vm.runInContext("cmtKey({key:'swea/1767'},{author:'seongil',variant:'alt'})", sandbox) === 'swea/1767#seongil.alt',
+    '댓글: 스레드 키 = 문제 × 작성자 × 변형');
+  must(!detail.includes('class="cmt"'), '댓글: 그리드 뷰에는 안 붙는다 (크게 보기 전용)');
+  must(html.includes('cmtBlock(cmtKey(p, e))'), '댓글: 크게 보기 뷰가 스레드를 렌더한다');
+
+  // 설정이 채워진 상태
+  sandbox.fetch = (u, o) => { sandbox.__last = { u, o: o || {} };
+    return Promise.resolve({ ok: true, json: () => Promise.resolve([]) }); };
+  vm.runInContext("CMT.url='https://x.supabase.co'; CMT.key='anon-test-key';", sandbox);
+  must(vm.runInContext('cmtOn()', sandbox), '댓글: URL+anon 키를 넣으면 켜진다');
+  const on = vm.runInContext("cmtBlock('programmers/42579#chanung')", sandbox);
+  must(on.includes('id="cmt-body"') && on.includes('id="cmt-send"'), '댓글: 입력창과 등록 버튼');
+  must(on.includes('data-ck="programmers/42579#chanung"'), '댓글: 스레드 키가 DOM 에 붙는다');
+  must(!on.includes('anon-test-key'), '댓글: 키를 화면에 찍지 않는다');
+
+  const item = vm.runInContext(
+    "cmtItems([{nick:'<img src=x>',body:'<script>alert(1)<\/script>',created_at:'2026-09-10T01:02:03Z'}])", sandbox);
+  must(!item.includes('<img') && !item.includes('<script>'), '댓글: XSS 없음 (닉네임·본문 전부 esc)');
+  must(item.includes('2026-09-10'), '댓글: 작성 시각 렌더');
+  must(vm.runInContext("cmtItems([{nick:'',body:'x',created_at:''}])", sandbox).includes('익명'),
+    '댓글: 닉네임이 비면 익명으로 보인다');
+  must(vm.runInContext('cmtItems([])', sandbox).includes('아직 댓글이 없습니다'), '댓글: 빈 스레드 안내');
+
+  vm.runInContext("cmtList('a/1#b')", sandbox);
+  must(sandbox.__last.u.startsWith('https://x.supabase.co/rest/v1/comments') &&
+       /solution=eq\.a%2F1%23b/.test(sandbox.__last.u), '댓글: 목록은 그 풀이 것만 가져온다');
+  vm.runInContext("cmtAdd('a/1#b', '', '하이')", sandbox);
+  must(sandbox.__last.o.method === 'POST' && JSON.parse(sandbox.__last.o.body).nick === null,
+    '댓글: 닉네임을 비우면 null 로 저장');
+  must(sandbox.__last.o.headers.apikey === 'anon-test-key' &&
+       sandbox.__last.o.headers.Authorization === 'Bearer anon-test-key', '댓글: anon 키를 헤더로 보낸다');
+
+  vm.runInContext("CMT.url=''; CMT.key='';", sandbox);
+  delete sandbox.fetch;
+}
+
 console.log(out.join('\n'));
 console.log(`\n통과 ${out.filter((l) => l.startsWith('OK')).length} / 실패 ${bad}`);
 process.exit(bad ? 1 : 0);
