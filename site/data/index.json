@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T14:30:55.645Z",
+  "generatedAt": "2026-09-10T13:21:17.882Z",
   "authors": [
     {
       "id": "junsoo",
@@ -1803,6 +1803,31 @@
       ]
     },
     {
+      "key": "ssafy/hunter",
+      "platform": "ssafy",
+      "problemId": "hunter",
+      "title": "헌터",
+      "url": null,
+      "verified": false,
+      "weeks": [
+        6
+      ],
+      "entries": [
+        {
+          "author": "seongil",
+          "authorName": "이성일",
+          "week": 6,
+          "variant": null,
+          "source": "이성일/week6/헌터.java",
+          "target": "solutions/ssafy/hunter/seongil.java",
+          "review": "reviews/ssafy/hunter/seongil.md",
+          "hasReview": true,
+          "lines": 102,
+          "bytes": 3336
+        }
+      ]
+    },
+    {
       "key": "swea/1249",
       "platform": "swea",
       "problemId": "1249",
@@ -1981,8 +2006,8 @@
           "target": "solutions/swea/1767/seongil.alt.java",
           "review": "reviews/swea/1767/seongil.alt.md",
           "hasReview": true,
-          "lines": 149,
-          "bytes": 4920
+          "lines": 142,
+          "bytes": 4619
         },
         {
           "author": "seungjoo",

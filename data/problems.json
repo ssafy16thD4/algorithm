@@ -571,6 +571,17 @@
       ],
       "verified": false,
       "note": "SSAFY 사내 문제. 풍선을 하나씩 터뜨리며 이웃 값 곱을 점수로 얻어 총점 최대화."
+    },
+    {
+      "platform": "ssafy",
+      "problemId": "hunter",
+      "title": "헌터",
+      "url": null,
+      "aliases": [
+        "헌터"
+      ],
+      "verified": false,
+      "note": "SSAFY 사내 문제. N×N 격자의 몬스터 i(양수)를 잡은 뒤에만 고객 i(음수)에게 갈 수 있을 때, (1,1)에서 출발해 전부 처리하는 최소 맨해튼 이동 거리."
     }
   ]
 }
