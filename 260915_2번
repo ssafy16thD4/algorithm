@@ -1,0 +1,152 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+/*
+ * M일 동안 곡식을 가장 많이 수확할 수 있는 
+ * 시작 위치와 방향,수확 횟수 출력
+ * 
+ * 알고리즘:시뮬레이션
+ * 
+ * while(시간++)
+ * 모든 농지0에 대해서 bfs돌리기? + 
+ * 
+ * 오전 (한개만 수행)
+ * 1)현재 농지가 빈 농지이고 로봇이 다음 농지로 이동할 수 있는 경우
+ *   - 농지에 씨를 심는다
+ *   - 1일이 지나면 싹이 난다
+ *   - 3+1일이 지나면 곡식이 열린다
+ *   
+ * 2)현재 농지가 빈 농지이고 로봇이 다음 농지로 이동할 수 없을 경우 
+ *   아무것도 하지 않고 현재 위치에서 머무른다
+ * 
+ * 3)현재 농지에 곡식이 열린 경우 
+ *   수확을 한다 
+ *   농지는 빈 농지가 된다
+ 
+ * 오후 (우하좌상 중 이동 가능한 곳으로 이동)
+ * :이동 가능한 곳은 빈 농지,또는 곡식이 열린 농지, 산이거나 싹이 나는 농지인 경우 이동이 불가
+ * 
+ * 1)이동 가능한 곳이 여러 개인 경우,로봇의 오른쪽,앞쪽,왼쪽,뒤쪽의 순서로 가장 먼저인 이동 가능한 곳으로 이동한다
+ * 2)이동 가능한 곳이 없는 경우 로봇은 이동하지 않고 현재 위치에 머무른다
+ * 
+ * 시간이 m이 되면 break
+ * - 가장 많이 수확할 수 있는 횟수 출력
+ * 
+ * 농지: 0
+ * 산: 1
+ * 씨: 2 -> 상태관리 어떻게?
+ * 싹: time+1
+ * 곡식: time+3
+ * 
+ * 출발-> 농지
+ */
+class Main {
+    static final int empty = -1;
+    static final int goksik = 4;
+	static int[] dx = {0, 1, 0, -1};
+	static int[] dy = {1, 0, -1, 0};
+	static int[][] board;
+	static int n, m;
+	static int maxCount;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		
+		int t= Integer.parseInt(br.readLine());
+		
+		for(int test_case=1; test_case<=t; test_case++) {
+			st = new StringTokenizer(br.readLine());
+			n = Integer.parseInt(st.nextToken()); // 지형의 한 변의 길이
+			m = Integer.parseInt(st.nextToken()); // 로봇이 동작 가능한 일 수
+			
+			board = new int[n][n];
+			maxCount = 0;
+			
+			for(int i=0; i<n; i++) {
+				st = new StringTokenizer(br.readLine());
+				for(int j=0; j<n; j++) {
+					board[i][j] = Integer.parseInt(st.nextToken());
+				}
+			}
+
+			for(int i=0; i<n; i++) {
+				for(int j=0; j<n; j++) {
+					if(board[i][j] == 0) { // 0일 때 모든 방향에 대해 시뮬레이션
+						for(int k=0; k<4; k++) {
+                            age = new int[n][n];	// 시뮬 1회마다 새로 만든다. 이전 시뮬이 심은 작물이 남으면 안 됨
+							for(int r=0; r<n; r++) {
+								Arrays.fill(age[r], empty);	// 시작 시점엔 심어진 작물이 하나도 없다
+							}
+							simulation(i, j, k, copyBoard);
+						}
+					}
+				}
+			}
+			sb.append("#").append(test_case).append(" ").append(maxCount).append("\n");
+		}
+		System.out.print(sb);
+	}
+	static void simulation(int x, int y, int dir, int[][] copyBoard) {
+		int time = 0;
+		int count = 0;
+		while(time < m) {
+			//System.out.println("time: " + time + " x: " + x + " y: " + y + " count: " + count);6
+			System.out.println("#" + time);
+			// for(int i=0; i<n; i++) {
+			// 	for(int j=0; j<n; j++) {
+			// 		System.out.print(copyBoard[i][j] + " ");
+			// 	}
+			// 	System.out.println();
+			// }
+			time++;
+
+			int ssak = time+1;
+			int goksik = time+3;
+			
+			// see는 싹으로 변경, 싹들은 ssak으로 변경, goksik은 
+			for(int i=0; i<n; i++) {
+				for(int j=0; j<n; j++) {
+					if(copyBoard[i][j] == see) {
+						copyBoard[i][j] = ssak;
+					} else if(copyBoard[i][j] >= 3) {
+						copyBoard[i][j]++;
+					}
+				}
+			}
+			int nx = x + dx[dir];
+			int ny = y + dy[dir];
+
+			// [오전]
+			if(copyBoard[x][y] == 0) {
+				if(copyBoard[nx][ny] == 0) {
+					copyBoard[x][y] = see;
+				} else if (1 <= copyBoard[nx][ny] && copyBoard[nx][ny] <= ssak){
+					continue; // 넘어가
+				}
+			}
+			else if(copyBoard[x][y] >= goksik) {
+				copyBoard[x][y] = 0; // 수확
+				count++; // 수확
+			} 
+			else { // 이동할 수 없는 경우
+				continue;
+			}
+
+//		    [오후] 우하좌상 중 이동 가능한 곳으로 이동
+//          1)이동 가능한 곳이 여러 개인 경우,로봇의 오른쪽,앞쪽,왼쪽,뒤쪽의 순서로 가장 먼저인 이동 가능한 곳으로 이동한다
+//		    2)이동 가능한 곳이 없는 경우 로봇은 이동하지 않고 현재 위치에 머무른다
+			for(int d=0; d<4; d++) {
+				int nnx = x + dx[d];
+				int nny = y + dy[d];
+				if(copyBoard[nnx][nny] == 0 || copyBoard[nnx][nny] >= goksik) {
+					x = nnx;
+					y = nny;
+                    dir = (dir + d) % 4;
+					break;
+				}
+			}
+		}
+		maxCount = Math.max(maxCount, count);
+	}
+}
