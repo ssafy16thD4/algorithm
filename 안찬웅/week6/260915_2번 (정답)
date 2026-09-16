@@ -1,0 +1,134 @@
+import java.util.*;
+import java.io.*;
+/*
+ * M일 동안 곡식을 가장 많이 수확할 수 있는 
+ * 시작 위치와 방향,수확 횟수 출력
+ * 
+ * 알고리즘: 시뮬레이션 + 완전탐색(시작칸 x 시작방향)
+ * 
+ * 오전 (한개만 수행)
+ * 1)현재 농지가 빈 농지이고 로봇이 다음 농지로 이동할 수 있는 경우
+ *   - 농지에 씨를 심는다
+ *   - 1일이 지나면 싹이 난다
+ *   - 3+1일이 지나면 곡식이 열린다
+ * 2)현재 농지가 빈 농지이고 로봇이 다음 농지로 이동할 수 없을 경우 
+ *   아무것도 하지 않고 현재 위치에서 머무른다
+ * 3)현재 농지에 곡식이 열린 경우 
+ *   수확을 한다, 농지는 빈 농지가 된다
+ * 
+ * 오후 (오른쪽, 앞쪽, 왼쪽, 뒤쪽 순서로 이동 가능한 첫 칸으로 이동)
+ * 1)이동 가능한 곳이 여러 개인 경우 위 순서로 가장 먼저인 곳으로 이동한다
+ * 2)이동 가능한 곳이 없는 경우 현재 위치에 머무른다
+ * 
+ * 상태관리 (한 배열에 담되 값 구간을 겹치지 않게 나눈다)
+ * 농지: 0
+ * 산: 1
+ * 씨: 2 -> 심은 순간 2, 하루마다 +1 하면 값이 곧 나이가 된다
+ * 싹: 3 ~ 5
+ * 곡식: 6 이상
+ */
+public class Main {
+	static final int see = 2;				// 심은 당일 값. 산(1)보다 커야 성장 루프에서 지형과 구분됨
+	static final int goksik = 6;			// see + 4. 심은 뒤 4일이 지나야 곡식 (1일 싹, 3+1일 곡식)
+	static int[] dx = {0, 1, 0, -1};		// 동, 남, 서, 북 시계방향. 이 순서여야 (dir+1)%4가 오른쪽이 됨
+	static int[] dy = {1, 0, -1, 0};
+	static int[][] board;					// 지형 원본. 읽기만 하므로 static 유지
+	static int n, m;
+	static int maxCount;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		
+		int t= Integer.parseInt(br.readLine());
+		
+		for(int test_case=1; test_case<=t; test_case++) {
+			st = new StringTokenizer(br.readLine());
+			n = Integer.parseInt(st.nextToken()); // 지형의 한 변의 길이
+			m = Integer.parseInt(st.nextToken()); // 로봇이 동작 가능한 일 수
+			
+			board = new int[n][n];
+			maxCount = 0;					// 테스트케이스마다 초기화. 안 하면 이전 케이스 답이 넘어옴
+			
+			for(int i=0; i<n; i++) {
+				st = new StringTokenizer(br.readLine());
+				for(int j=0; j<n; j++) {
+					board[i][j] = Integer.parseInt(st.nextToken());
+				}
+			}
+			
+			for(int i=0; i<n; i++) {
+				for(int j=0; j<n; j++) {
+					if(board[i][j] == 0) {			// 산에서는 출발 못하므로 농지만 시작점 후보
+						for(int k=0; k<4; k++) {
+							int[][] copyBoard = new int[n][n];		// 지역 변수로 두면 필드와 이름이 겹쳐 가려지는 일이 없음
+							for(int r=0; r<n; r++) {
+								copyBoard[r] = board[r].clone();	// 복원 단위는 시뮬레이션 1회
+							}										// 생성과 호출이 붙어 있어 초기화를 빠뜨릴 수 없음
+							simulation(i, j, k, copyBoard);
+						}
+					}
+				}
+			}
+			sb.append("#").append(test_case).append(" ").append(maxCount).append("\n");
+		}
+		System.out.print(sb);
+	}
+	
+	private static void simulation(int x, int y, int dir, int[][] copyBoard) {
+		int time = 0;
+		int count = 0;
+		while(time < m) {					// m일 "동안"이므로 정확히 m번. time<=m은 하루가 더 돈다
+			time++;
+
+			// [오후에 갈 곳 미리 구하기]
+			// 오전 1번 조건이 "다음 농지로 이동할 수 있는 경우"를 전제로 하므로 오전보다 먼저 계산
+			// 오전 행동은 현재 칸만 바꾸고 목적지 칸은 안 건드리므로 하루 한 번 구해서 양쪽에 써도 안전
+			int nDir = -1;					// -1은 갈 곳 없음
+			int nx = -1;
+			int ny = -1;
+			int[] order = {(dir+1)%4, dir, (dir+3)%4, (dir+2)%4};	// 오른쪽, 앞쪽, 왼쪽, 뒤쪽
+																	// d를 0~3으로 그냥 돌리면 절대방향 순서라 우선순위가 틀어짐
+			for(int d=0; d<4; d++) {
+				int nnx = x + dx[order[d]];
+				int nny = y + dy[order[d]];
+				if(nnx < 0 || nny < 0 || nnx >= n || nny >= n) continue;	// 범위 체크를 배열 접근보다 먼저
+				if(copyBoard[nnx][nny] == 0 || copyBoard[nnx][nny] >= goksik) {	// 빈 농지 또는 곡식만 이동 가능
+					nDir = order[d];		// 산(1), 씨(2), 싹(3~5)은 두 조건 모두 불만족이라 자동으로 걸러짐
+					nx = nnx;
+					ny = nny;
+					break;					// 우선순위가 가장 높은 곳 하나만
+				}
+			}
+			
+			// [오전] 현재가 빈농지
+			if(copyBoard[x][y] == 0) {
+				if(nDir != -1) {			// 갈 곳이 있을 때만 파종
+					copyBoard[x][y] = see;
+				}
+				// 갈 곳이 없으면 아무것도 안 함. 여기서 continue 쓰면 오후 이동까지 건너뛰므로 금지
+			}
+			else if(copyBoard[x][y] >= goksik) {
+				copyBoard[x][y] = 0;		// 수확
+				count++;					// 수확
+			}
+
+			// [오후] 이동
+			if(nDir != -1) {				// 갈 곳 없으면 제자리, 방향도 유지
+				x = nx;
+				y = ny;
+				dir = nDir;					// 이동한 절대방향이 곧 새 진행방향. dir+d 누적은 4를 넘겨서 터진다
+			}
+			
+			// [하루 끝] 심어진 것 전부 하루 성장
+			for(int i=0; i<n; i++) {
+				for(int j=0; j<n; j++) {
+					if(copyBoard[i][j] >= see) {	// 빈 농지(0)와 산(1)은 see(2)보다 작아서 자동 제외
+						copyBoard[i][j]++;
+					}
+				}
+			}
+		}
+		maxCount = Math.max(maxCount, count);
+	}
+}
